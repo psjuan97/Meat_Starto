@@ -14,9 +14,12 @@
 #ifndef RENDERENGINE_H
 #define RENDERENGINE_H
 
-#include <SFML/Graphics.hpp>
 #include "../State.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SFML/Graphics.hpp>
 
+#include <array>
 class renderEngine {
 public:
     //<SINGLETON>
@@ -44,10 +47,11 @@ public:
             void setWidth(int w);
             void setHeight(int h);
         private:
-            sf::IntRect getIntRect();
-            sf::IntRect ir;
-    };
+            SDL_Rect getIntRect();
+            SDL_Rect ir;
+     };
     
+    //surface
     class rImage {
         friend class renderEngine;
         public:
@@ -60,6 +64,7 @@ public:
             sf::Image im;
     };
     
+    //texure
     class rTexture {
         friend class renderEngine;
         public:
@@ -72,8 +77,9 @@ public:
             int getYSize();
             
         private:
-            sf::Texture* getTexture();              //DEVUELVE LA TEXTURA (USAR SOLO INTERNAMENTE)
-            sf::Texture text;
+            SDL_Texture* getTexture();              //DEVUELVE LA TEXTURA (USAR SOLO INTERNAMENTE)
+            SDL_Texture* texture ;
+
     };
     
     class rRectangleShape {
@@ -100,9 +106,14 @@ public:
             std::array<float,2> getSize();                  //DEVUELVE EL TAMANYO
             std::array<float,2> getPosition();              //CONSEGUIR POSICION
         private:
-            sf::RectangleShape getRectShape();
-            sf::RectangleShape rs;
-    };
+            renderEngine::rIntRect rect;
+            renderEngine::rTexture* texture;
+            int originX,originY;
+            int sizeX, sizeY;
+            int posX, posY;
+            int rotation;
+            
+          };
     
     class rCircleShape {
         friend class renderEngine;
@@ -128,7 +139,7 @@ public:
             
             void draw();
             
-            void setTexture(rTexture &t);               //APLICAR UNA TEXTURA
+            void setTexture(renderEngine::rTexture &t);               //APLICAR UNA TEXTURA
             void setOrigin(float x, float y);           //ESTABLECER EL PUNTO ORIGEN
             void setScale(float x, float y);            //ESTABLECER LA ESCALA
             void setPosition(float x, float y);         //ESTABLECER LA POSICION
@@ -140,12 +151,17 @@ public:
             std::array<float,2> getPosition();          //DEVUELVE LA POSICION
             bool intersects(renderEngine::rRectangleShape rs);  //COLISION DE SFML PARA LOS PINCHOS
             bool intersects(renderEngine::rCircleShape cs);  //COLISION DE SFML PARA LAS EXPLOSIONES
-            sf::Sprite getSprite();
+            //sf::Sprite getSprite();
             void setColor(int r, int g, int b);
             void setColor(int r, int g, int b, int alpha);
             
         private:
-            sf::Sprite sprite;
+            renderEngine::rIntRect rect;
+            renderEngine::rTexture* texture;
+            int originX,originY;
+            float scaleX, scaleY;
+            int posX, posY;
+            int rotation;
     };
     
     
@@ -234,7 +250,7 @@ public:
             std::array<float,2> getPosition();              //CONSEGUIR POSICION
             void setPosition(float x, float y);             //ESTABLECER LA POSICION
             void move(float x, float y);                    //MOVER
-            void setTexture(rTexture &t);                   //ESTABLECER TEXTURAS
+            void setTexture(renderEngine::rTexture &t);                   //ESTABLECER TEXTURAS
             
         private:
             sf::ConvexShape cs;
@@ -285,8 +301,6 @@ public:
     bool pollEvent(rEvent &e);                      //PARA CONTROLAR LOS EVENTOS
     void ChangeState(State* pState);                //CAMBIO DE ESTADO
     
-    //CAMBIARLO!!!
-    sf::RenderWindow* getWindow();                  //DEVUELVE LA VENTANA A LAS CLASES Nested DE renderEngine
 private:
     
     //<SINGLETON>
@@ -294,10 +308,13 @@ private:
     renderEngine(const renderEngine& orig);
     void operator=(renderEngine const& orig);
     //</SINGLETON>
-    
+
+    int w;
+    int h;
+    SDL_Window* sdl_window;
+    SDL_Renderer* renderer;
     
     State* _state;                                  //ESTADO ACTUAL
-    sf::RenderWindow window;
 };
 
 #endif /* RENDERENGINE_H */

@@ -37,7 +37,7 @@ MenuInicio::MenuInicio() {
     text_fondo.loadFromFile("assets/fondo.PNG");
     
     f1.setTexture(text_fondo);
-    f1.setSize(width, height);
+    f1.setSize(100, 100);
     
         /*LOGO*/
     std::string logo_name = "assets/Logo.png";
@@ -48,7 +48,7 @@ MenuInicio::MenuInicio() {
     logo.setTexture(AssetManager::GetTexture(logo_name));
     logo.setOrigin(widthl / 2, heightl / 2);
     logo.setScale(0.00037*width,0.00037*width);
-    logo.setPosition(posx, posy-height/3 );
+    logo.setPosition(posx, posy - height/3 );
     
     tam=0.05;
     logo1.setTexture(AssetManager::GetTexture(logo_name));
@@ -221,12 +221,11 @@ MenuInicio::~MenuInicio() {
 
 void MenuInicio::Render(){
     
-    sfml->Instance().clear('k'); 
-        f1.draw();
+    sfml->Instance().clear('w'); 
+    f1.draw();
         
     switch(statemenu){
         case 0:   
-           // sfml->Instance().getWindow()->draw(titulo);
             
             for(int i=MAX_NUMBER_OF_ITEMS-1; i>=0;i--){
                 mancha[i].draw();
@@ -271,7 +270,7 @@ void MenuInicio::Render(){
             break;
             
     }
-    sfml->Instance().getWindow()->display();     
+    sfml->Instance().display();     
 
     
 }

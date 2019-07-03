@@ -1,0 +1,3 @@
+/home/juan/Escritorio/Meat_Starto/bin/CMakeFiles/rebuild_cache.dir
+/home/juan/Escritorio/Meat_Starto/bin/CMakeFiles/Meat_Starto_Mod.dir
+/home/juan/Escritorio/Meat_Starto/bin/CMakeFiles/edit_cache.dir

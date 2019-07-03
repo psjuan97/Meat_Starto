@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/juan/Escritorio/Meat_Starto/src/State.h
+iostream
+-
+
+/home/juan/Escritorio/Meat_Starto/src/renderEngine/renderEngine.cpp
+renderEngine.h
+/home/juan/Escritorio/Meat_Starto/src/renderEngine/renderEngine.h
+iostream
+-
+SFML/Window/WindowStyle.hpp
+-
+
+/home/juan/Escritorio/Meat_Starto/src/renderEngine/renderEngine.h
+../State.h
+/home/juan/Escritorio/Meat_Starto/src/State.h
+SDL2/SDL.h
+-
+SDL2/SDL_image.h
+-
+SFML/Graphics.hpp
+-
+array
+-
+

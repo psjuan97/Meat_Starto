@@ -6,3 +6,4 @@ Meat_Starto_Mod
 Meat_Starto_Mod.exe
 *.dll
 .vscode/*
+bin/*

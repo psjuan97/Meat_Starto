@@ -339,13 +339,24 @@ void Juego::HandleEvents(){
                 break;
 
             case renderEngine::rEvent::EventType::KeyPressed :
-                keys[event.getKeyCode()] = true;
-                    std::cout << "Tecla " << event.getKeyCode() << std::endl;
+                //keys[event.getKeyCode()] = true;
+                std::cout << "Tecla " << event.getKeyCode() << std::endl;
+                if(event.getKeyCode() == renderEngine::Keys::Q  )    sfml->Instance().close();                                   //Q
+
+                if(event.getKeyCode() == renderEngine::Keys::ESC ){
+                    sfml->Instance().ChangeState(MenuPausa::Instance());
+                }
+
+                //if(keys[15]){
+                    //keys[15]=false;
+                    //sfml->Instance().ChangeState(MPuntuaciones::Instance());                 //P
+                //}
+
 
                 break;
 
             case renderEngine::rEvent::EventType::KeyReleased :
-                keys[event.getKeyCode()] = false;
+                //keys[event.getKeyCode()] = false;
 
                 switch(event.getKeyCode()) {
 
@@ -363,13 +374,13 @@ void Juego::HandleEvents(){
                         }
                     break;
                    //JUGADOR 1
-                    case 0:
+                    case renderEngine::Keys::Left :
                         if(readyPlayer.size()>=1){
                             readyPlayer[0]->moveLeft_b();
                         }
                     break;
 
-                    case 3:
+                    case renderEngine::Keys::Right :
                         if(readyPlayer.size()>=1){
                             readyPlayer[0]->moveRigth_b();
                         }
@@ -417,17 +428,7 @@ void Juego::HandleEvents(){
         }
 
     }
-    if(keys[16])    sfml->Instance().close();                                   //Q
 
-    if(keys[36]){
-        keys[36]=false;                                                         //ESC
-        sfml->Instance().ChangeState(MenuPausa::Instance());
-    }
-
-    //if(keys[15]){
-        //keys[15]=false;
-        //sfml->Instance().ChangeState(MPuntuaciones::Instance());                 //P
-    //}
 }
 
 void Juego::Update(){
@@ -507,7 +508,7 @@ void Juego::Update(){
 }
 
 void Juego::Render(){
-    //std::cout << "RENDER == " << tick << std::endl;
+    std::cout << "RENDER == " << tick << std::endl;
 
     renderEngine::Instance().clear('w');
 
@@ -587,6 +588,8 @@ void Juego::Render(){
     Mapa::Instance().render(tick);
 
     hud->render();
+
+
 
     renderEngine::Instance().display();
 }

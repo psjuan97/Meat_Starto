@@ -28,7 +28,17 @@ public:
         return instance;
     }
     //</SINGLETON>
-    
+    enum Keys{
+        Up = SDLK_UP ,
+        Down = SDLK_DOWN,
+        Q = SDLK_q,
+        Return = SDLK_SPACE,
+        Left = SDLK_LEFT,
+        Right = SDLK_RIGHT,
+        ESC = SDLK_ESCAPE
+    };
+
+
     class rIntRect {
         friend class renderEngine;
         public:
@@ -60,8 +70,8 @@ public:
             void loadFromFIle(std::string path);
             
         private:
-            sf::Image getImage();
-            sf::Image im;
+            SDL_Texture* texture ;
+
     };
     
     //texure
@@ -181,7 +191,9 @@ public:
             float targetX;
             float targetY;
             sf::View getView();             //CONSIGUE LA VISTA. USO PRIVADO
-            sf::View view;
+            //sf::View view;
+            float _zoom;
+            int pos_x, pos_y, size_x, size_y;
     };
     
     class rTime {
@@ -215,15 +227,16 @@ public:
         public:
             rEvent();
             enum EventType{                //ENUMERACION CON LOS DISTINTOS EVENTOS (FALTA PONER LOS QUE SE VAYAN A UTILIZAR)
-                KeyPressed                  = sf::Event::EventType::KeyPressed,
-                KeyReleased                 = sf::Event::EventType::KeyReleased,
+                KeyPressed                  = SDL_KEYDOWN,
+                KeyReleased                 = SDL_KEYUP,
+                Quit                    =  SDL_QUIT,
                 JoystickConnected           = sf::Event::EventType::JoystickConnected,
                 JoystickDisconnected        = sf::Event::EventType::JoystickDisconnected,
                 JoystickButtonPressed       = sf::Event::EventType::JoystickButtonPressed,
                 JoystickButtonReleased      = sf::Event::EventType::JoystickButtonReleased,
                 JoystickMoved               = sf::Event::EventType::JoystickMoved
             };
-            sf::Event::EventType sfType();
+            unsigned int sfType();
             
             int getKeyCode();                                                   //DEVUELVE EL CODIGO DEL EVENTO DE TECLADO
             int getJoystickButton();                                            //DEVUELVE EL CODIGO DE EVENTO DE BOTON DEL MANDO
@@ -232,9 +245,7 @@ public:
             int getJoystickId();                                                //ID DEL MANDO: 0,1,2,3
             
         private:
-            sf::Event* getEvent();
-            
-            sf::Event event;
+            SDL_Event event;            
     };
     
     class rConvexShape {
@@ -303,6 +314,9 @@ public:
     
 private:
     
+    
+
+
     //<SINGLETON>
     renderEngine();
     renderEngine(const renderEngine& orig);
@@ -315,6 +329,9 @@ private:
     SDL_Renderer* renderer;
     
     State* _state;                                  //ESTADO ACTUAL
+    
+
+    float zoomview;
 };
 
 #endif /* RENDERENGINE_H */

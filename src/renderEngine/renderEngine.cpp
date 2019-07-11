@@ -14,12 +14,12 @@
 
 #include "renderEngine.h"
 #include <iostream>
-#include <SFML/Window/WindowStyle.hpp>
 
 #define FRAMERATE 60
 
 renderEngine::renderEngine()
 {
+        zoomview = 1;
         this->h = 1080;
         this->w = 1920;
 
@@ -56,8 +56,11 @@ void                renderEngine::display   ()          {   SDL_RenderPresent(re
 void                renderEngine::close     ()          {  	SDL_DestroyWindow( sdl_window );SDL_Quit();  };
 
 
-bool                renderEngine::isOpen    ()          {   return true;}   //TRUE SI LA VENTANA ESTA ABIERTA
-bool                renderEngine::pollEvent (rEvent &e) {   return false;}
+bool                renderEngine::isOpen    ()          {   return sdl_window != nullptr;}   //TRUE SI LA VENTANA ESTA ABIERTA
+
+bool                renderEngine::pollEvent (renderEngine::rEvent &e) {   
+    return SDL_PollEvent(&e.event);
+}
 bool renderEngine::isJoystickConnected      (int j)     {   return false;}
 void renderEngine::moveView(float x, float y) {
     //FALTA IMPLEMENTACION
@@ -120,12 +123,15 @@ renderEngine::renderEngine(const renderEngine& orig) {}
 
 
     void renderEngine::setView(rView v){
-
+        this->zoomview = v._zoom;
 
     }                        //ESTABLECER UNA VISTA
 
 //============================= TEXTURA =============================//
-renderEngine::rTexture::rTexture() {}
+renderEngine::rTexture::rTexture() {
+        texture = NULL;
+
+}
 renderEngine::rTexture::rTexture(std::string path) {  
       loadFromFile(path);
       
@@ -161,8 +167,10 @@ void renderEngine::rTexture::loadFromFile(std::string path)  {
     }
 
 void renderEngine::rTexture::loadFromImage(renderEngine::rImage im, renderEngine::rIntRect ir) {
-   // text.loadFromImage(im.getImage(),ir.getIntRect());
 
+
+
+    printf("loadFromImage(renderEngine::rImage im, renderEngine::rIntRect ir)");
 }
 
 
@@ -181,40 +189,74 @@ SDL_Texture*    renderEngine::rTexture::getTexture()                    {   retu
 //============================= SPRITE =============================//
 renderEngine::rSprite::rSprite() {
 
- this->scaleX = 1; this->scaleY = 1; 
+ this->scaleX = 1; 
+ this->scaleY = 1; 
+ this->originX = 0;
+ this->originY = 0;
+
+  this->posX = 20; this->posY = 20; 
+
 
 }
 
-void renderEngine::rSprite::setTexture  (rTexture &t)       {   texture = &t; }
+void renderEngine::rSprite::setTexture  (rTexture &t)       {   
+    texture = &t; 
+    this->rect.setHeight(t.getYSize());
+    this->rect.setLeft(0);
+    this->rect.setTop(0);
+    this->rect.setWidth(t.getXSize());
+}
+
+
 void renderEngine::rSprite::setRotation (float a)           {   this->rotation = a;              }
 void renderEngine::rSprite::rotate      (float r)           {   this->rotation = r;                   }
 float renderEngine::rSprite::getRotation()                  {   return rotation;        }
+
 void renderEngine::rSprite::setTextureRect(renderEngine::rIntRect rect){  
-    rect.setHeight(rect.height);
-    rect.setLeft(rect.left);
-    rect.setTop(rect.top);
-    rect.setWidth(rect.widht);
+    this->rect.setHeight(rect.height);
+    this->rect.setLeft(rect.left);
+    this->rect.setTop(rect.top);
+    this->rect.setWidth(rect.widht);
 }
+
 void renderEngine::rSprite::setOrigin   (float x, float y)  {  this->originX = x; this->originY = y;             }
+
 void renderEngine::rSprite::setScale    (float x, float y)  {  
+    
     this->scaleX = x; this->scaleY = y;   
-               }
+
+}
+
 void renderEngine::rSprite::setPosition (float x, float y)  {   this->posX = x; this->posY = y;            }
 bool renderEngine::rSprite::intersects(renderEngine::rSprite sprite_){
     //return sprite.getGlobalBounds().intersects(sprite_.getSprite().getGlobalBounds());
     return false;
 }
 void renderEngine::rSprite::draw() {
+    //printf("data: zoomview %f ,  this->scaleX %f , this->originX %i\n",  renderEngine::Instance().zoomview , this->scaleX, this->originX);
+    //printf("POSX(x: %i, y: %i \n", this->posX ,  this->posY);
 
     SDL_Rect dstrect;
-    dstrect.x = this->posX - this->originX * this->scaleX;
-    dstrect.y = this->posY - this->originY * this->scaleY;
-    dstrect.w = (float)this->texture->getXSize() * this->scaleX;
-    dstrect.h = (float)this->texture->getYSize() * this->scaleY;
+    dstrect.x = (int) this->posX / renderEngine::Instance().zoomview - this->originX * this->scaleX  / renderEngine::Instance().zoomview;
+    dstrect.y = (int) this->posY / renderEngine::Instance().zoomview - this->originY * this->scaleY  / renderEngine::Instance().zoomview ;
+
+    dstrect.w = (float) this->rect.widht * (float)this->scaleX / (float)renderEngine::Instance().zoomview ;
+    dstrect.h = (float) this->rect.height * (float)this->scaleY / (float)renderEngine::Instance().zoomview;
     
 
+    SDL_Rect srcrect;
+    srcrect.x = this->rect.left ;
+    srcrect.y = this->rect.top ;
+    srcrect.w = (float) this->rect.widht;//
+    srcrect.h = (float)this->rect.height;//* renderEngine::Instance().zoomview;
 
-    SDL_RenderCopy( renderEngine::Instance().renderer, texture->getTexture(), NULL, &dstrect );
+    //srcrect.w = (float)this->texture->getXSize();//
+    //srcrect.h = (float)this->texture->getYSize();//* renderEngine::Instance().zoomview;
+
+    //printf("srcrect(x: %d, y: %d, w %d, h %d \n", srcrect.x ,  srcrect.y,  srcrect.w,  srcrect.h);
+    //printf("dstrect(x: %d, y: %d, w %d, h %d \n", dstrect.x ,  dstrect.y,  dstrect.w,  dstrect.h);
+
+    SDL_RenderCopy( renderEngine::Instance().renderer, texture->getTexture(), &srcrect, &dstrect );
 }
 
 bool renderEngine::rSprite::intersects(renderEngine::rRectangleShape rs) {
@@ -240,13 +282,23 @@ std::array<float, 2> renderEngine::rSprite::getPosition() {
 //sf::Sprite renderEngine::rSprite::getSprite(){return sprite;}
 
 //============================= VISTA =============================//
-renderEngine::rView::rView(float pos_x, float pos_y, float size_x, float size_y):
-view(sf::FloatRect(pos_x,pos_y,size_x,size_y)){ hasTarget_ = false;}
+renderEngine::rView::rView(float pos_x, float pos_y, float size_x, float size_y){ 
+    hasTarget_ = false;
+    pos_x = pos_x;
+    pos_y =  pos_y;
+    size_x =  size_x;
+    size_y = size_y;
+    _zoom = 1;
+}
 
-void renderEngine::rView::zoom      (float z)           {   view.zoom(z);           }
-void renderEngine::rView::setCenter (float x, float y)  {   view.setCenter(x,y);    }
-void renderEngine::rView::move(float x, float y)        {   view.move(x,y);         }
-void renderEngine::rView::setSize(float x, float y)     {   view.setSize(x, y);     }
+void renderEngine::rView::zoom      (float z)           {   
+    printf("zoom %f",z);
+    
+    this->_zoom = z;           
+    }
+void renderEngine::rView::setCenter (float x, float y)  {       }
+void renderEngine::rView::move(float x, float y)        {          }
+void renderEngine::rView::setSize(float x, float y)     {       }
 void renderEngine::rSprite::setColor(int r, int g, int b)   {   
    // sprite.setColor(sf::Color(r, g, b));
     
@@ -257,11 +309,10 @@ void renderEngine::rSprite::setColor(int r, int g, int b, int alpha)   {
      }
 
 
-sf::View                renderEngine::rView::getView    () {    return view;}
 std::array<float, 2>    renderEngine::rView::getCenter  () {
     std::array<float, 2> ret;
-    ret[0] = view.getCenter().x;
-    ret[1] = view.getCenter().y;
+    ret[0] = size_x/2;
+    ret[1] = size_y/2;
     
     return ret;
 }
@@ -276,15 +327,14 @@ renderEngine::rTime renderEngine::rClock::getElapsedTime() { return rTime(clock.
 //============================= EVENTOS =============================//
 renderEngine::rEvent::rEvent() {}
 
-int renderEngine::rEvent::getKeyCode()              {return event.key.code;}
-int renderEngine::rEvent::getJoystickButton()       {return event.joystickButton.button;}
-float renderEngine::rEvent::getJoystickMoveAxis()     {return event.joystickMove.axis;}
-float renderEngine::rEvent::getJoystickMovePosition() {return event.joystickMove.position;}
-int renderEngine::rEvent::getJoystickId()           {return event.joystickConnect.joystickId;}
+int renderEngine::rEvent::getKeyCode()              {return event.key.keysym.sym;}
+int renderEngine::rEvent::getJoystickButton()       {return 0;}
+float renderEngine::rEvent::getJoystickMoveAxis()     {return 0;}
+float renderEngine::rEvent::getJoystickMovePosition() {return 0;}
+int renderEngine::rEvent::getJoystickId()           {return 0;}
 
 
-sf::Event*              renderEngine::rEvent::getEvent  () {    return &event;}
-sf::Event::EventType    renderEngine::rEvent::sfType    () {    return event.type;}
+unsigned int   renderEngine::rEvent::sfType    () {    return event.type;}
 
 //============================= TIEMPO =============================//
 renderEngine::rTime::rTime() {}
@@ -357,6 +407,7 @@ renderEngine::rRectangleShape::rRectangleShape() {
     this->originX=0;
     this->originY=0;
 
+    texture = nullptr;
 }
 
 renderEngine::rRectangleShape::rRectangleShape(float x, float y){
@@ -366,21 +417,35 @@ renderEngine::rRectangleShape::rRectangleShape(float x, float y){
     this->posY=0;
     this->originX=0;
     this->originY=0;
+    this->texture = nullptr;
 }
 
 void renderEngine::rRectangleShape::draw() {
+
     SDL_Rect dstrect;
     dstrect.x = this->posX - this->originX ;
     dstrect.y = this->posY - this->originY ;
     dstrect.w = this->sizeX ;
     dstrect.h = this->sizeY ;
     
-    SDL_RenderCopy( renderEngine::Instance().renderer, texture->getTexture(), NULL, &dstrect );
+
+    SDL_Rect srcrect;
+    srcrect.x = 0 ;
+    srcrect.y = 0 ;
+    srcrect.w = this->sizeX * renderEngine::Instance().zoomview ;
+    srcrect.h = this->sizeY * renderEngine::Instance().zoomview;
+
+
+    if(texture != nullptr){
+        SDL_RenderCopy( renderEngine::Instance().renderer, texture->getTexture(), &srcrect, &dstrect );
+    }else{
+        SDL_RenderFillRect(renderEngine::Instance().renderer,&dstrect )   ;
+    }
+    
 }
 void renderEngine::rRectangleShape::setTexture  (rTexture &t)       {   
-   texture = &t;
-    
-    }
+    texture = &t;
+}
 void renderEngine::rRectangleShape::setPosition (float x, float y)  {   this->posX = x; this->posY = y;}
 void renderEngine::rRectangleShape::setSize     (float x, float y)  {   this->sizeX =x  ; this->sizeY = y;}
 void renderEngine::rRectangleShape::move        (float x, float y)  {   }
@@ -398,7 +463,21 @@ std::array<float, 2> renderEngine::rRectangleShape::getSize() {
 }
 
 void renderEngine::rRectangleShape::setFillColor(char c) {
-      /* switch(c){
+      
+      
+      int r,g,b;
+        switch(c){
+            case 'w':   r=255; g=255; b=255;  ;       break;
+            case 'r':   r=255; g=0; b=0;       break;
+            case 'y':   r=255; g=255; b=0;    break;
+            default:    r=0; g=0; b=0;     break;
+        }
+
+       /* Select the color for drawing. It is set to red here. */
+        SDL_SetRenderDrawColor(renderEngine::Instance().renderer, r, g, b, 255);
+
+
+/* switch(c){
       case 't':   rs.setFillColor(sf::Color::Transparent);    break;
         case 'r':   rs.setFillColor(sf::Color::Red);            break;
         case 'g':   rs.setFillColor(sf::Color::Green);          break;
@@ -410,8 +489,8 @@ void renderEngine::rRectangleShape::setFillColor(char c) {
 }
 
 void renderEngine::rRectangleShape::setFillRGBAColor(int r, int g, int b, int a) {
-   // sf::Color color(r,g,b,a);
-   // rs.setFillColor(color);
+        SDL_SetRenderDrawColor(renderEngine::Instance().renderer, r, g, b, a);
+
 }
 
 void renderEngine::rRectangleShape::setOutlineColor(char c) {
@@ -488,39 +567,61 @@ SDL_Rect renderEngine::rIntRect::getIntRect() {
 //============================= IMAGE =============================//
 renderEngine::rImage::rImage() {}
 
-void renderEngine::rImage::loadFromFIle(std::string path) { im.loadFromFile(path);
+void renderEngine::rImage::loadFromFIle(std::string path) { 
+    
+    texture = NULL;
+    //The final texture
+   
+
+    //Load image at specified path
+    SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+    if( loadedSurface == NULL )
+    {
+        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+    }
+    else
+    {
+        //Create texture from surface pixels
+        texture = SDL_CreateTextureFromSurface( renderEngine::Instance().renderer, loadedSurface );
+        if( texture == NULL )
+        {
+            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+        }
+
+        //Get rid of old loaded surface
+        SDL_FreeSurface( loadedSurface );
+    }
+
 }
 
-sf::Image renderEngine::rImage::getImage() {
-    return im;
-}
+
 
 //============================= TEXT =============================//
 renderEngine::rText::rText(){    
     //font.loadFromFile("assets/fonts/8-bit_pusab.ttf");
 }
 void renderEngine::rText::draw() {
-    renderEngine* sfml;
+
     //sfml->Instance().getWindow()->draw(txt);
 }
-void renderEngine::rText::setPosition       (float x, float y)      {   txt.setPosition(x,y);}
-void renderEngine::rText::setScale          (float fx, float fy)    {   txt.setScale(fx,fy);}
-void renderEngine::rText::setString         (std::string str)       {   txt.setString(str);}
-void renderEngine::rText::setCharacterSize  (int s)                 {   txt.setCharacterSize(s);}
-void renderEngine::rText::setFont           (rFont &font)           {   txt.setFont(*font.getFont());}
-void renderEngine::rText::setOrigin         (float x, float y)      {   txt.setOrigin(x,y);}
+void renderEngine::rText::setPosition       (float x, float y)      {  }
+void renderEngine::rText::setScale          (float fx, float fy)    {  }
+void renderEngine::rText::setString         (std::string str)       {  }
+void renderEngine::rText::setCharacterSize  (int s)                 {  }
+void renderEngine::rText::setFont           (rFont &font)           {  }
+void renderEngine::rText::setOrigin         (float x, float y)      {  }
 
 std::array<float, 2> renderEngine::rText::getSize() {
     std::array<float,2> ret;
     
-    ret[0] = txt.getGlobalBounds().width;
-    ret[1] = txt.getGlobalBounds().height;
+    ret[0] = -1;
+    ret[1] = -1;
     
     return ret;
 }
 
 void renderEngine::rText::setFillColor(char c) {
-    switch(c){
+    /*switch(c){
         case 't':   txt.setFillColor(sf::Color::Transparent);    break;
         case 'r':   txt.setFillColor(sf::Color::Red);            break;
         case 'g':   txt.setFillColor(sf::Color::Green);          break;
@@ -529,14 +630,14 @@ void renderEngine::rText::setFillColor(char c) {
         case 'k':   txt.setFillColor(sf::Color::Black);          break;
         case 'w':   txt.setFillColor(sf::Color::White);          break;
         default:    break;
-    }
+    } */
 }
 
-sf::Color renderEngine::rText::getFillColor() {return txt.getFillColor();};
+sf::Color renderEngine::rText::getFillColor() { return txt.getFillColor();};
 
 //============================= FONT =============================//
 renderEngine::rFont::rFont() {}
-void renderEngine::rFont::loadFromFile  (std::string str)   {   font.loadFromFile(str);}
+void renderEngine::rFont::loadFromFile  (std::string str)   {  }
 sf::Font* renderEngine::rFont::getFont   ()                 {   return &font;}
 
 //============================= CIRCLESHAPE =============================//

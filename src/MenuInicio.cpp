@@ -375,7 +375,7 @@ void MenuInicio::Update(){
             switch(event.sfType()){
                 
                 //Si se recibe el evento de cerrar la ventana la cierro
-                case sf::Event::Closed:
+                case renderEngine::rEvent::EventType::Quit :
                     sfml->Instance().close();
                     break;
                     
@@ -451,35 +451,35 @@ void MenuInicio::Update(){
                     break;
                     
                 //Se pulsó una tecla, imprimo su codigo
-                case sf::Event::KeyPressed:
+                case renderEngine::rEvent::EventType::KeyPressed:
                     
                     //Verifico si se pulsa alguna tecla de movimiento
                     switch(event.getKeyCode()) {
                                                    
-                        case sf::Keyboard::Up:   
+                        case renderEngine::Keys::Up :   
                             MoveUp();
                             break;
                             
-                        case sf::Keyboard::Down: 
+                        case renderEngine::Keys::Down: 
                             MoveDown();
                             break;
 
                         //Tecla Q para salir
-                        case sf::Keyboard::Q:
+                        case renderEngine::Keys::Q:
                             sfml->Instance().close();
                         break;
                         
-                        case sf::Keyboard::Return:
+                        case renderEngine::Keys::Return:
                             stateMenu();
                             break;
-                         case sf::Keyboard::Right:
+                         case renderEngine::Keys::Right:
                             if(statemenu==2 && numplayers<4 && menuplayer[1].getFillColor()==sf::Color::White){
                                 numplayers++;
                                 menuplayer[1].setString("Players "  + std::to_string(numplayers));
                             }
                             break;
                             
-                        case sf::Keyboard::Left:
+                        case renderEngine::Keys::Left:
                             if(statemenu==2 && numplayers>1 && menuplayer[1].getFillColor()==sf::Color::White){
                                 numplayers--;
                                 menuplayer[1].setString("Players "  + std::to_string(numplayers));

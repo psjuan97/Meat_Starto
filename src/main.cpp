@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     
     //AL LLAMAR AL ESTADO EMPIEZA EL BUCLE
     State* pState =  MenuInicio::Instance();
-    //State* pState =  Juego::Instance();
+    //State* pState =  &Juego::Instance();
     sfml->Instance().ChangeState(pState);
 }
 

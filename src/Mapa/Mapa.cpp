@@ -584,7 +584,7 @@ void Mapa::updateMini() {
 
     //UPDATE DEL INICIO DEL JUEGO
     updateInit();
-
+ 
     //ACTUALIZO DEL FONDO
     updateFondo();
 
@@ -605,7 +605,7 @@ void Mapa::updateMini() {
     }
 
     tetris->Instance().update();
-    javi->Instance().update();
+    javi->Instance().update(); 
 }
 
 void Mapa::updateInit() {

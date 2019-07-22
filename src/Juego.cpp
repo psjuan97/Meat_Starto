@@ -117,9 +117,17 @@ void Juego::Handle(){
     //BUCLE DEL JUEGO
     renderEngine *sfml;
 
+    int frameDelay = 1000 / FRAMERATE;
+
+    Uint32 frameStart;
+    Uint32 frameTime;
+
+
+
     while(sfml->Instance().isOpen()){
+        
         //<FPS>
-        currentTime = cl_fps.restart().asSeconds();
+        frameStart = cl_fps.restart().asMilliseconds();
         //fps = 1.f/(currentTime/lastTime);
         fps = 1.f/currentTime;
         lastTime = currentTime;
@@ -131,11 +139,19 @@ void Juego::Handle(){
 
         //UPDATE
         Update();
-            //std::cout << "EVENTOS" << std::endl;
+        //std::cout << "EVENTOS" << std::endl;
 
         //RENDER
         Render();
-            //std::cout << "RENDER" << std::endl;
+        //std::cout << "RENDER" << std::endl;
+
+
+        frameTime = cl_fps.getElapsedTime().asMilliseconds();
+
+        if( frameDelay > frameTime){
+            renderEngine::Instance().delay(frameDelay - frameTime);
+
+        }
     }
 }
 

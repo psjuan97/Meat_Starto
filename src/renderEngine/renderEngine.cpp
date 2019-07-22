@@ -54,6 +54,8 @@ void                renderEngine::display   ()          {   SDL_RenderPresent(re
 
 }
 void                renderEngine::close     ()          {  	SDL_DestroyWindow( sdl_window );SDL_Quit();  };
+void                renderEngine::delay     (Uint32 ms)          {  SDL_Delay(ms);  };
+
 
 
 bool                renderEngine::isOpen    ()          {   return sdl_window != nullptr;}   //TRUE SI LA VENTANA ESTA ABIERTA

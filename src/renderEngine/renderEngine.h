@@ -312,6 +312,8 @@ public:
     bool pollEvent(rEvent &e);                      //PARA CONTROLAR LOS EVENTOS
     void ChangeState(State* pState);                //CAMBIO DE ESTADO
     
+    void delay(Uint32 ms);
+
 private:
     
     

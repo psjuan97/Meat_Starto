@@ -373,7 +373,7 @@ void Player::movement(){
         }
 
         // SALTO==========================================================================
-        if((keys[0]) && !isOnAir()){                                               //
+        if((keys[renderEngine::Keys::Up]) && !isOnAir()){                                               //
             body.applyForceToCenter(0, -jump);                                          //
             moveUp();                                                                   //
             stopJump = false;                                                           //

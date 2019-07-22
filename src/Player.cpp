@@ -373,13 +373,13 @@ void Player::movement(){
         }
 
         // SALTO==========================================================================
-        if((keys[key_up]) && !isOnAir()){                                               //
+        if((keys[0]) && !isOnAir()){                                               //
             body.applyForceToCenter(0, -jump);                                          //
             moveUp();                                                                   //
             stopJump = false;                                                           //
         }else{                                                                          //
             //IZQUIERDA===================================================================
-            if( keys[key_l])  {
+            if( keys[renderEngine::Keys::Left])  {
                 if(!inv_control){
                     if(body.getLinearXVelocity() > -MAXSPEED)                               
                         body.applyForceToCenter(-force, 0);                                 
@@ -402,7 +402,7 @@ void Player::movement(){
             // ===========================================================================
 
             // DERECHA==================================================================
-            if( keys[key_r]) { 
+            if( keys[renderEngine::Keys::Right]) { 
                 if(!inv_control){
                     if(body.getLinearXVelocity() < MAXSPEED)                                   
                         body.applyForceToCenter(force, 0);                                  

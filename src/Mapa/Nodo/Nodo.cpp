@@ -203,7 +203,6 @@ void Nodo::draw(float tick_, renderEngine::rIntRect limit, int min, int max){
 
     for(int i = 0; i < v_esprait.size(); i++){
         if(limit.contains(v_esprait[i].getPosition()[0],v_esprait[i].getPosition()[1])){
-            printf("pintando sprite del nodo\n");
             v_esprait[i].draw();
 
         }

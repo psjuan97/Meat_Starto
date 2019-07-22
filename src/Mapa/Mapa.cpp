@@ -853,7 +853,8 @@ void Mapa::movePlayerToClosestCheckPoint(Player* ready) {
 }
 
 void Mapa::checkOutOfMap(Player* ready) {
-    if(ready->getYPosition() > renderEngine::Instance().getViewCenter()[1] + renderEngine::Instance().getViewSize()[1]/2+50 || ready->getXPosition() < renderEngine::Instance().getViewCenter()[0] - renderEngine::Instance().getViewSize()[0]/2 - 60)
+    if(ready->getYPosition() > renderEngine::Instance().getViewCenter()[1] + renderEngine::Instance().getViewSize()[1]/2+50 
+    || ready->getXPosition() < renderEngine::Instance().getViewCenter()[0] - renderEngine::Instance().getViewSize()[0]/2 - 60)
         Mapa::Instance().movePlayerToClosestCheckPoint(ready);
 }
 

@@ -34,7 +34,7 @@ Juego::Juego() {
     physicsEngine::Instance().setGravity(0.f, 100.f);
 
 
-    keys = new bool [256];
+    keys = new bool [1073742106];
     for(int i = 0; i<256; i++) keys[i]=false;
 
     //SINGLETON MUNDO
@@ -339,7 +339,7 @@ void Juego::HandleEvents(){
                 break;
 
             case renderEngine::rEvent::EventType::KeyPressed :
-                //keys[event.getKeyCode()] = true;
+                keys[event.getKeyCode()] = true;
                 std::cout << "Tecla " << event.getKeyCode() << std::endl;
                 if(event.getKeyCode() == renderEngine::Keys::Q  )    sfml->Instance().close();                                   //Q
 
@@ -356,7 +356,7 @@ void Juego::HandleEvents(){
                 break;
 
             case renderEngine::rEvent::EventType::KeyReleased :
-                //keys[event.getKeyCode()] = false;
+                keys[event.getKeyCode()] = false;
 
                 switch(event.getKeyCode()) {
 

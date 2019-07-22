@@ -101,8 +101,8 @@ std::array<float, 2> renderEngine::getSize() {          //X: getSize()[0] , Y: g
 std::array<float, 2> renderEngine::getViewCenter() {
     std::array<float,2> v;
     
-    v[0] = w/2;
-    v[1] = h/2;
+    v[0] = w/2 * zoomview;
+    v[1] = h/2 * zoomview ;
     
     return v;
 }
@@ -112,8 +112,8 @@ std::array<float, 2> renderEngine::getViewCenter() {
 std::array<float, 2> renderEngine::getViewSize() {
     std::array<float,2> v;
     
-    v[0] = w;
-    v[1] = h;
+    v[0] = w * zoomview;
+    v[1] = h * zoomview;
     
     return v;
 }

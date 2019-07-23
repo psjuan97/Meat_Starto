@@ -60,7 +60,7 @@ Player::Player(int id_, std::string name_, float width_, float height_, float x_
     
     int keyCodes[4][5] = 
     //   R      L       UP    HIT     /KILL
-    {    3,     0,      22,     4,      28,
+    {    renderEngine::Keys::Right,     renderEngine::Keys::Left,      renderEngine::Keys::Up,     4,      28,
         72,     71,     73,    42,      57,
         -1,     10,     14,    15,       8,
         13,     21,      6,     7,       9
@@ -472,9 +472,10 @@ void Player::movement(){
     if(!keys[key_l] && body.getLinearXVelocity() < -3){                                                     //
         body.applyForceToCenter(force*stop_mult, 0);
         //!inv_control? body.applyForceToCenter(force*stop_mult, 0) : body.applyForceToCenter(-force*stop_mult, 0);
-    }                                                                                                       //
-    else if(!keys[key_r] && body.getLinearXVelocity() > 3)                                                  //
+    }else if(!keys[key_r] && body.getLinearXVelocity() > 3) {
         body.applyForceToCenter(-force*stop_mult, 0);
+
+    }                                                 //
         //!inv_control? body.applyForceToCenter(-force*stop_mult, 0) : body.applyForceToCenter(force*stop_mult, 0);
                                                                                                             // 
     if(!keys[key_l] && !keys[key_r] && body.getLinearXVelocity() >= -3 && body.getLinearXVelocity() <= 3){  //

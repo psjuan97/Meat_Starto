@@ -123,6 +123,7 @@ void Juego::Handle(){
     Uint32 frameTime;
 
 
+            int countedFrames = 0;
 
     while(sfml->Instance().isOpen()){
         
@@ -133,6 +134,9 @@ void Juego::Handle(){
         lastTime = currentTime;
         //std::cout << "FPS: " << fps << std::endl;
         //</FPS>
+
+
+
 
         //EVENTOS
         HandleEvents();
@@ -149,9 +153,17 @@ void Juego::Handle(){
         frameTime = cl_fps.getElapsedTime().asMilliseconds();
 
         if( frameDelay > frameTime){
-            renderEngine::Instance().delay(frameDelay - frameTime);
-
+           // renderEngine::Instance().delay(frameDelay - frameTime);
+            std::cout << "wait" << std::endl;
+            countedFrames = 0;
         }
+        countedFrames++;
+
+        float avgFPS = countedFrames / ( frameStart / 1000.f );
+
+        std::cout << "FPS: " << avgFPS << std::endl;
+
+
     }
 }
 
@@ -372,6 +384,8 @@ void Juego::HandleEvents(){
                 break;
 
             case renderEngine::rEvent::EventType::KeyReleased :
+
+            std::cout << "KEY RELEASED" << std::endl;
                 keys[event.getKeyCode()] = false;
 
                 switch(event.getKeyCode()) {

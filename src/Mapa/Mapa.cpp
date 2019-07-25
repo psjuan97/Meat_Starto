@@ -396,10 +396,9 @@ void Mapa::render(float tick_) {
     int y = sfml->Instance().getViewCenter()[1];
     int iterator = 0;
 
-    //int w = sfml->Instance().getSize()[0];
-    //int h = sfml->Instance().getSize()[1];
-    int w = 1920;
-    int h = 1080;
+    int w = sfml->Instance().getSize()[0];
+    int h = sfml->Instance().getSize()[1];
+
     int xa = x-w-ancho;
     int ya = y-h-alto;
 

@@ -191,9 +191,8 @@ public:
             float targetX;
             float targetY;
             sf::View getView();             //CONSIGUE LA VISTA. USO PRIVADO
-            //sf::View view;
             float _zoom;
-            int pos_x, pos_y, size_x, size_y;
+            int center_pos_x, center_pos_y, size_x, size_y;
     };
     
     class rTime {
@@ -332,7 +331,7 @@ private:
     
     State* _state;                                  //ESTADO ACTUAL
     
-
+    rView camera;
     float zoomview;
 };
 

@@ -16,12 +16,13 @@
 #include <iostream>
 
 #define FRAMERATE 60
-
-renderEngine::renderEngine()
+#define W 1920.0f
+#define H 1080.0f 
+renderEngine::renderEngine() :  camera(W/2.0f,H/2.0f,W,H)
 {
         zoomview = 1;
-        this->h = 1080;
-        this->w = 1920;
+        this->h = H;
+        this->w = W;
 
         if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
 		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
@@ -53,7 +54,7 @@ void                renderEngine::display   ()          {   SDL_RenderPresent(re
 
 
 }
-void                renderEngine::close     ()          {  	SDL_DestroyWindow( sdl_window );SDL_Quit();  };
+void                renderEngine::close     ()          {  	SDL_DestroyWindow( sdl_window );SDL_Quit();sdl_window = nullptr;  };
 void                renderEngine::delay     (Uint32 ms)          {  SDL_Delay(ms);  };
 
 
@@ -103,8 +104,8 @@ std::array<float, 2> renderEngine::getSize() {          //X: getSize()[0] , Y: g
 std::array<float, 2> renderEngine::getViewCenter() {
     std::array<float,2> v;
     
-    v[0] = w/2 * zoomview;
-    v[1] = h/2 * zoomview ;
+    v[0] = camera.getCenter()[0] ;
+    v[1] = camera.getCenter()[1] ;
     
     return v;
 }
@@ -114,20 +115,19 @@ std::array<float, 2> renderEngine::getViewCenter() {
 std::array<float, 2> renderEngine::getViewSize() {
     std::array<float,2> v;
     
-    v[0] = w * zoomview;
-    v[1] = h * zoomview;
+    v[0] = camera.size_x ;
+    v[1] = camera.size_y ;
     
     return v;
 }
 
 
-renderEngine::renderEngine(const renderEngine& orig) {}
 
 
-    void renderEngine::setView(rView v){
-        this->zoomview = v._zoom;
-
-    }                        //ESTABLECER UNA VISTA
+void renderEngine::setView(renderEngine::rView v){
+    this->zoomview = v._zoom;
+    camera = v;
+}                        //ESTABLECER UNA VISTA
 
 //============================= TEXTURA =============================//
 renderEngine::rTexture::rTexture() {
@@ -238,13 +238,20 @@ void renderEngine::rSprite::draw() {
     //printf("data: zoomview %f ,  this->scaleX %f , this->originX %i\n",  renderEngine::Instance().zoomview , this->scaleX, this->originX);
     //printf("POSX(x: %i, y: %i \n", this->posX ,  this->posY);
 
+    float cameraOffsetX = renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x;
+    float cameraOffsetY = renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y;
+
     SDL_Rect dstrect;
-    dstrect.x = (int) this->posX / renderEngine::Instance().zoomview - this->originX * this->scaleX  / renderEngine::Instance().zoomview;
-    dstrect.y = (int) this->posY / renderEngine::Instance().zoomview - this->originY * this->scaleY  / renderEngine::Instance().zoomview ;
+    dstrect.x = (int) (this->posX - cameraOffsetX) / renderEngine::Instance().zoomview - this->originX * this->scaleX  / renderEngine::Instance().zoomview;
+    dstrect.y = (int) (this->posY - cameraOffsetY) / renderEngine::Instance().zoomview - this->originY * this->scaleY  / renderEngine::Instance().zoomview ;
 
     dstrect.w = (float) this->rect.widht * (float)this->scaleX / (float)renderEngine::Instance().zoomview ;
     dstrect.h = (float) this->rect.height * (float)this->scaleY / (float)renderEngine::Instance().zoomview;
     
+
+
+
+
 
     SDL_Rect srcrect;
     srcrect.x = this->rect.left ;
@@ -286,10 +293,10 @@ std::array<float, 2> renderEngine::rSprite::getPosition() {
 //============================= VISTA =============================//
 renderEngine::rView::rView(float pos_x, float pos_y, float size_x, float size_y){ 
     hasTarget_ = false;
-    pos_x = pos_x;
-    pos_y =  pos_y;
-    size_x =  size_x;
-    size_y = size_y;
+    center_pos_x = pos_x;
+    center_pos_y =  pos_y;
+    this->size_x =  size_x;
+    this->size_y = size_y;
     _zoom = 1;
 }
 
@@ -297,24 +304,38 @@ void renderEngine::rView::zoom      (float z)           {
     printf("zoom %f",z);
     
     this->_zoom = z;           
-    }
-void renderEngine::rView::setCenter (float x, float y)  {       }
-void renderEngine::rView::move(float x, float y)        {          }
-void renderEngine::rView::setSize(float x, float y)     {       }
+}
+
+void renderEngine::rView::setCenter (float x, float y)  {   
+        center_pos_x = x;
+        center_pos_y =  y;
+}
+
+void renderEngine::rView::move(float x, float y)        {  
+    setCenter(center_pos_x + x, center_pos_y + y);
+}
+
+void renderEngine::rView::setSize(float x, float y)     {  
+    size_x =  x;
+    size_y = y;
+}
+
+
+
 void renderEngine::rSprite::setColor(int r, int g, int b)   {   
-   // sprite.setColor(sf::Color(r, g, b));
-    
-    }
+// sprite.setColor(sf::Color(r, g, b));
+
+}
 void renderEngine::rSprite::setColor(int r, int g, int b, int alpha)   {  
-     //sprite.setColor(sf::Color(r, g, b, alpha));
-     
-     }
+//sprite.setColor(sf::Color(r, g, b, alpha));
+
+}
 
 
 std::array<float, 2>    renderEngine::rView::getCenter  () {
     std::array<float, 2> ret;
-    ret[0] = size_x/2;
-    ret[1] = size_y/2;
+    ret[0] = this->center_pos_x;
+    ret[1] = this->center_pos_y;
     
     return ret;
 }

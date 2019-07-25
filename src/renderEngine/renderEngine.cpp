@@ -238,12 +238,11 @@ void renderEngine::rSprite::draw() {
     //printf("data: zoomview %f ,  this->scaleX %f , this->originX %i\n",  renderEngine::Instance().zoomview , this->scaleX, this->originX);
     //printf("POSX(x: %i, y: %i \n", this->posX ,  this->posY);
 
-    float cameraOffsetX = renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x;
-    float cameraOffsetY = renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y;
 
     SDL_Rect dstrect;
-    dstrect.x = (int) (this->posX - cameraOffsetX) / renderEngine::Instance().zoomview - this->originX * this->scaleX  / renderEngine::Instance().zoomview;
-    dstrect.y = (int) (this->posY - cameraOffsetY) / renderEngine::Instance().zoomview - this->originY * this->scaleY  / renderEngine::Instance().zoomview ;
+    dstrect.x = (int) (this->posX - ( renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x/2)) / renderEngine::Instance().zoomview - this->originX * this->scaleX  / renderEngine::Instance().zoomview;
+
+    dstrect.y = (int) (this->posY - (  renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y/2 )) / renderEngine::Instance().zoomview - this->originY * this->scaleY  / renderEngine::Instance().zoomview ;
 
     dstrect.w = (float) this->rect.widht * (float)this->scaleX / (float)renderEngine::Instance().zoomview ;
     dstrect.h = (float) this->rect.height * (float)this->scaleY / (float)renderEngine::Instance().zoomview;

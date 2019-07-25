@@ -558,8 +558,7 @@ void Juego::Render(){
         if(readyPlayer[0]->getYPosition()>view->getCenter()[1]){
             view->setCenter(readyPlayer[0]->getXPosition(), readyPlayer[0]->getYPosition());
         }
-    }
-    else if(!mj_t::Instance().isTetrisOn() && !boss::Instance().isBossOn()){    //TRUE: SE MUEVE LA CAMARA
+    }else if(!mj_t::Instance().isTetrisOn() && !boss::Instance().isBossOn()){    //TRUE: SE MUEVE LA CAMARA
         int n=0;
         for(int i=0; i< readyPlayer.size(); i++){
             if(cameraDirection == 0){

@@ -17,6 +17,7 @@
 #include "../../../renderEngine/renderEngine.h"
 #include "Minijuego.h"
 #include <list>
+#include <vector>
 
 class Nodo;
 

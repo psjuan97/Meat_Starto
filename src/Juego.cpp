@@ -47,7 +47,7 @@ Juego::Juego() {
     renderEngine::Instance().setView(*view);
 
     backgroundView = new renderEngine::rView(0, 0, renderEngine::Instance().getSize()[0], renderEngine::Instance().getSize()[1]);
-    backgroundView->zoom(1);
+    backgroundView->zoom(2);
 
 
     //INTERPOLACION
@@ -538,7 +538,7 @@ void Juego::Update(){
 }
 
 void Juego::Render(){
-    std::cout << "RENDER == " << tick << std::endl;
+   // std::cout << "RENDER == " << tick << std::endl;
 
     renderEngine::Instance().clear('w');
 

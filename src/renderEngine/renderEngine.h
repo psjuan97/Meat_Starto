@@ -17,7 +17,6 @@
 #include "../State.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SFML/Graphics.hpp>
 
 #include <array>
 class renderEngine {
@@ -139,8 +138,8 @@ public:
             std::array<float,2> getPosition();
             
         private:
-            sf::CircleShape getCircleShape();   //NO VA BIEN
-            sf::CircleShape cs;
+            //sf::CircleShape getCircleShape();   //NO VA BIEN
+            //sf::CircleShape cs;
     };
     
     class rSprite {
@@ -190,7 +189,6 @@ public:
             bool hasTarget_;
             float targetX;
             float targetY;
-            sf::View getView();             //CONSIGUE LA VISTA. USO PRIVADO
             float _zoom;
             int center_pos_x, center_pos_y, size_x, size_y;
     };
@@ -199,16 +197,14 @@ public:
         public:
             rTime();
             rTime(float sec);
-            rTime(sf::Time tim);
-
+            void setMilisec(int milisec);
             float asSeconds();                      //TIEMPO EN SEGUNDOS
             float asMilliseconds();                 //TIEMPO EN MILISEGUNDOS
             float asMicroseconds();                 //TIEMPO EN MICROSEGUNDOS
             void incrementTime(renderEngine::rTime t);
             void Zero();                            //TENER A 0 EL TIEMPO
-            sf::Time getTime();
         private:
-            sf::Time time;
+            float _milisecond; 
     };
     
     class rClock {
@@ -218,7 +214,8 @@ public:
             renderEngine::rTime restart();          //REINICIAR EL RELOJ
             renderEngine::rTime getElapsedTime();   //TIEMPO SIN REINICIAR EL RELOJ
         private:
-            sf::Clock clock;
+            //sf::Clock clock;
+            rTime start;
     };
     
     class rEvent {
@@ -229,11 +226,11 @@ public:
                 KeyPressed                  = SDL_KEYDOWN,
                 KeyReleased                 = SDL_KEYUP,
                 Quit                    =  SDL_QUIT,
-                JoystickConnected           = sf::Event::EventType::JoystickConnected,
-                JoystickDisconnected        = sf::Event::EventType::JoystickDisconnected,
-                JoystickButtonPressed       = sf::Event::EventType::JoystickButtonPressed,
-                JoystickButtonReleased      = sf::Event::EventType::JoystickButtonReleased,
-                JoystickMoved               = sf::Event::EventType::JoystickMoved
+                JoystickConnected           = 99,
+                JoystickDisconnected        = 100,
+                JoystickButtonPressed       = 101,
+                JoystickButtonReleased      = 102,
+                JoystickMoved               = 103
             };
             unsigned int sfType();
             
@@ -263,7 +260,7 @@ public:
             void setTexture(renderEngine::rTexture &t);                   //ESTABLECER TEXTURAS
             
         private:
-            sf::ConvexShape cs;
+            //sf::ConvexShape cs;
     };
     
     class rFont {
@@ -273,10 +270,10 @@ public:
             
             void loadFromFile(std::string str);
         private:
-            sf::Font* getFont();
-            sf::Font font;
+           // sf::Font* getFont();
+            //sf::Font font;
     };
-    
+
     class rText {
         public:
             rText();
@@ -290,10 +287,10 @@ public:
             void setFont(rFont &font);
             void setOrigin(float x, float y);
             std::array<float,2> getSize();
-            sf::Color getFillColor();
+            int getFillColor(); //sf::Color
             
         private:
-            sf::Text txt;
+            //sf::Text txt;
     };
     
     //METODOS PUBLICOS

@@ -1,16 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
- * File:   renderEngine.cpp
- * Author: pablomanez
- * 
- * Created on 21 de marzo de 2018, 15:30
- */
-
 
 #include "renderEngine.h"
 #include <iostream>
@@ -300,7 +287,7 @@ renderEngine::rView::rView(float pos_x, float pos_y, float size_x, float size_y)
 }
 
 void renderEngine::rView::zoom      (float z)           {   
-    printf("zoom %f",z);
+    //printf("zoom %f",z);
     
     this->_zoom = z;           
 }
@@ -341,10 +328,20 @@ std::array<float, 2>    renderEngine::rView::getCenter  () {
 
 
 //============================= RELOJ =============================//
-renderEngine::rClock::rClock() {}
+renderEngine::rClock::rClock() {
+    this->start.Zero();
+}
 
-renderEngine::rTime renderEngine::rClock::restart() { return rTime(clock.restart()) ;}
-renderEngine::rTime renderEngine::rClock::getElapsedTime() { return rTime(clock.getElapsedTime()) ;}
+renderEngine::rTime renderEngine::rClock::restart() { 
+    rTime timeToReturn;
+    timeToReturn.setMilisec((int)SDL_GetTicks() - (int)this->start.asMilliseconds());
+    start.setMilisec((int)SDL_GetTicks());
+    return timeToReturn;
+}
+
+renderEngine::rTime renderEngine::rClock::getElapsedTime() { 
+    return rTime((int)SDL_GetTicks() - (int)this->start.asMilliseconds());
+}
 
 //============================= EVENTOS =============================//
 renderEngine::rEvent::rEvent() {}
@@ -359,21 +356,34 @@ int renderEngine::rEvent::getJoystickId()           {return 0;}
 unsigned int   renderEngine::rEvent::sfType    () {    return event.type;}
 
 //============================= TIEMPO =============================//
-renderEngine::rTime::rTime() {}
+renderEngine::rTime::rTime() {
+    _milisecond = 0;
+}
 renderEngine::rTime::rTime(float sec){
-    time = sf::seconds(sec);
-}
-renderEngine::rTime::rTime(sf::Time tim){
-    time = tim;
+    this->_milisecond = sec * 1000.0f;
 }
 
+void renderEngine::rTime::setMilisec(int _milisecond){
+    this->_milisecond = (float)_milisecond;
+}
 
-float renderEngine::rTime::asSeconds        ()  {   return time.asSeconds();}
-float renderEngine::rTime::asMilliseconds   ()  {   return time.asMilliseconds();}
-float renderEngine::rTime::asMicroseconds   ()  {   return time.asMicroseconds();}
-void renderEngine::rTime::Zero              ()  {   time = sf::Time::Zero;}
-void renderEngine::rTime::incrementTime(renderEngine::rTime t){ time += t.getTime();}
-sf::Time renderEngine::rTime::getTime()         {   return time; }
+float renderEngine::rTime::asSeconds        ()  {   
+    return this->_milisecond / 1000 ;
+
+}
+float renderEngine::rTime::asMilliseconds   ()  {   
+    return this->_milisecond;
+}
+float renderEngine::rTime::asMicroseconds   ()  {  
+     return this->_milisecond * 1000;
+}
+void renderEngine::rTime::Zero              ()  {   
+    this->_milisecond = 0;
+}
+void renderEngine::rTime::incrementTime(renderEngine::rTime t){ 
+    this->_milisecond += t.asMilliseconds();
+}
+
 
 //============================= CONVEXSHAPE =============================//
 renderEngine::rConvexShape::rConvexShape() {
@@ -383,17 +393,29 @@ void renderEngine::rConvexShape::draw() {
     renderEngine* sfml;
     //sfml->Instance().getWindow()->draw(cs);
 }
-void renderEngine::rConvexShape::setPointCount      (int s)                     {   cs.setPointCount(s);}
-void renderEngine::rConvexShape::setOutlineThickness(float f)                   {   cs.setOutlineThickness(f);}
-void renderEngine::rConvexShape::setPoint           (int p, float x, float y)   {   cs.setPoint(p,sf::Vector2f(x,y));}
-void renderEngine::rConvexShape::move               (float x, float y)          {   cs.move(x,y);}
-void renderEngine::rConvexShape::setPosition        (float x, float y)          {   cs.setPosition(x,y);}
+void renderEngine::rConvexShape::setPointCount      (int s)                     {   
+   // cs.setPointCount(s);
+}
+void renderEngine::rConvexShape::setOutlineThickness(float f)                   {  
+     //cs.setOutlineThickness(f);
+    }
+void renderEngine::rConvexShape::setPoint           (int p, float x, float y)   { 
+     // cs.setPoint(p,sf::Vector2f(x,y));
+    }
+void renderEngine::rConvexShape::move               (float x, float y)          {  
+    // cs.move(x,y);
+     
+    }
+void renderEngine::rConvexShape::setPosition        (float x, float y)          { 
+      //cs.setPosition(x,y);
+      
+      }
 void renderEngine::rConvexShape::setTexture         (renderEngine::rTexture &t)               { 
     //  cs.setTexture(t.getTexture());
     return;
       }
 void renderEngine::rConvexShape::setFillColor(char c) {
-    switch(c){
+  /*  switch(c){
         case 't':   cs.setFillColor(sf::Color::Transparent);    break;
         case 'r':   cs.setFillColor(sf::Color::Red);            break;
         case 'y':   cs.setFillColor(sf::Color::Yellow);         break;
@@ -403,20 +425,20 @@ void renderEngine::rConvexShape::setFillColor(char c) {
         case 'b':   cs.setFillColor(sf::Color::Blue);           break;
         case 'k':   cs.setFillColor(sf::Color::Black);          break;
         default:    cs.setFillColor(sf::Color::Black);          break;
-    }
+    } */
 }
 void renderEngine::rConvexShape::setOutlineColor(char c) {
-    switch(c){
+   /*  switch(c){
         case 'r':   cs.setOutlineColor(sf::Color::Red);    break;
         case 'g':   cs.setOutlineColor(sf::Color::Green);  break;
         default:    break;
-    }
+    }*/
 }
 std::array<float, 2> renderEngine::rConvexShape::getPosition() {
     std::array<float,2> a;
     
-    a[0] = cs.getPosition().x;
-    a[1] = cs.getPosition().y;
+   // a[0] = cs.getPosition().x;
+    //a[1] = cs.getPosition().y;
     
     return a;
 }
@@ -655,16 +677,18 @@ void renderEngine::rText::setFillColor(char c) {
     } */
 }
 
-sf::Color renderEngine::rText::getFillColor() { return txt.getFillColor();};
+int renderEngine::rText::getFillColor() { 
+    return 0;
+};
 
 //============================= FONT =============================//
 renderEngine::rFont::rFont() {}
 void renderEngine::rFont::loadFromFile  (std::string str)   {  }
-sf::Font* renderEngine::rFont::getFont   ()                 {   return &font;}
+
 
 //============================= CIRCLESHAPE =============================//
 
-renderEngine::rCircleShape::rCircleShape(float r, int pc) : cs(r,pc) {}
+renderEngine::rCircleShape::rCircleShape(float r, int pc) {}
 
 void renderEngine::rCircleShape::draw() {
     renderEngine* sfml;
@@ -672,7 +696,7 @@ void renderEngine::rCircleShape::draw() {
 }
 
 void renderEngine::rCircleShape::setFillColor(char c) {
-    switch(c){
+    /* switch(c){
         case 't':   cs.setFillColor(sf::Color::Transparent);    break;
         case 'r':   cs.setFillColor(sf::Color::Red);            break;
         case 'g':   cs.setFillColor(sf::Color::Green);          break;
@@ -680,30 +704,28 @@ void renderEngine::rCircleShape::setFillColor(char c) {
         case 'y':   cs.setFillColor(sf::Color::Yellow);         break;
         case 'k':   cs.setFillColor(sf::Color::Black);          break;
         default:    break;
-    }
+    }*/
 }
 
 void renderEngine::rCircleShape::setRadius(float r) {
-    cs.setRadius(r);
+   // cs.setRadius(r);
 }
 
 void renderEngine::rCircleShape::setPosition(float x, float y) {
-    cs.setPosition(x,y);
+   // cs.setPosition(x,y);
 }
 
 void renderEngine::rCircleShape::setOrigin(float x, float y) {
-    cs.setOrigin(x,y);
+   // cs.setOrigin(x,y);
 }
 
-sf::CircleShape renderEngine::rCircleShape::getCircleShape() {
-    return cs;
-}
+
 
 std::array<float, 2> renderEngine::rCircleShape::getPosition() {
     std::array<float,2> ret;
     
-    ret[0] = cs.getPosition().x;
-    ret[1] = cs.getPosition().y;
+   // ret[0] = cs.getPosition().x;
+   // ret[1] = cs.getPosition().y;
     
     return ret;
 }

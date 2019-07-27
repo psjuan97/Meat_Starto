@@ -409,7 +409,7 @@ void MenuInicio::Update(){
 
                                 if(controller_move_l) controller_move_l = false;
 
-                                if(statemenu==2 && numplayers<4 && menuplayer[1].getFillColor()==sf::Color::White){
+                                if(statemenu==2 && numplayers<4 && menuplayer[1].getFillColor()==-99999){
                                     numplayers++;
                                     menuplayer[1].setString("Players "  + std::to_string(numplayers));
                                 }
@@ -421,7 +421,7 @@ void MenuInicio::Update(){
 
                                 if(controller_move_d) controller_move_d = false;
 
-                                if(statemenu==2 && numplayers>1 && menuplayer[1].getFillColor()==sf::Color::White){
+                                if(statemenu==2 && numplayers>1 && menuplayer[1].getFillColor()==-99999){
                                     numplayers--;
                                     menuplayer[1].setString("Players "  + std::to_string(numplayers));
                                 }
@@ -473,14 +473,14 @@ void MenuInicio::Update(){
                             stateMenu();
                             break;
                          case renderEngine::Keys::Right:
-                            if(statemenu==2 && numplayers<4 && menuplayer[1].getFillColor()==sf::Color::White){
+                            if(statemenu==2 && numplayers<4 && menuplayer[1].getFillColor()==-99999){
                                 numplayers++;
                                 menuplayer[1].setString("Players "  + std::to_string(numplayers));
                             }
                             break;
                             
                         case renderEngine::Keys::Left:
-                            if(statemenu==2 && numplayers>1 && menuplayer[1].getFillColor()==sf::Color::White){
+                            if(statemenu==2 && numplayers>1 && menuplayer[1].getFillColor()==-99999){
                                 numplayers--;
                                 menuplayer[1].setString("Players "  + std::to_string(numplayers));
                             }

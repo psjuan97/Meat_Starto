@@ -14,7 +14,6 @@
 #include "Player.h"
 #include <iostream>
 #include <string>
-#include <SFML/Graphics.hpp>
 #include <complex>
 #include "Animator.h"
 #include "Mapa/Mapa.h"
@@ -88,64 +87,64 @@ Player::Player(int id_, std::string name_, float width_, float height_, float x_
     
     
     /*ANIMACIONES*/
-    //sf::Vector2i spriteSize(60,60);
-    sf::Vector2i spriteSize(48,40);
+    //math::Vector2i spriteSize(60,60);
+    math::Vector2i spriteSize(48,40);
     Animator::Animation* anim = &animator.CreateAnimation("a_bas", texture, renderEngine::rTime(3), false);
-    anim->AddFrames(sf::Vector2i(0,0), sf::Vector2i(48,40), 1);
+    anim->AddFrames(math::Vector2i(0,0), math::Vector2i(48,40), 1);
     animator.SwitchAnimation("a_bas");
     
     Animator::Animation* a_base = &animator.CreateAnimation("a_base", texture, renderEngine::rTime(3), false);
-    a_base->AddFrames(sf::Vector2i(0,0), spriteSize ,1);
+    a_base->AddFrames(math::Vector2i(0,0), spriteSize ,1);
     
     //Giro Derecha
     Animator::Animation* a_rigth = &animator.CreateAnimation("a_rigth", texture, renderEngine::rTime(0.3), false);
-    a_rigth->AddFrames(sf::Vector2i(240,0), spriteSize , 3);
+    a_rigth->AddFrames(math::Vector2i(240,0), spriteSize , 3);
     Animator::Animation* a_base_r = &animator.CreateAnimation("a_base_r", texture, renderEngine::rTime(0.2), false);
-    a_base_r->AddFrames(sf::Vector2i(384,0), spriteSize , 2);
+    a_base_r->AddFrames(math::Vector2i(384,0), spriteSize , 2);
     
     //Giro Izquierda
     Animator::Animation* a_left = &animator.CreateAnimation("a_left", texture, renderEngine::rTime(0.3), false);
-    a_left->AddFrames(sf::Vector2i(0,0), spriteSize , 3);
+    a_left->AddFrames(math::Vector2i(0,0), spriteSize , 3);
     Animator::Animation* a_base_l = &animator.CreateAnimation("a_base_l", texture, renderEngine::rTime(0.2), false);
-    a_base_l->AddFrames(sf::Vector2i(144,0), spriteSize , 2);
+    a_base_l->AddFrames(math::Vector2i(144,0), spriteSize , 2);
     
     /*
     //Salto izquierda
     Animator::Animation* a_jump_l = &animator.CreateAnimation("a_jump_l",texture, renderEngine::rTime(0.5), false);
-    a_jump_l->AddFrames(sf::Vector2i(0,60), spriteSize ,9);          
+    a_jump_l->AddFrames(math::Vector2i(0,60), spriteSize ,9);          
     
     //Salto derecha
     Animator::Animation*  a_jump_r = &animator.CreateAnimation("a_jump_r",texture, renderEngine::rTime(0.5), false);
-    a_jump_r->AddFrames(sf::Vector2i(0,180), spriteSize ,9);   
+    a_jump_r->AddFrames(math::Vector2i(0,180), spriteSize ,9);   
     
     //Para colision
     Animator::Animation*  a_fall_l = &animator.CreateAnimation("a_fall_l",texture, renderEngine::rTime(0.5), false);
-    a_fall_l->AddFrames(sf::Vector2i(0,120), spriteSize ,3);
+    a_fall_l->AddFrames(math::Vector2i(0,120), spriteSize ,3);
     Animator::Animation*  a_fall_r = &animator.CreateAnimation("a_fall_r",texture, renderEngine::rTime(0.5), false);
-    a_fall_r->AddFrames(sf::Vector2i(180,120), spriteSize ,3);
+    a_fall_r->AddFrames(math::Vector2i(180,120), spriteSize ,3);
     */
     //Prueba de salto
     //Salto izquierda
     Animator::Animation* a_jump_l = &animator.CreateAnimation("a_jump_l", texture, renderEngine::rTime(0.7), false);
-    a_jump_l->AddFrames(sf::Vector2i(0,40), spriteSize ,9);  
-    a_jump_l->AddFrames(sf::Vector2i(48,80), spriteSize ,2);
+    a_jump_l->AddFrames(math::Vector2i(0,40), spriteSize ,9);  
+    a_jump_l->AddFrames(math::Vector2i(48,80), spriteSize ,2);
     
     //Salto derecha
     Animator::Animation*  a_jump_r = &animator.CreateAnimation("a_jump_r", texture, renderEngine::rTime(0.7), false);
-    a_jump_r->AddFrames(sf::Vector2i(0,120), spriteSize ,9); 
-    a_jump_r->AddFrames(sf::Vector2i(192,80), spriteSize ,2);  
+    a_jump_r->AddFrames(math::Vector2i(0,120), spriteSize ,9); 
+    a_jump_r->AddFrames(math::Vector2i(192,80), spriteSize ,2);  
     
     //Para colision
     Animator::Animation*  a_fall_l = &animator.CreateAnimation("a_fall_l", texture, renderEngine::rTime(0.5), false);
-    a_fall_l->AddFrames(sf::Vector2i(0,120), spriteSize ,3);
+    a_fall_l->AddFrames(math::Vector2i(0,120), spriteSize ,3);
     Animator::Animation*  a_fall_r = &animator.CreateAnimation("a_fall_r", texture, renderEngine::rTime(0.5), false);
-    a_fall_r->AddFrames(sf::Vector2i(180,120), spriteSize ,3);
+    a_fall_r->AddFrames(math::Vector2i(180,120), spriteSize ,3);
     
     //Para suicidio
     Animator::Animation*  xplota = &animator.CreateAnimation("xplota", texture2, renderEngine::rTime(0.5), false);
-    xplota->AddFrames(sf::Vector2i(0,0), sf::Vector2i(225,140) ,4);
-    xplota->AddFrames(sf::Vector2i(0,140), sf::Vector2i(225,140) ,4);
-    xplota->AddFrames(sf::Vector2i(0,280), sf::Vector2i(225,140) ,3);
+    xplota->AddFrames(math::Vector2i(0,0), math::Vector2i(225,140) ,4);
+    xplota->AddFrames(math::Vector2i(0,140), math::Vector2i(225,140) ,4);
+    xplota->AddFrames(math::Vector2i(0,280), math::Vector2i(225,140) ,3);
    
     previous.x = actual.x = body.getXPosition();
     previous.y = actual.y = body.getYPosition();

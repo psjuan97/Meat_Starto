@@ -15,7 +15,6 @@
 #define MENUPAUSA_H
 
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include "State.h" 
 #include "MenuInicio.h"
 #include "Juego.h"

@@ -15,6 +15,7 @@
 #include "../../../Juego.h"
 #include "xPlotato.h"
 #include "math.h"
+#include "math/Vector2.hpp"
 
 #define velocity 2.f
 
@@ -24,13 +25,13 @@ xPlotato::xPlotato(int x_, int y_, int x_b, int x_e) : animator(sprite) {
     std::string sprite_name = "assets/potatoboy1.png";
     /*ANIMACIONES*/
     Animator::Animation*  base = &animator.CreateAnimation("base","assets/potatoboy1.png", renderEngine::rTime(1), false);
-    base->AddFrames(sf::Vector2i(0,420), sf::Vector2i(65,65) ,1);
+    base->AddFrames(math::Vector2i(0,420), math::Vector2i(65,65) ,1);
     animator.SwitchAnimation("base");
     
     
     Animator::Animation*  xplota = &animator.CreateAnimation("xplota","assets/potatoboy1.png", renderEngine::rTime(0.5), false);
-    xplota->AddFrames(sf::Vector2i(0,0), sf::Vector2i(225,140) ,4);
-    xplota->AddFrames(sf::Vector2i(0,140), sf::Vector2i(225,140) ,5);    
+    xplota->AddFrames(math::Vector2i(0,0), math::Vector2i(225,140) ,4);
+    xplota->AddFrames(math::Vector2i(0,140), math::Vector2i(225,140) ,5);    
     
     int width = 65;
     int height = 65;

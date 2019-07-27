@@ -18,8 +18,6 @@
 #include <list>
 #include <vector>
 #include <string>
-#include <SFML/System/Time.hpp>
-#include <SFML/System/Vector2.hpp>
 
 
 
@@ -50,16 +48,7 @@ void Animator::SwitchAnimation(Animator::Animation* animation)
     if(animation != nullptr)
     {
         m_Sprite.setTexture(AssetManager::GetTexture(animation->m_TextureName));
-        /*
-        sf::Texture tex;
-        if (!tex.loadFromFile("resources/player6.png"))
-        {
-        std::cerr << "Error cargando la imagen sprites.png";
-        exit(0);
-        }
-        m_Sprite.setTexture(tex);
-        */
-        
+       
     }
     m_CurrentAnimation = animation;
     m_CurrentTime.Zero(); //Reset time

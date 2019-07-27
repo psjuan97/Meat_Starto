@@ -77,10 +77,7 @@ private:
     float currentTime;
     float fps;
     
-    sf::Font font;
-    sf::Text  titulo;
-    sf::Text  titulo2;
-    sf::Text  titulo3;
+
     static Juego* instance;
     
     int cameraDirection;

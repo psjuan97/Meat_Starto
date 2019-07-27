@@ -19,10 +19,9 @@
 #include <list>
 #include <vector>
 #include <string>
-#include <SFML/System/Time.hpp>
-#include <SFML/System/Vector2.hpp>
 #include "renderEngine/renderEngine.h"
 #include "Animator.h"
+#include "math/Vector2.hpp"
 
 class Animator {
 public:
@@ -39,10 +38,10 @@ public:
             : m_Name(name), m_TextureName(textureName), m_Duration(duration), m_Looping (looping)
         {}
         //Adds frames horizontaly
-        void AddFrames(sf::Vector2i const& startFrom,
-                sf::Vector2i const& frameSize, unsigned int frames)
+        void AddFrames(math::Vector2i const& startFrom,
+                math::Vector2i const& frameSize, unsigned int frames)
         {
-            sf::Vector2i current = startFrom;
+            math::Vector2i current = startFrom;
             for (unsigned int i = 0; i < frames; i++)
             {
                 //Add current frame from position and frame size

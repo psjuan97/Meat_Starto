@@ -251,7 +251,7 @@ void MPuntuaciones::Update(){
             switch(event.sfType()){
                 
                 //Si se recibe el evento de cerrar la ventana la cierro
-                case sf::Event::Closed:
+                case renderEngine::rEvent::EventType::Quit :
                     sfml->Instance().close();
                     break;
                     
@@ -260,27 +260,26 @@ void MPuntuaciones::Update(){
                     if(event.getJoystickButton()==0) sfml->Instance().ChangeState(MenuInicio::Instance());
                     break;
                 //Se pulsó una tecla, imprimo su codigo
-                case sf::Event::KeyPressed:
+                case renderEngine::rEvent::EventType::KeyPressed :
                     
                     //Verifico si se pulsa alguna tecla de movimiento
                     switch(event.getKeyCode()) {
                                                    
                         //Tecla Q para salir
-                        case sf::Keyboard::Q:
+                        case renderEngine::Keys::Q :
                             sfml->Instance().close();
                         break;
                         
-                         case sf::Keyboard::Escape:
+                         case renderEngine::Keys::ESC:
                             sfml->Instance().ChangeState(MenuInicio::Instance());
                             
                             break;
                         
-                         case sf::Keyboard::Return:
+                         case renderEngine::Keys::Return :
                             sfml->Instance().ChangeState(MenuInicio::Instance());
                               
                             break;
              
-                        //Cualquier tecla desconocida se imprime por pantalla su código
                         default:
                             //std::cout << event.getKeyCode() << std::endl;
                         break;

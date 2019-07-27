@@ -16,7 +16,6 @@
 
 
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include "State.h" 
 #include "MenuPausa.h"
 #include "Juego.h"

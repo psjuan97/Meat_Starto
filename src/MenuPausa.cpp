@@ -274,34 +274,32 @@ void MenuPausa::Update(){
                     break;
                     
                 //Si se recibe el evento de cerrar la ventana la cierro
-                case sf::Event::Closed:
+                case renderEngine::rEvent::EventType::Quit :
                     sfml->Instance().close();
                     break;
                     
                 //Se pulsó una tecla, imprimo su codigo
-                case sf::Event::KeyPressed:
+                case renderEngine::rEvent::EventType::KeyPressed :
                     
                     //Verifico si se pulsa alguna tecla de movimiento
                     switch(event.getKeyCode()) {
                                                    
-                        case sf::Keyboard::Up:   
+                        case renderEngine::Keys::Up :
                             MoveUp();
                             break;
                             
-                        case sf::Keyboard::Down: 
+                        case renderEngine::Keys::Down :
                             MoveDown();
                             break;
 
                         //Tecla Q para salir
-                        case sf::Keyboard::Q:
+                        case renderEngine::Keys::Q :
                             sfml->Instance().close();
                         break;
                         
-                        case sf::Keyboard::Return:
-                            stateMenu();
-                             
-                                                  
-                            break;
+                        case renderEngine::Keys::Return :
+                            stateMenu();      
+                        break;
                         //Cualquier tecla desconocida se imprime por pantalla su código
                         default:
                             std::cout << event.getKeyCode() << std::endl;

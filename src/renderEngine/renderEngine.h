@@ -184,7 +184,7 @@ public:
             std::array<float,2> getCenter();            //CENTRO DE LA VISTA
             void move(float x, float y);                //MOVER LA VISTA  
             void setSize(float x, float y);
-            
+            float getZoom();
         private:
             bool hasTarget_;
             float targetX;
@@ -329,7 +329,6 @@ private:
     State* _state;                                  //ESTADO ACTUAL
     
     rView camera;
-    float zoomview;
 };
 
 #endif /* RENDERENGINE_H */

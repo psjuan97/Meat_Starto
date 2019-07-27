@@ -7,7 +7,6 @@
 #define H 1080.0f 
 renderEngine::renderEngine() :  camera(W/2.0f,H/2.0f,W,H)
 {
-        zoomview = 1;
         this->h = H;
         this->w = W;
 
@@ -112,7 +111,6 @@ std::array<float, 2> renderEngine::getViewSize() {
 
 
 void renderEngine::setView(renderEngine::rView v){
-    this->zoomview = v._zoom;
     camera = v;
 }                        //ESTABLECER UNA VISTA
 
@@ -227,12 +225,12 @@ void renderEngine::rSprite::draw() {
 
 
     SDL_Rect dstrect;
-    dstrect.x = (int) (this->posX - ( renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x/2)) / renderEngine::Instance().zoomview - this->originX * this->scaleX  / renderEngine::Instance().zoomview;
+    dstrect.x = (int) ((this->posX - ( renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x/2) )  - this->originX * this->scaleX)  / renderEngine::Instance().camera.getZoom();
 
-    dstrect.y = (int) (this->posY - (  renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y/2 )) / renderEngine::Instance().zoomview - this->originY * this->scaleY  / renderEngine::Instance().zoomview ;
+    dstrect.y = (int) ((this->posY - ( renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y/2) )  - this->originY * this->scaleY)  / renderEngine::Instance().camera.getZoom();
 
-    dstrect.w = (float) this->rect.widht * (float)this->scaleX / (float)renderEngine::Instance().zoomview ;
-    dstrect.h = (float) this->rect.height * (float)this->scaleY / (float)renderEngine::Instance().zoomview;
+    dstrect.w = (float) this->rect.widht * (float)this->scaleX / (float)renderEngine::Instance().camera.getZoom() ;
+    dstrect.h = (float) this->rect.height * (float)this->scaleY / (float)renderEngine::Instance().camera.getZoom();
     
 
 
@@ -286,10 +284,16 @@ renderEngine::rView::rView(float pos_x, float pos_y, float size_x, float size_y)
     _zoom = 1;
 }
 
+float  renderEngine::rView::getZoom(){
+    return _zoom;
+}
+
 void renderEngine::rView::zoom      (float z)           {   
     //printf("zoom %f",z);
     
-    this->_zoom = z;           
+    this->_zoom = z;  
+    this->size_x = this->size_x * z;
+    this->size_y = this->size_y * z;         
 }
 
 void renderEngine::rView::setCenter (float x, float y)  {   
@@ -476,8 +480,8 @@ void renderEngine::rRectangleShape::draw() {
     SDL_Rect srcrect;
     srcrect.x = 0 ;
     srcrect.y = 0 ;
-    srcrect.w = this->sizeX * renderEngine::Instance().zoomview ;
-    srcrect.h = this->sizeY * renderEngine::Instance().zoomview;
+    srcrect.w = this->sizeX * renderEngine::Instance().camera.getZoom() ;
+    srcrect.h = this->sizeY * renderEngine::Instance().camera.getZoom();
 
 
     if(texture != nullptr){

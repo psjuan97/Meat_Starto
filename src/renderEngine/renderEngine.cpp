@@ -5,6 +5,8 @@
 #define FRAMERATE 60
 #define W 1920.0f
 #define H 1080.0f 
+#define ROUND_2_INT(f) ((int)(f >= 0.0 ? (f + 0.5) : (f - 0.5)))
+
 renderEngine::renderEngine() :  camera(W/2.0f,H/2.0f,W,H)
 {
         this->h = H;
@@ -225,12 +227,11 @@ void renderEngine::rSprite::draw() {
 
 
     SDL_Rect dstrect;
-    dstrect.x = (int) ((this->posX - ( renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x/2) )  - this->originX * this->scaleX)  / renderEngine::Instance().camera.getZoom();
+    dstrect.x =  ((float) ((this->posX - ( renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x/2) )  - this->originX * this->scaleX)  / renderEngine::Instance().camera.getZoom());
+    dstrect.y =  ((float) ((this->posY - ( renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y/2) )  - this->originY * this->scaleY)  / renderEngine::Instance().camera.getZoom());
 
-    dstrect.y = (int) ((this->posY - ( renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y/2) )  - this->originY * this->scaleY)  / renderEngine::Instance().camera.getZoom();
-
-    dstrect.w = (float) this->rect.widht * (float)this->scaleX / (float)renderEngine::Instance().camera.getZoom() ;
-    dstrect.h = (float) this->rect.height * (float)this->scaleY / (float)renderEngine::Instance().camera.getZoom();
+    dstrect.w = ROUND_2_INT( (float) this->rect.widht * (float)this->scaleX / (float)renderEngine::Instance().camera.getZoom() ) ;
+    dstrect.h = ROUND_2_INT( (float) this->rect.height * (float)this->scaleY / (float)renderEngine::Instance().camera.getZoom());
     
 
 

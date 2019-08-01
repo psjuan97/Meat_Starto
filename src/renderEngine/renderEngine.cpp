@@ -9,39 +9,36 @@
 
 renderEngine::renderEngine() :  camera(W/2.0f,H/2.0f,W,H)
 {
-        this->h = H;
-        this->w = W;
+    this->h = H;
+    this->w = W;
 
-        if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
-		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
-	}else{
-		//Create window
-		sdl_window = SDL_CreateWindow( "SCREEN_NAME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN );
-		//SDL_WINDOW_SHOWN
+    if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
+        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+    }else{
+        //Create window
+        sdl_window = SDL_CreateWindow( "SCREEN_NAME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN );
+        //SDL_WINDOW_SHOWN
         //SDL_WINDOW_FULLSCREEN_DESKTOP 
         if( sdl_window == NULL ){
-			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-		}else{
+            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+        }else{
             renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
-                                                    //SDL_RENDERER_ACCELERATED = HARDWARE 
-                                                    
-  
+                                                    //SDL_RENDERER_ACCELERATED = HARDWARE           
         }
     }
 
-
-    //window.setFramerateLimit(FRAMERATE);
-    //window.setVerticalSyncEnabled(true);
+    if( TTF_Init() == -1 ){
+        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+    }
     _state = 0;
     
 }
 
 
-void                renderEngine::display   ()          {   SDL_RenderPresent(renderer);
-
-
-
+void renderEngine::display() {   
+    SDL_RenderPresent(renderer);
 }
+
 void                renderEngine::close     ()          {  	SDL_DestroyWindow( sdl_window );SDL_Quit();sdl_window = nullptr;  };
 void                renderEngine::delay     (Uint32 ms)          {  SDL_Delay(ms);  };
 
@@ -647,17 +644,53 @@ void renderEngine::rImage::loadFromFIle(std::string path) {
 
 //============================= TEXT =============================//
 renderEngine::rText::rText(){    
-    //font.loadFromFile("assets/fonts/8-bit_pusab.ttf");
+    font.loadFromFile("assets/fonts/8-bit_pusab.ttf");
 }
+
+//TODO no crear todo el rato la txtura
 void renderEngine::rText::draw() {
 
-    //sfml->Instance().getWindow()->draw(txt);
+    SDL_Rect Message_rect; //create a rect
+    Message_rect.x = posX;  //controls the rect's x coordinate 
+    Message_rect.y = posY; // controls the rect's y coordinte
+    Message_rect.w = 100; // controls the width of the rect
+    Message_rect.h = 100; // controls the height of the rect
+
+    //Mind you that (0,0) is on the top left of the window/screen, think a rect as the text's box, that way it would be very simple to understance
+
+    //Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
+
+    SDL_RenderCopy(renderEngine::Instance().renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+
+    //Don't forget too free your surface and texture
+
+
 }
-void renderEngine::rText::setPosition       (float x, float y)      {  }
-void renderEngine::rText::setScale          (float fx, float fy)    {  }
-void renderEngine::rText::setString         (std::string str)       {  }
-void renderEngine::rText::setCharacterSize  (int s)                 {  }
-void renderEngine::rText::setFont           (rFont &font)           {  }
+void renderEngine::rText::setPosition       (float x, float y)      { 
+    this->posX = x;
+    this->posY = y;
+ }
+void renderEngine::rText::setScale          (float fx, float fy)    { 
+
+
+ }
+void renderEngine::rText::setString         (std::string str)       { 
+        SDL_Color White = {255, 255, 255};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+    this->text = str;
+
+        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(this->font.font, text.c_str() , White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+
+     Message = SDL_CreateTextureFromSurface(renderEngine::Instance().renderer, surfaceMessage); //now you can convert it into a texture
+SDL_FreeSurface(surfaceMessage);
+ }
+void renderEngine::rText::setCharacterSize  (int s)                 { 
+
+
+ }
+void renderEngine::rText::setFont           (renderEngine::rFont &font)           {
+    this->font = font;
+
+  }
 void renderEngine::rText::setOrigin         (float x, float y)      {  }
 
 std::array<float, 2> renderEngine::rText::getSize() {
@@ -687,8 +720,12 @@ int renderEngine::rText::getFillColor() {
 };
 
 //============================= FONT =============================//
-renderEngine::rFont::rFont() {}
-void renderEngine::rFont::loadFromFile  (std::string str)   {  }
+renderEngine::rFont::rFont() {
+    font = nullptr;
+}
+void renderEngine::rFont::loadFromFile  (std::string str)   { 
+    font = TTF_OpenFont(str.c_str(), 80); //this opens a font style and sets a size
+ }
 
 
 //============================= CIRCLESHAPE =============================//

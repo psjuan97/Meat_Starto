@@ -17,6 +17,7 @@
 #include "../State.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 #include <array>
 class renderEngine {
@@ -267,11 +268,10 @@ public:
         friend class renderEngine;
         public:
             rFont();
-            
             void loadFromFile(std::string str);
         private:
-           // sf::Font* getFont();
-            //sf::Font font;
+            TTF_Font* font;
+
     };
 
     class rText {
@@ -290,7 +290,10 @@ public:
             int getFillColor(); //sf::Color
             
         private:
-            //sf::Text txt;
+            std::string text;
+            SDL_Texture* Message;
+            renderEngine::rFont font;
+            int posX, posY;
     };
     
     //METODOS PUBLICOS

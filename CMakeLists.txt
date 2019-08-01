@@ -35,6 +35,8 @@ find_package(Threads)
 find_package(SFML 2 REQUIRED network audio graphics window system)
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
+
 
 find_package(tinyxml2 REQUIRED )
 find_package(Box2D REQUIRED)
@@ -55,4 +57,8 @@ endif()
 
 if(SDL2_IMAGE_FOUND)
   target_link_libraries(${PROJECT_NAME} ${SDL2_IMAGE_LIBRARIES})
+endif()
+
+if(SDL2_TTF_FOUND)
+  target_link_libraries(${PROJECT_NAME} ${SDL2_TTF_LIBRARIES})
 endif()

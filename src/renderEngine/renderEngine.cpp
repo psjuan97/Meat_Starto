@@ -2,33 +2,279 @@
 #include "renderEngine.h"
 #include <iostream>
 
+
+
+
+#include <ppu-lv2.h>
+
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
+#include <malloc.h>
+#include <string.h>
+#include <assert.h>
+#include <unistd.h>
+
+#include <sysutil/video.h>
+#include <rsx/gcm_sys.h>
+#include <rsx/rsx.h>
+
+#include <io/pad.h>
+
+
+
+#include <sysmodule/sysmodule.h>
+#include <sysutil/sysutil.h>
+//#include <sysutil/events.h>
+
+
+//Include SDL functions and datatypes
+#include "SDL/SDL.h"
+  
+
+#include <net/net.h>
+#include <netinet/in.h>
+
+static int SocketFD;
+#define DEBUG_IP "192.168.0.113"
+#define DEBUG_PORT 18194
+
+
+
+void debugPrintf(const char* fmt, ...)
+{
+  char buffer[0x800];
+  va_list arg;
+  va_start(arg, fmt);
+  vsnprintf(buffer, sizeof(buffer), fmt, arg);
+  va_end(arg);
+  netSend(SocketFD, buffer, strlen(buffer), 0);
+}
+
+void debugInit()
+{
+      netInitialize();
+
+  struct sockaddr_in stSockAddr;
+  SocketFD = netSocket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
+
+  memset(&stSockAddr, 0, sizeof stSockAddr);
+
+  stSockAddr.sin_family = AF_INET;
+  stSockAddr.sin_port = htons(DEBUG_PORT);
+  inet_pton(AF_INET, DEBUG_IP, &stSockAddr.sin_addr);
+
+  netConnect(SocketFD, (struct sockaddr *)&stSockAddr, sizeof stSockAddr);
+	
+  debugPrintf("network debug module initialized\n") ;
+  debugPrintf("ready to have a lot of fun\n") ;
+}
+
+
+/* 
+#else
+
+#define BASEDIR ""
+
+
+
+
+void debugPrintf(const char* fmt, ...)
+{
+
+}
+
+void debugInit()
+{
+
+}
+
+
+
+#endif
+*/
+
+Uint32 getpixel(SDL_Surface *surface,int x,int y){
+  int bpp = surface->format->BytesPerPixel;
+  Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+  switch(bpp) {
+    case 1:
+      return *p;
+    case 2:
+      return *(Uint16 *)p;
+    case 3:
+      if(SDL_BYTEORDER == SDL_BIG_ENDIAN)
+        return p[0] << 16 | p[1] << 8 | p[2];
+      else
+        return p[0] | p[1] << 8 | p[2] << 16;
+    case 4:
+      return *(Uint32 *)p;
+    default:
+      return 0;
+  }
+}
+
+void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel){
+    int bpp = surface->format->BytesPerPixel;
+    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+    switch(bpp) {
+    case 1:
+        *p = pixel;
+        break;
+    case 2:
+        *(Uint16 *)p = pixel;
+        break;
+    case 3:
+        if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+            p[0] = (pixel >> 16) & 0xff;
+            p[1] = (pixel >> 8) & 0xff;
+            p[2] = pixel & 0xff;
+        } else {
+            p[0] = pixel & 0xff;
+            p[1] = (pixel >> 8) & 0xff;
+            p[2] = (pixel >> 16) & 0xff;
+        }
+        break;
+    case 4:
+        *(Uint32 *)p = pixel;
+        break;
+    }
+}
+
+void putpixel16(SDL_Surface *surface, int x, int y, Uint32 pixel){
+	*((Uint16 *)surface->pixels+y*surface->pitch/2+x)=pixel;
+}
+
+
+
+
+
+void scalesurface(
+	SDL_Surface *source,SDL_Surface *destination,
+	float sourcex1,float sourcex2,float sourcey1,float sourcey2,
+	float destx1,float destx2,float desty1,float desty2){
+	
+	if(sourcex1==0 && sourcex2==320-1 && destx1==0 && destx2==640-1
+	&& sourcey1==0 && sourcey2==240-1 && desty1==0 && desty2==480-1
+	&& source->format->BitsPerPixel==16 && destination->format->BitsPerPixel==16){
+	
+		SDL_Rect temprect={0,0,2,2};
+		Uint16* pixelpositionsource=(Uint16*)source->pixels;
+		for(int y=0;y<240;y++){
+			for(int x=0;x<320;x++){
+				SDL_FillRect(destination,&temprect,*pixelpositionsource);
+				temprect.x += 2;
+				pixelpositionsource++;
+			}
+			temprect.x = 0;
+			temprect.y += 2;
+		}
+	
+	}else{
+	
+		float xdif=(sourcex1-sourcex2)/(destx1-destx2);
+		float ydif=(sourcey1-sourcey2)/(desty1-desty2);	
+		float xuse=sourcex1;
+		float yuse=sourcey1;
+		for(int y=desty1;y<desty2+1;y++){
+			xuse=sourcex1;
+			for(int x=destx1;x<destx2+1;x++){
+				xuse+=xdif;
+				if(x>=0 && x<destination->w
+				&& y>=0 && y<destination->h
+				&& (int)xuse>=0 && (int)xuse<source->w
+				&& (int)yuse>=0 && (int)yuse<source->h)
+					putpixel(destination,x,y,getpixel(source,(int)xuse,(int)yuse));
+			}
+			yuse+=ydif;
+		}
+	
+	}
+
+}
+
+
+
+
+
 #define FRAMERATE 60
-#define W 1920.0f
-#define H 1080.0f 
+#define W  1920.0f//1280.0f
+#define H   1080.0f //720.0f 
+const int SCREEN_BPP = 32;
+
 #define ROUND_2_INT(f) ((int)(f >= 0.0 ? (f + 0.5) : (f - 0.5)))
+
+
+
+
+SDL_Surface *load_image( std::string filename )
+{
+    //The image that's loaded
+    SDL_Surface* loadedImage = NULL;
+
+    //The optimized surface that will be used
+    SDL_Surface* optimizedImage = NULL;
+
+    //Load the image
+    loadedImage = IMG_Load( filename.c_str() );
+
+    //If the image loaded
+    if( loadedImage != NULL )
+    {
+        //Create an optimized surface
+        optimizedImage = SDL_DisplayFormatAlpha( loadedImage );
+       // optimizedImage = SDL_DisplayFormat( loadedImage );
+
+        //Free the old surface
+        SDL_FreeSurface( loadedImage );
+
+        //If the surface was optimized
+        if( optimizedImage != NULL )
+        {
+            //Color key surface
+            //SDL_SetColorKey( optimizedImage, SDL_SRCCOLORKEY, SDL_MapRGBA( optimizedImage->format, 0, 0, 0 ,0) );
+            //SDL_SetColorKey( optimizedImage, SDL_SRCCOLORKEY, SDL_MapRGB( optimizedImage->format, 0, 0, 0) );
+
+        }
+        debugPrintf("Image %s loaded!\n", filename.c_str());
+    }else{
+
+          debugPrintf("Image %s NOT loaded!\n", filename.c_str());
+
+    }
+
+    //Return the optimized surface
+    return optimizedImage;
+}
+
+
+
 
 renderEngine::renderEngine() :  camera(W/2.0f,H/2.0f,W,H)
 {
     this->h = H;
     this->w = W;
 
-    if( SDL_Init( SDL_INIT_VIDEO ) < 0 ){
-        printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+  debugInit();
+
+  debugPrintf("\nNET debugger working!\n");
+
+
+
+
+    //Initialize all SDL subsystems
+    if( SDL_Init( SDL_INIT_VIDEO ) == -1 )
+    {
+        debugPrintf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
     }else{
         //Create window
-        sdl_window = SDL_CreateWindow( "SCREEN_NAME", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, SDL_WINDOW_SHOWN );
-        //SDL_WINDOW_SHOWN
-        //SDL_WINDOW_FULLSCREEN_DESKTOP 
-        if( sdl_window == NULL ){
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-        }else{
-            renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
-                                                    //SDL_RENDERER_ACCELERATED = HARDWARE           
-        }
+        renderer = SDL_SetVideoMode( w, h, SCREEN_BPP, SDL_SWSURFACE );
+       
+        
     }
 
     if( TTF_Init() == -1 ){
-        printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
+        debugPrintf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
     }
     _state = 0;
     
@@ -36,15 +282,25 @@ renderEngine::renderEngine() :  camera(W/2.0f,H/2.0f,W,H)
 
 
 void renderEngine::display() {   
-    SDL_RenderPresent(renderer);
+    SDL_Flip(renderer);
 }
 
-void                renderEngine::close     ()          {  	SDL_DestroyWindow( sdl_window );SDL_Quit();sdl_window = nullptr;  };
+void                renderEngine::close     ()          {  	
+  
+    //Quit SDL_ttf
+    TTF_Quit();
+
+    //Quit SDL
+    SDL_Quit();
+    
+    renderer = nullptr; 
+    
+     };
 void                renderEngine::delay     (Uint32 ms)          {  SDL_Delay(ms);  };
 
 
 
-bool                renderEngine::isOpen    ()          {   return sdl_window != nullptr;}   //TRUE SI LA VENTANA ESTA ABIERTA
+bool                renderEngine::isOpen    ()          {   return renderer != nullptr;}   //TRUE SI LA VENTANA ESTA ABIERTA
 
 bool                renderEngine::pollEvent (renderEngine::rEvent &e) {   
     return SDL_PollEvent(&e.event);
@@ -55,13 +311,17 @@ void renderEngine::moveView(float x, float y) {
 }
 
 void renderEngine::ChangeState(State* pState) {
+                debugPrintf( "changing stage... \n" );
+
     _state = pState;
     if(NULL != _state){
         _state->Handle();
     }
+            debugPrintf( "State changed Okey \n" );
+
 }
 void renderEngine::clear(char c) {              //COLOR DEL CLEAR
-
+/* 
 int r,g,b;
     switch(c){
         case 'w':   r=255; g=255; b=255;  ;       break;
@@ -70,11 +330,11 @@ int r,g,b;
         default:    r=0; g=0; b=0;     break;
     }
 
-       /* Select the color for drawing. It is set to red here. */
+       // Select the color for drawing. It is set to red here.
         SDL_SetRenderDrawColor(renderer, r, g, b, 255);
 
-        /* Clear the entire screen to our selected color. */
-        SDL_RenderClear(renderer);
+    // Clear the entire screen to our selected color.
+        SDL_RenderClear(renderer);*/
 
 }
 std::array<float, 2> renderEngine::getSize() {          //X: getSize()[0] , Y: getSize()[1]
@@ -125,29 +385,8 @@ renderEngine::rTexture::rTexture(std::string path) {
 
 void renderEngine::rTexture::loadFromFile(std::string path)  {   
 
-    texture = NULL;
-    //The final texture
-   
-
-    //Load image at specified path
-    SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-    if( loadedSurface == NULL )
-    {
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
-    }
-    else
-    {
-        //Create texture from surface pixels
-        texture = SDL_CreateTextureFromSurface( renderEngine::Instance().renderer, loadedSurface );
-        if( texture == NULL )
-        {
-            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-        }
-
-        //Get rid of old loaded surface
-        SDL_FreeSurface( loadedSurface );
-    }
-
+    std::string finalpath = BASEDIR + path;
+    texture = load_image(finalpath.c_str());
 
 
     }
@@ -160,16 +399,23 @@ void renderEngine::rTexture::loadFromImage(renderEngine::rImage im, renderEngine
 }
 
 
-int             renderEngine::rTexture::getXSize()                      {  
-    int w, h;
-SDL_QueryTexture(this->texture, NULL, NULL, &w, &h);
-return w;
+int renderEngine::rTexture::getXSize()  {  
+    SDL_Rect rect;
+    SDL_GetClipRect(this->texture,&rect);
+    printf("rect.w = %i \n ", rect.w);
 
-          }
-int             renderEngine::rTexture::getYSize()                      {      int w, h;
-SDL_QueryTexture(this->texture, NULL, NULL, &w, &h);
-return h;           }
-SDL_Texture*    renderEngine::rTexture::getTexture()                    {   return texture;               }
+    return rect.w;
+}
+
+int renderEngine::rTexture::getYSize() {   
+    SDL_Rect rect;
+    SDL_GetClipRect(this->texture,&rect);
+    printf("rect.h = %i \n ", rect.h);
+
+    return rect.h;
+ }
+ 
+SDL_Surface*    renderEngine::rTexture::getTexture()                    {   return texture;               }
 
 
 //============================= SPRITE =============================//
@@ -209,7 +455,11 @@ void renderEngine::rSprite::setOrigin   (float x, float y)  {  this->originX = x
 
 void renderEngine::rSprite::setScale    (float x, float y)  {  
     
-    this->scaleX = x; this->scaleY = y;   
+    this->scaleX = x; 
+    this->scaleY = y;   
+
+    printf("SetScale\n");
+        printf("scaleX %f, \n", scaleX);
 
 }
 
@@ -219,7 +469,9 @@ bool renderEngine::rSprite::intersects(renderEngine::rSprite sprite_){
     return false;
 }
 void renderEngine::rSprite::draw() {
-    //printf("data: zoomview %f ,  this->scaleX %f , this->originX %i\n",  renderEngine::Instance().zoomview , this->scaleX, this->originX);
+    //printf("------------------draw-----------------------\n");
+
+    //printf("data: zoomview %f ,  this->scaleX %f , this->originX %i\n",  (float)renderEngine::Instance().camera.getZoom() , this->scaleX, this->originX);
     //printf("POSX(x: %i, y: %i \n", this->posX ,  this->posY);
 
 
@@ -228,7 +480,7 @@ void renderEngine::rSprite::draw() {
     dstrect.y =  ((float) ((this->posY - ( renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y/2) )  - this->originY * this->scaleY)  / renderEngine::Instance().camera.getZoom());
 
     dstrect.w = ROUND_2_INT( (float) this->rect.widht * (float)this->scaleX / (float)renderEngine::Instance().camera.getZoom() ) ;
-    dstrect.h = ROUND_2_INT( (float) this->rect.height * (float)this->scaleY / (float)renderEngine::Instance().camera.getZoom());
+    dstrect.h = ROUND_2_INT( (float) this->rect.height *(float)this->scaleY / (float)renderEngine::Instance().camera.getZoom() );
     
 
 
@@ -244,10 +496,55 @@ void renderEngine::rSprite::draw() {
     //srcrect.w = (float)this->texture->getXSize();//
     //srcrect.h = (float)this->texture->getYSize();//* renderEngine::Instance().zoomview;
 
-    //printf("srcrect(x: %d, y: %d, w %d, h %d \n", srcrect.x ,  srcrect.y,  srcrect.w,  srcrect.h);
-    //printf("dstrect(x: %d, y: %d, w %d, h %d \n", dstrect.x ,  dstrect.y,  dstrect.w,  dstrect.h);
 
-    SDL_RenderCopy( renderEngine::Instance().renderer, texture->getTexture(), &srcrect, &dstrect );
+
+/* 
+
+    Uint32 rmask, gmask, bmask, amask;
+
+
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    rmask = 0xff000000;
+    gmask = 0x00ff0000;
+    bmask = 0x0000ff00;
+    amask = 0x000000ff;
+#else
+    rmask = 0x000000ff;
+    gmask = 0x0000ff00;
+    bmask = 0x00ff0000;
+    amask = 0xff000000;
+#endif
+
+    printf("srcrect(x: %d, y: %d, w %d, h %d \n", srcrect.x ,  srcrect.y,  srcrect.w,  srcrect.h);
+    printf("this->rect.widht = %i \n", this->rect.widht);
+    printf("dstrect(x: %i, y: %i, w %i, h %i \n", dstrect.x ,  dstrect.y,  dstrect.w,  dstrect.h);
+
+SDL_Surface * finalSurface = SDL_CreateRGBSurface(SDL_SRCALPHA,   dstrect.w, dstrect.h, 32, rmask, gmask, bmask, amask);
+ 
+    if(finalSurface == NULL) {
+        fprintf(stderr, "CreateRGBSurface failed: %s\n", SDL_GetError());
+        exit(1);
+    }
+scalesurface( texture->getTexture() ,finalSurface,
+	srcrect.x, srcrect.w ,srcrect.y,srcrect.h,
+	dstrect.x, dstrect.w ,dstrect.y,dstrect.h);
+
+    srcrect.x = this->rect.left ;
+    srcrect.y = this->rect.top ;
+    srcrect.w = (float)dstrect.w;//
+    srcrect.h = (float)dstrect.h;//* renderEngine::Instance().zoomview;
+
+
+    printf("srcrect(x: %i, y: %i, w %i, h %i \n", srcrect.x ,  srcrect.y,  srcrect.w,  srcrect.h);
+    printf("this->rect.widht = %i \n", this->rect.widht);
+    printf("dstrect(x: %i, y: %i, w %i, h %i \n", dstrect.x ,  dstrect.y,  dstrect.w,  dstrect.h);
+
+
+*/
+    if(texture->getTexture()  != NULL){
+        SDL_BlitSurface( texture->getTexture() ,&srcrect,renderEngine::Instance().renderer,&dstrect);
+    }
+
 }
 
 bool renderEngine::rSprite::intersects(renderEngine::rRectangleShape rs) {
@@ -483,10 +780,13 @@ void renderEngine::rRectangleShape::draw() {
 
 
     if(texture != nullptr){
-        SDL_RenderCopy( renderEngine::Instance().renderer, texture->getTexture(), &srcrect, &dstrect );
+        SDL_BlitSurface( texture->getTexture(),&srcrect,renderEngine::Instance().renderer,&dstrect);
     }else{
-        SDL_RenderFillRect(renderEngine::Instance().renderer,&dstrect )   ;
+        //SDL_FillRect(renderEngine::Instance().renderer,&dstrect, 0)   ;
     }
+
+    // debugPrintf("END  rRectangleShape -> draw\n");
+
     
 }
 void renderEngine::rRectangleShape::setTexture  (rTexture &t)       {   
@@ -520,7 +820,7 @@ void renderEngine::rRectangleShape::setFillColor(char c) {
         }
 
        /* Select the color for drawing. It is set to red here. */
-        SDL_SetRenderDrawColor(renderEngine::Instance().renderer, r, g, b, 255);
+      //  SDL_SetRenderDrawColor(renderEngine::Instance().renderer, r, g, b, 255);
 
 
 /* switch(c){
@@ -535,7 +835,7 @@ void renderEngine::rRectangleShape::setFillColor(char c) {
 }
 
 void renderEngine::rRectangleShape::setFillRGBAColor(int r, int g, int b, int a) {
-        SDL_SetRenderDrawColor(renderEngine::Instance().renderer, r, g, b, a);
+       // SDL_SetRenderDrawColor(renderEngine::Instance().renderer, r, g, b, a);
 
 }
 
@@ -614,37 +914,17 @@ SDL_Rect renderEngine::rIntRect::getIntRect() {
 renderEngine::rImage::rImage() {}
 
 void renderEngine::rImage::loadFromFIle(std::string path) { 
-    
-    texture = NULL;
-    //The final texture
-   
-
-    //Load image at specified path
-    SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-    if( loadedSurface == NULL )
-    {
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
-    }
-    else
-    {
-        //Create texture from surface pixels
-        texture = SDL_CreateTextureFromSurface( renderEngine::Instance().renderer, loadedSurface );
-        if( texture == NULL )
-        {
-            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-        }
-
-        //Get rid of old loaded surface
-        SDL_FreeSurface( loadedSurface );
-    }
-
+    std::string finalpath = BASEDIR + path;
+    texture = load_image(finalpath.c_str());
 }
 
 
 
 //============================= TEXT =============================//
-renderEngine::rText::rText(){    
-    font.loadFromFile("assets/fonts/8-bit_pusab.ttf");
+renderEngine::rText::rText(){   
+        std::string finalpath = "assets/fonts/8-bit_pusab.ttf";
+ 
+    font.loadFromFile(finalpath.c_str());
 }
 
 //TODO no crear todo el rato la txtura
@@ -660,7 +940,7 @@ void renderEngine::rText::draw() {
 
     //Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
 
-    SDL_RenderCopy(renderEngine::Instance().renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+   // SDL_RenderCopy(renderEngine::Instance().renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
 
     //Don't forget too free your surface and texture
 
@@ -680,7 +960,7 @@ void renderEngine::rText::setString         (std::string str)       {
 
         SDL_Surface* surfaceMessage = TTF_RenderText_Solid(this->font.font, text.c_str() , White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
 
-     Message = SDL_CreateTextureFromSurface(renderEngine::Instance().renderer, surfaceMessage); //now you can convert it into a texture
+     //Message = SDL_CreateTextureFromSurface(renderEngine::Instance().renderer, surfaceMessage); //now you can convert it into a texture
 SDL_FreeSurface(surfaceMessage);
  }
 void renderEngine::rText::setCharacterSize  (int s)                 { 
@@ -724,7 +1004,15 @@ renderEngine::rFont::rFont() {
     font = nullptr;
 }
 void renderEngine::rFont::loadFromFile  (std::string str)   { 
-    font = TTF_OpenFont(str.c_str(), 80); //this opens a font style and sets a size
+
+    std::string finalpath = BASEDIR + str;
+    font = TTF_OpenFont(finalpath.c_str(), 80); //this opens a font style and sets a size
+    if(!font) {
+        debugPrintf("Error loading font: %s", finalpath.c_str())    ;
+        exit(0);
+    }else{ 
+        debugPrintf("Font %s , loaded", finalpath.c_str())    ;
+    }
  }
 
 

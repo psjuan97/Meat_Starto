@@ -31,14 +31,18 @@
 
 Juego::Juego() {
 
+
+    debugPrintf("---Starting Juego---");
     physicsEngine::Instance().setGravity(0.f, 100.f);
 
 
-    keys = new bool [1073742106];
-    for(int i = 0; i<256; i++) keys[i]=false;
+    for(int i = 0; i<500; i++) keys[i]=false;
+        debugPrintf("--Mapa---");
 
     //SINGLETON MUNDO
     Mapa::Instance().CreaMapa();
+
+        debugPrintf("--END MAPA---");
 
     //VISTA
     view = new renderEngine::rView(0, 0, renderEngine::Instance().getSize()[0], renderEngine::Instance().getSize()[1]);
@@ -60,6 +64,8 @@ Juego::Juego() {
 
 
     //JUGADORES
+
+        debugPrintf("--JUGADORES--- \n");
 
     float x_arr[4] = {2240,1750,1260,770};
     std::string names[4] = {"Jack","Amy","Ike","Violet"};
@@ -107,13 +113,20 @@ Juego::Juego() {
     minirain.setSpriteSize(0.7, 0.4);
 
     hud= new Hud(readyPlayer);
+        debugPrintf("---End Hud---\n");
 
     Mapa::Instance().setPlayers(&readyPlayer);
     cameraDirection = 0;
+
+        debugPrintf("---End constructor Juego--- \n");
+
 }
 
 
 void Juego::Handle(){
+
+    debugPrintf( "Juego::Handle() \n" );
+
     //BUCLE DEL JUEGO
     renderEngine *sfml;
 
@@ -137,31 +150,34 @@ void Juego::Handle(){
 
 
 
-
+        debugPrintf( "Juego::HandleEvents() \n" );
         //EVENTOS
         HandleEvents();
+
+        debugPrintf( "Juego::Update() \n" );
 
         //UPDATE
         Update();
         //std::cout << "EVENTOS" << std::endl;
 
+        debugPrintf( "Juego::Render() \n" );
         //RENDER
         Render();
         //std::cout << "RENDER" << std::endl;
-
 
         frameTime = cl_fps.getElapsedTime().asMilliseconds();
 
         if( frameDelay > frameTime){
            // renderEngine::Instance().delay(frameDelay - frameTime);
-            std::cout << "wait" << std::endl;
+            //std::cout << "wait" << std::endl;
             countedFrames = 0;
         }
         countedFrames++;
 
         float avgFPS = countedFrames / ( frameStart / 1000.f );
 
-        std::cout << "FPS: " << avgFPS << std::endl;
+        //std::cout << "FPS: " << avgFPS << std::endl;
+    debugPrintf( "END -- Juego::Handle() \n" );
 
 
     }
@@ -367,8 +383,10 @@ void Juego::HandleEvents(){
                 break;
 
             case renderEngine::rEvent::EventType::KeyPressed :
+
                 keys[event.getKeyCode()] = true;
-                std::cout << "Tecla " << event.getKeyCode() << std::endl;
+                //std::cout << "Tecla " << event.getKeyCode() << std::endl;
+                debugPrintf("Tecla: %i pulsada \n",  event.getKeyCode());
                 if(event.getKeyCode() == renderEngine::Keys::Q  )    sfml->Instance().close();                                   //Q
 
                 if(event.getKeyCode() == renderEngine::Keys::ESC ){
@@ -386,7 +404,9 @@ void Juego::HandleEvents(){
             case renderEngine::rEvent::EventType::KeyReleased :
 
             std::cout << "KEY RELEASED" << std::endl;
+            
                 keys[event.getKeyCode()] = false;
+                debugPrintf("Tecla: %i soltada \n",  event.getKeyCode());
 
                 switch(event.getKeyCode()) {
 
@@ -445,7 +465,6 @@ void Juego::HandleEvents(){
                     break;
                    case 57:
                        /*ESPACIO PARA CAMBIAR DE PUNYO CORTO A LARGO*/
-                        std::cout<<"CAMBIO"<<std::endl;
                         readyPlayer[0]->double_hit(true);
 
                     break;
@@ -463,8 +482,12 @@ void Juego::HandleEvents(){
 
 void Juego::Update(){
 
+
     // FIXED TIME STEP UPDATE
     dt = masterClock.restart().asSeconds();
+    debugPrintf("FIXED TIME STEP UPDATE \n");
+
+
 
     //Spiral of death
     if(dt > 0.25f)   dt = 0.25f;
@@ -499,46 +522,71 @@ void Juego::Update(){
     accumulator += dt;
     while(accumulator >= 1/UPDATE_STEP){
         //std::cout << "UPDATE-- " << accumulator << std::endl;
+        debugPrintf(" while(accumulator >= 1/UPDATE_STEP){ \n");
 
         float window_width = static_cast<float>(renderEngine::Instance().getSize()[0]);
         float window_height = static_cast<float>(renderEngine::Instance().getSize()[1]);
         float zoom = (1005*target_zoom)/window_height;
 
+
+        debugPrintf(" view\n");
         view->setSize(window_width, window_height);
         view->zoom(zoom);
+        debugPrintf(" renderEngine::Instance().setView(*view); \n");
         renderEngine::Instance().setView(*view);
 
+        debugPrintf(" rain \n");
         rain.setPosition(view->getCenter()[0], view->getCenter()[1]-renderEngine::Instance().getViewSize()[1]/2 -120);
+        debugPrintf(" mini rain \n");
         minirain.setPosition(view->getCenter()[0], view->getCenter()[1]-renderEngine::Instance().getViewSize()[1]/2 -120);
 
+
+
+        debugPrintf("for(int i=0; i< readyPlayer.size(); i++){ \n");
         // LÓGICA DE LOS NPC Y JUGADORES
         for(int i=0; i< readyPlayer.size(); i++){
             readyPlayer[i]->movement();
         }
 
+        debugPrintf("Mapa::Instance().update(); \n");
         Mapa::Instance().update();
+        debugPrintf(" rain.update(); \n");
         rain.update();
+        debugPrintf("  minirain.update(); \n");
         minirain.update();
 
         // BUCLE DE STEPS DE BOX2D
+        debugPrintf(" BUCLE DE STEPS DE BOX2D \n");
+
         for(int i = 0; i < FRAMERATE/UPDATE_STEP; i++){
             physicsEngine::Instance().updateWorld(BOX2D_STEP);
         }
 
         accumulator -= 1/UPDATE_STEP;
 
+            debugPrintf("ACTUALIZO EL ESTADO ACTUAL \n");
+
         // ACTUALIZO EL ESTADO ACTUAL
         for(int i=0; i< readyPlayer.size(); i++){
             readyPlayer[i]->newState();
         }
+
         Mapa::Instance().newState();
+                    debugPrintf(" Mapa::Instance().newState(); \n");
+
         rain.newState();
+                    debugPrintf(" rain.newState() \n");
+
         minirain.newState();
+                    debugPrintf(" minirain.newState() \n");
+
+        
     }
 }
 
 void Juego::Render(){
    // std::cout << "RENDER == " << tick << std::endl;
+        debugPrintf("--Render--- \n");
 
     renderEngine::Instance().clear('w');
 
@@ -551,6 +599,7 @@ void Juego::Render(){
         readyPlayer[i]->interpola(tick);
     }
 
+        debugPrintf("--Update Camera--- \n");
 
     //ACTUALIÇAÇAO DE LA CAMARA
     if(!Mapa::Instance().getInit()){
@@ -607,6 +656,8 @@ void Juego::Render(){
     renderEngine::Instance().setView(*view);
 
     //ACTUALIÇAÇAO DEL MAPA
+            debugPrintf("--Map Update--- \n");
+
     Mapa::Instance().updateMini();
 
     Mapa::Instance().renderBackground();
@@ -621,6 +672,9 @@ void Juego::Render(){
 
 
     renderEngine::Instance().display();
+
+            debugPrintf("--End render--- \n");
+
 }
 
 std::array<float, 2> Juego::getPlayerPosition() {
@@ -633,15 +687,15 @@ std::array<float, 2> Juego::getPlayerPosition() {
 }
 
 Juego::~Juego() {
-    
-    delete[] keys;
-    keys = nullptr;
+        debugPrintf("starting destroying  game================================== \n");
+
+    //delete[] keys;
+    //keys = nullptr;
     delete view;
     view = nullptr;
     delete backgroundView;
     backgroundView = nullptr;
-    
-    std::cout << "Destroying game==================================" << std::endl;
+    debugPrintf("Destroying game================================== \n");
 }
 
 std::vector<Player*>* Juego::getPlayers() {

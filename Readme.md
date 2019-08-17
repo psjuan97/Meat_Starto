@@ -1,32 +1,20 @@
 # Meat Starto
 
-instalacion:
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make -j9
+PORT SDL1.2 PS3 - POC 
 
-(9) numero de cores + 1
+Para hacer funcionar el port lo primero es configurar el enterno de trabajo de ps3. 
 
+https://github.com/ps3dev/PSL1GHT
+https://github.com/ps3dev/ps3libraries
+https://github.com/ps3dev/ps3toolchain
 
-Migracion del proyecto de netbeans a CMAKE.
+Ademas usaremos ps3load para ejecutar codigo de forma remota con "make run"
+Para poder hacer logs usaremos netcat: "socat udp-recv:18194 stdout"
 
-### Sistemas operativos soportados:
-  - Linux
-  - Windows (Algun bug)
-  - Mac Os X (Sin probar)
+Con esto ya estariamos preparados para ejecutar codigo sobre la ps3.
 
-# Tareas pendientes
-  - Terminar Migrar el motor para que deje de usar SFML y use SDL
-  - No se si vale la pena mantener el renderer de SFML, aunque parece muy interesante (con objetivo de aprendizaje), que el juego consiga cambiar de un renderer a otro usando las opciones, en tiempo de ejecución.
-  - Implementar Lua (Ya que nos flipamos pues nos flipamos bien)
-  
-
-¿Porque usar SDL? 
-
-Sdl es una libreria de mas bajo nivel, es mas compleja de manejar, sin embargo puede que sea mas eficiente.
-SFML solo es compatible con win,linux y mac.
-Sin embargo SDL tiene ports oficiales y no oficiales en:
-linux, mac ,windows, bsd, psp, psvita,ps3,ps4 ,switch ,wii, gamecube, etc
+En nuestro caso necesitamos compilar nuestro juego y las dependencias, es por eso que tendremos que compilar box2d 
+para power pc, esto lo haremos usando la magia de CMAKE, subo el fichero toolchain-psl1ght.cmake para poder generar un 
+make que use el compilador de ppc.
 
 

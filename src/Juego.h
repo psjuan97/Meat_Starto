@@ -31,12 +31,19 @@
 #include "boss.h"
 #include "renderEngine/rMusic.h"
 #include "particleSystem.h"
+#include <map>
+
+
 
 class Juego: public State{
 public:
     
     static Juego& Instance(){
+                        debugPrintf( "Instance static return \n" );
+
         static Juego instance;
+                                debugPrintf( "lets return return \n" );
+
         return instance;
     }
     ~Juego();
@@ -59,7 +66,8 @@ private:
     Juego(const Juego& orig);
     void operator=(Juego const& orig);
     
-    bool* keys;
+    std::map<int, bool> keys;
+
     std::vector<Player*> readyPlayer;
     
     renderEngine::rClock masterClock;

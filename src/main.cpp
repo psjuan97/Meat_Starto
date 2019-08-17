@@ -20,8 +20,6 @@
 #include "MenuPausa.h"
 
 
-using namespace std;
-
 int state=0;
 
 int main(int argc, char** argv) {

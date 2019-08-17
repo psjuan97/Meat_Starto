@@ -19,6 +19,7 @@
 #include "Nodo/Minijuegos/goingUp.h"
 #include <math.h>
 #include "../AssetManager.h"
+#include <stdio.h>
 
 #define SCALE 65.f
 #define MAP_ITERATION 16
@@ -29,10 +30,22 @@
 #define BACKGROUND_VELOCITY 2
 
  Mapa::Mapa() {
-    std::cout << "Creando mapa..." << std::endl;
+  //  std::cout << "Creando mapa..." << std::endl;
+    debugPrintf("Creando mapa...");
 
     //CARGA DEL DOCUMENTO
-    doc.LoadFile("tiles_definitivo/tiles_fv.tsx");
+    std::string path= std::string(BASEDIR) +  "tiles_definitivo/tiles_fv.tsx";
+
+    FILE *fd = fopen (path.c_str(), "rb");
+
+    if (fd == NULL){
+        debugPrintf("Error Abriendo fichero %s...", path.c_str());
+    }
+
+    doc.LoadFile(fd);
+   // doc.LoadFile(path.c_str());
+    debugPrintf("Mapa Leido...");
+
 
     //GUARDO ANCHO Y ALTO
     tinyxml2::XMLDocument *d_aux = doc.GetDocument();
@@ -41,6 +54,8 @@
     alto = atoi(d_aux->FirstChildElement("tileset")->Attribute("tileheight"));
 
     Factory::Instance().setTileSize(ancho, alto);
+
+    debugPrintf("ALMACENO LA INFORMACION DE LAS TILES");
 
     //ALMACENO LA INFORMACION DE LAS TILES
     tinyxml2::XMLElement *map;
@@ -52,11 +67,17 @@
                 //SI SE CAMBIA, CAMBIAR TAMBIEN _tile *tiles[37] EN EL .h;
 
     //LEO EL TILESHEET Y ALMACENO LOS CUADRADOS DE RECORTE
-    ts1 = "tiles_definitivo/tilesheet.png";
-    ts2 = "tiles_definitivo/tilesheet2.png";
+    ts1 =   "tiles_definitivo/tilesheet.png";
+    ts2 =     "tiles_definitivo/tilesheet2.png";
     ts.loadFromFIle(ts1);
-    ts_doc.LoadFile("tiles_definitivo/xml_spritesheet.xml");
+    path  = std::string(BASEDIR) + "tiles_definitivo/xml_spritesheet.xml";
+
+    debugPrintf("LEO EL TILESHEET Y ALMACENO LOS CUADRADOS DE RECORTE");
+
+    ts_doc.LoadFile(path.c_str());
     map = ts_doc.FirstChildElement("TextureAtlas")->FirstChildElement("sprite");
+
+    debugPrintf("for");
 
     for(int i=0 ; i<n ; i++){
 
@@ -74,6 +95,9 @@
 
         map = map->NextSiblingElement("sprite");
     }
+
+  //  std::cout << "    //INICIALIZO LA MATRIZ DE ADYACENCIA..." << std::endl;
+    debugPrintf("INICIALIZO LA MATRIZ DE ADYACENCIA....");
 
     //INICIALIZO LA MATRIZ DE ADYACENCIA
     InitMatrix();
@@ -114,17 +138,18 @@
     direction = 0;
 
 
+
     //LeeNodo("tiles_definitivo/nodos/0.tmx");
 
-    std::string path;
+  //  std::string path;
     for(int i = 0; i < 16; ++i){
         path = "tiles_definitivo/nodos/";
-        std::string number = std::to_string(i);
+        std::string number = to_string(i);
         path = path.operator +=(number);
         path = path.operator +=(".tmx");
 
         Factory::NodeStruct n;
-        n = Factory::Instance().LeeNodo(path);
+        n = Factory::Instance().LeeNodo( std::string(BASEDIR) +  path);
 
         NODOS.push_back(n);
     }
@@ -132,30 +157,34 @@
 
     for(int i = 1; i < 10; ++i){
         path = "tiles_definitivo/nodos/Up/Mininode_";
-        std::string number = std::to_string(i);
+        std::string number = to_string(i);
         path = path.operator +=(number);
         path = path.operator +=(".tmx");
 
         Factory::NodeStruct n;
-        n = Factory::Instance().LeeNodo(path);
+        n = Factory::Instance().LeeNodo( std::string(BASEDIR) +  path);
 
         MININODOS.push_back(n);
     }
 
     for(int i = 0; i < 11; ++i){
         path = "tiles_definitivo/nodos/CAVE/";
-        std::string number = std::to_string(i);
+        std::string number = to_string(i);
         path = path.operator +=(number);
         path = path.operator +=(".tmx");
 
         Factory::NodeStruct n;
-        n = Factory::Instance().LeeNodo(path);
+        n = Factory::Instance().LeeNodo( std::string(BASEDIR) +  path);
 
         NODOS.push_back(n);
     }
 
-    BOSS = Factory::Instance().LeeNodo("tiles_definitivo/nodos/fin.tmx");
-    SPECIAL = Factory::Instance().LeeNodo("tiles_definitivo/nodos/Up/Special_1.tmx");
+  //  std::cout << "    //BOSS..." << std::endl;
+
+    debugPrintf("BOSS....");
+
+    BOSS = Factory::Instance().LeeNodo(std::string(BASEDIR) +  "tiles_definitivo/nodos/fin.tmx");
+    SPECIAL = Factory::Instance().LeeNodo( std::string(BASEDIR) +  "tiles_definitivo/nodos/Up/Special_1.tmx");
 
     secondPhase = false;
     stopBackgroundMovement = true;
@@ -174,30 +203,41 @@
     float w_b = 70*27;
     float h_b = 70;
 
+
+    debugPrintf("Ini bloques \n");
+
     initBloques->rs.setPosition(x_b,y_b);
     initBloques->rs.setSize(w_b,h_b);
     initBloques->rs.setFillRGBAColor(72,60,72);
 
     initBloques->body = physicsEngine::Instance().createBody(w_b,h_b,x_b+(w_b/2),y_b+(h_b/2),'k',t);
 
-    initFont.loadFromFile("assets/fonts/ninjagarden.ttf");
+    initFont.loadFromFile( "assets/fonts/ninjagarden.ttf");
     initText = new renderEngine::rText;
     initText->setFont(initFont);
     initText->setCharacterSize(250);
     initText->setFillColor('k');
 
-    THE_ARID_FLATS.openFromFile("assets/Sounds/THE_ARID_FLATS.ogg");
+    debugPrintf("sonidos");
+
+   /* THE_ARID_FLATS.openFromFile("assets/Sounds/THE_ARID_FLATS.ogg");
     THE_ARID_FLATS.setLoop(true);
     THE_ARID_FLATS.play();
+    std::cout << " THE_ARID_FLATS end" << std::endl;
 
     DISCO_DESCENT.openFromFile("assets/Sounds/DISCO_DESCENT.ogg");
     currentSong = &THE_ARID_FLATS;
     nextSong = &DISCO_DESCENT;
+    std::cout << " END SONIDOS" << std::endl;
 
     std::cout << "THE_ARID_FLATS - " << &THE_ARID_FLATS << std::endl;
     std::cout << "DISCO DESCENT - " << &DISCO_DESCENT << std::endl;
     switchSong = false;
     stopCurrentSongBool = false;
+    std::cout << "END MAP CONSTRUCTOR " << std::endl;*/
+        debugPrintf("End conmtructor");
+
+
 }
 
 //INICIALIZAR LA MATRIZ DE ADYACENCIA
@@ -486,8 +526,12 @@ void Mapa::render(float tick_) {
 //LEE LA MATRIZ DE ADYACENCIA
 void Mapa::CreaMapa() {
 
+    debugPrintf("--Crear Mapa.....---");
+
     nodo_actual = nodoInicial;
     CargaNodo(hex_list, NODOS[nodo_actual], x_max, y_max);
+
+    debugPrintf("--checkPoint.....---");
 
     checkPoint first;
     first = every_points.front();
@@ -495,10 +539,14 @@ void Mapa::CreaMapa() {
     active_points.front().active = true;
     active_points.front().shape.setOutlineColor('g');
 
+    debugPrintf("--erase.....---");
+
     every_points.erase(every_points.begin());
 
     //EMPIEZA A LEER LA MATRIZ
     int iter = 0;   //CUENTA EL NUMERO DE ITERACIONES
+
+    debugPrintf("--iterator.....---");
 
     for(; iter<std::min(TAM_LISTA, MAP_ITERATION); iter++) {
         leeRandom();
@@ -549,12 +597,15 @@ void Mapa::leeRandom(){
 
         //CREO LA CLASE TETRIS
         mj_t *tetris;
+        std::cout << "Tetris instance" << std::endl;
+
         tetris->Instance().init(x_max,y_max);
 
         m_tetris = true;
     }
 
     nodo_actual = target;
+        std::cout << "end lee randopm" << std::endl;
 
 }
 
@@ -624,7 +675,7 @@ void Mapa::updateInit() {
         }
         else if(time > 5 && time < 8){
             //PARA QUE LA CUENTA ATRAS SALGA COMO 3,2,1
-            initText->setString(std::to_string(static_cast<int>(-(time-9))));
+            initText->setString(to_string(static_cast<int>(-(time-9))));
         }
         else if(time > 8 && time < 8.5){
             initText->setString("MEAT");

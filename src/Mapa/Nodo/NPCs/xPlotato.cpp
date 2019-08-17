@@ -20,7 +20,7 @@
 #define velocity 2.f
 
 xPlotato::xPlotato(int x_, int y_, int x_b, int x_e) : animator(sprite) {
-    //std::cout << "Creando xPlotato" << std::endl;
+    std::cout << "Creando xPlotato" << std::endl;
 
     std::string sprite_name = "assets/potatoboy1.png";
     /*ANIMACIONES*/
@@ -65,10 +65,11 @@ xPlotato::xPlotato(int x_, int y_, int x_b, int x_e) : animator(sprite) {
     xplotar = false;
     alive = true;
     readyToDie = false;
-    
+        std::cout << "fin crear  xPlotato" << std::endl;
+
  
-    xPlosion1.setBuffer(AssetManager::GetSoundBuffer("assets/Sounds/Explosion1.ogg"));
-    xPlosion2.setBuffer(AssetManager::GetSoundBuffer("assets/Sounds/Explosion2.ogg"));
+   // xPlosion1.setBuffer(AssetManager::GetSoundBuffer("assets/Sounds/Explosion1.ogg"));
+   // xPlosion2.setBuffer(AssetManager::GetSoundBuffer("assets/Sounds/Explosion2.ogg"));
 }
 
 xPlotato::xPlotato(const xPlotato& orig): animator(sprite) {

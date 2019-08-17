@@ -20,10 +20,11 @@
 #include "physicsEngine/pBody.h"
 #include "physicsEngine/physicsEngine.h"
 #include "particleSystem.h"
+#include <map>
 
 class Player {
 public:
-    Player(int id_, std::string name_, float width_, float height_, float x_, float y_, bool *keys_);
+    Player(int id_, std::string name_, float width_, float height_, float x_, float y_,  std::map<int, bool> &keys_);
     Player(const Player& orig);
     virtual ~Player();
     int getId();
@@ -111,7 +112,8 @@ private:
     Animator animator;
     int key_r,key_l,key_up,key_hit,key_suicide;
     
-    bool* keys;
+
+    std::map<int, bool> *keys;
     renderEngine::rClock animationClock;
     float MAXSPEED;
     int exp_for_next_level;

@@ -74,7 +74,7 @@ void mj_t::init(int x_,int y_) {
     
     //m1.text.loadFromFile("assets/tetris/t_tetris.png");
     //m2.text.loadFromFile("assets/tetris/t_tetris.png");
-    TETRIS.openFromFile("assets/Sounds/TETRIS.ogg");
+    //TETRIS.openFromFile("assets/Sounds/TETRIS.ogg");
     std::cout << "TETRIS - " << &TETRIS << std::endl;
 
     

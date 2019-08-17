@@ -24,6 +24,7 @@ MenuInicio* MenuInicio::Instance(){
 
 MenuInicio::MenuInicio() {
     
+    debugPrintf("Init MenuInicio....\n");
     width =  sfml->Instance().getViewSize()[0];
     height = sfml->Instance().getViewSize()[1];
 
@@ -86,7 +87,8 @@ MenuInicio::MenuInicio() {
     manchahtp.setScale(0.00037*width, 0.00037*width);
     
     /*letras del menu*/
-  
+      debugPrintf("letras del menu...\n");
+
     font.loadFromFile("resources/fuente.ttf");
 
     
@@ -158,7 +160,7 @@ MenuInicio::MenuInicio() {
    menuplayer[1].setFont(font);
    menuplayer[1].setCharacterSize(18);
    menuplayer[1].setFillColor('k');
-   menuplayer[1].setString("Players "  + std::to_string(numplayers));
+   menuplayer[1].setString("Players "  + to_string(numplayers));
    menuplayer[1].setPosition(posx-width/2, posy+height/10);
    
    menuplayer[2].setFont(font);
@@ -210,6 +212,7 @@ MenuInicio::MenuInicio() {
     controller_move_r = false;
     controller_move_l = false;
     sonido=true;
+    debugPrintf("END MenuInicio Constructor \n");
 
 }
 
@@ -221,17 +224,29 @@ MenuInicio::~MenuInicio() {
 
 void MenuInicio::Render(){
     
+
+        debugPrintf("MenuInicio::Render \n");
+
     sfml->Instance().clear('w'); 
     f1.draw();
-        
+                debugPrintf("switch \n");
+
     switch(statemenu){
         case 0:   
             
             for(int i=MAX_NUMBER_OF_ITEMS-1; i>=0;i--){
                 mancha[i].draw();
+                                debugPrintf("mancha \n");
+
                 menu[i].draw();
+                                debugPrintf("menu \n");
+
                 personaje.draw();
+                                debugPrintf("personaje \n");
+
                 logo.draw();
+                                debugPrintf("logo \n");
+
             }
             break;
         case 1:   
@@ -270,7 +285,10 @@ void MenuInicio::Render(){
             break;
             
     }
+                    debugPrintf("display \n");
+
     sfml->Instance().display();     
+                debugPrintf("END display  \n");
 
     
 }
@@ -411,7 +429,7 @@ void MenuInicio::Update(){
 
                                 if(statemenu==2 && numplayers<4 && menuplayer[1].getFillColor()==-99999){
                                     numplayers++;
-                                    menuplayer[1].setString("Players "  + std::to_string(numplayers));
+                                    menuplayer[1].setString("Players "  + to_string(numplayers));
                                 }
                             }
                         }
@@ -423,7 +441,7 @@ void MenuInicio::Update(){
 
                                 if(statemenu==2 && numplayers>1 && menuplayer[1].getFillColor()==-99999){
                                     numplayers--;
-                                    menuplayer[1].setString("Players "  + std::to_string(numplayers));
+                                    menuplayer[1].setString("Players "  + to_string(numplayers));
                                 }
                             }
                         }
@@ -475,14 +493,14 @@ void MenuInicio::Update(){
                          case renderEngine::Keys::Right:
                             if(statemenu==2 && numplayers<4 && menuplayer[1].getFillColor()==-99999){
                                 numplayers++;
-                                menuplayer[1].setString("Players "  + std::to_string(numplayers));
+                                menuplayer[1].setString("Players "  + to_string(numplayers));
                             }
                             break;
                             
                         case renderEngine::Keys::Left:
                             if(statemenu==2 && numplayers>1 && menuplayer[1].getFillColor()==-99999){
                                 numplayers--;
-                                menuplayer[1].setString("Players "  + std::to_string(numplayers));
+                                menuplayer[1].setString("Players "  + to_string(numplayers));
                             }
                             
                         //Cualquier tecla desconocida se imprime por pantalla su código
@@ -559,9 +577,13 @@ void MenuInicio::stateMenu() {
 
                 case 0:
                     //cambiar estado a Motor
+                                    debugPrintf( "state menu 2 \n" );
+
                     statemenu=2;
                     sfml->Instance().ChangeState(&Juego::Instance());
                   //  std::cout<<"Play pressed"<< std::endl;
+                              debugPrintf( "Play pressed \n" );
+
                     break;
 
                 case 1:

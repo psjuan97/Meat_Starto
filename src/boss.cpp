@@ -308,7 +308,7 @@ void boss::update() {
                 sfml->Instance().ChangeState(MPuntuaciones::Instance());
             }
 
-            time_text.setString(std::to_string(40-static_cast<int>(clock_boss.getElapsedTime().asSeconds())));
+            time_text.setString(to_string(40-static_cast<int>(clock_boss.getElapsedTime().asSeconds())));
         }
     }
     else{

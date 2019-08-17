@@ -228,11 +228,11 @@ void MPuntuaciones::Render(){
 void MPuntuaciones::recuento(){
 
     for(int i=0; i<jugadores->size(); i++){
-       menu[i][0].setString("Player " + std::to_string(jugadores[0][i]->getId()+1));
-       menu[i][1].setString("Level: " + std::to_string(jugadores[0][i]->getLevel()));
-       menu[i][2].setString("Exp: " + std::to_string(jugadores[0][i]->getExp()));
-       menu[i][3].setString("Deaths: " + std::to_string(jugadores[0][i]->getMuertes()));
-       menu[i][4].setString("Kills: " + std::to_string(jugadores[0][i]->getEnemigos()));
+       menu[i][0].setString("Player " + to_string(jugadores[0][i]->getId()+1));
+       menu[i][1].setString("Level: " + to_string(jugadores[0][i]->getLevel()));
+       menu[i][2].setString("Exp: " + to_string(jugadores[0][i]->getExp()));
+       menu[i][3].setString("Deaths: " + to_string(jugadores[0][i]->getMuertes()));
+       menu[i][4].setString("Kills: " + to_string(jugadores[0][i]->getEnemigos()));
        sprite[i]=jugadores[0][i]->getSprite();
 
      }

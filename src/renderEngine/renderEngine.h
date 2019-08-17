@@ -15,11 +15,45 @@
 #define RENDERENGINE_H
 
 #include "../State.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
 
 #include <array>
+
+#include <sstream>
+
+template<typename T>
+std::string to_string(const T& value)
+{
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
+}
+
+
+
+
+#define BASEDIR "/dev_usb000/data/"
+
+
+void debugPrintf(const char* fmt, ...);
+void debugInit();
+
+static int stoi( std::string s ) {
+    int i;
+    std::istringstream(s) >> i;
+    return i;
+}
+
+
+#ifdef __PSL1GHT__
+
+#endif
+
+
+
+
 class renderEngine {
 public:
     //<SINGLETON>
@@ -70,7 +104,7 @@ public:
             void loadFromFIle(std::string path);
             
         private:
-            SDL_Texture* texture ;
+            SDL_Surface* texture ;
 
     };
     
@@ -87,8 +121,8 @@ public:
             int getYSize();
             
         private:
-            SDL_Texture* getTexture();              //DEVUELVE LA TEXTURA (USAR SOLO INTERNAMENTE)
-            SDL_Texture* texture ;
+            SDL_Surface* getTexture();              //DEVUELVE LA TEXTURA (USAR SOLO INTERNAMENTE)
+            SDL_Surface* texture ;
 
     };
     
@@ -291,7 +325,7 @@ public:
             
         private:
             std::string text;
-            SDL_Texture* Message;
+            SDL_Surface* Message;
             renderEngine::rFont font;
             int posX, posY;
     };
@@ -326,8 +360,7 @@ private:
 
     int w;
     int h;
-    SDL_Window* sdl_window;
-    SDL_Renderer* renderer;
+    SDL_Surface* renderer;
     
     State* _state;                                  //ESTADO ACTUAL
     

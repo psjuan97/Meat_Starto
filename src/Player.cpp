@@ -33,11 +33,11 @@
 #define constMaxSeed 14.f
 #define meatEXP 250.f
 
-Player::Player(int id_, std::string name_, float width_, float height_, float x_, float y_, bool *keys_) : animator(sprite) {
+Player::Player(int id_, std::string name_, float width_, float height_, float x_, float y_,  std::map<int, bool>& keys_) : animator(sprite) {
     
     id = id_;
     name = name_;
-    keys = keys_;
+    keys = &keys_;
     
     t = new physicsEngine::type;
     t->id = 2;
@@ -54,14 +54,14 @@ Player::Player(int id_, std::string name_, float width_, float height_, float x_
     hit=false;
     dead=false;
 
-    std::string texture = "assets/player"+std::to_string(id)+"a.png";
-    std::string texture2 = "assets/player"+std::to_string(id)+"explosion.png";
+    std::string texture = "assets/player"+to_string(id)+"a.png";
+    std::string texture2 = "assets/player"+to_string(id)+"explosion.png";
     
     int keyCodes[4][5] = 
     //   R      L       UP    HIT     /KILL
     {    renderEngine::Keys::Right,     renderEngine::Keys::Left,      renderEngine::Keys::Up,     4,      28,
         72,     71,     73,    42,      57,
-        -1,     10,     14,    15,       8,
+        0,     10,     14,    15,       8,
         13,     21,      6,     7,       9
     };
     
@@ -339,6 +339,7 @@ void Player::moveDown(){
 //MOVIMIENTO
 void Player::movement(){
     
+    debugPrintf("preState() \n");
     preState();
     
     if(spawned && respawnTimeClock.getElapsedTime().asSeconds() > 0.50){
@@ -353,9 +354,13 @@ void Player::movement(){
         }
     }
     
+        debugPrintf("freezed \n");
+
     if(!freezed){
         //GOLPE
-        if(keys[key_hit]){
+        debugPrintf("        if(keys[key_hit]){ \n");
+
+        if((*keys)[key_hit]){
             hit=true;
             if(animator.GetCurrentAnimationName()== "a_rigth" || animator.GetCurrentAnimationName()== "a_base_r" || animator.GetCurrentAnimationName()== "a_jump_r"){
                 //Golpe hacia la derecha
@@ -371,14 +376,18 @@ void Player::movement(){
             }      
         }
 
+
+        debugPrintf("if(((*keys)[renderEngine::(*keys)::Up]) && !isOnAir()){   \n");
+
         // SALTO==========================================================================
-        if((keys[renderEngine::Keys::Up]) && !isOnAir()){                                               //
+        if(((*keys)[renderEngine::Keys::Up]) && !isOnAir()){                               
+            debugPrintf("body.applyForceToCenter(0, -jump);     \n");
             body.applyForceToCenter(0, -jump);                                          //
             moveUp();                                                                   //
             stopJump = false;                                                           //
         }else{                                                                          //
             //IZQUIERDA===================================================================
-            if( keys[renderEngine::Keys::Left])  {
+            if( (*keys)[renderEngine::Keys::Left])  {
                 if(!inv_control){
                     if(body.getLinearXVelocity() > -MAXSPEED)                               
                         body.applyForceToCenter(-force, 0);                                 
@@ -401,7 +410,7 @@ void Player::movement(){
             // ===========================================================================
 
             // DERECHA==================================================================
-            if( keys[renderEngine::Keys::Right]) { 
+            if( (*keys)[renderEngine::Keys::Right]) { 
                 if(!inv_control){
                     if(body.getLinearXVelocity() < MAXSPEED)                                   
                         body.applyForceToCenter(force, 0);                                  
@@ -422,7 +431,7 @@ void Player::movement(){
                 }
             }                                                                           
             // ===========================================================================
-            if(key_suicide != -1 && keys[key_suicide] && level>0 && Mapa::Instance().getInit()){
+            if(key_suicide != -1 && (*keys)[key_suicide] && level>0 && Mapa::Instance().getInit()){
                 std::cout << "BUM" << std::endl;
                 if(animator.GetCurrentAnimationName() != "xplota"){
                     sprite.setOrigin(90+48/2 , 100 + 40/2+4);
@@ -450,15 +459,17 @@ void Player::movement(){
                     }
                 }
 
-                keys[key_suicide] = false;
+                (*keys)[key_suicide] = false;
             }
         }
+
     }
     //-30
     //-13
+    debugPrintf("isOnAir()   \n");
 
     if(isOnAir()){
-        if(!keys[key_up] && !stopJump){
+        if(!(*keys)[key_up] && !stopJump){
             if(body.getLinearYVelocity() < -minJumpVelocity){
                 stopJump = true;
                 body.setLinealVelocicity(body.getLinearXVelocity(), -minJumpVelocity);
@@ -467,22 +478,28 @@ void Player::movement(){
     }
     // =============================================================================//    
 
+    debugPrintf(" //STOP CON DESLIZAMIENTO FRENADO==========================================================================  \n");
+
     //STOP CON DESLIZAMIENTO FRENADO==========================================================================
-    if(!keys[key_l] && body.getLinearXVelocity() < -3){                                                     //
+    if(!(*keys)[key_l] && body.getLinearXVelocity() < -3){                                                     //
         body.applyForceToCenter(force*stop_mult, 0);
         //!inv_control? body.applyForceToCenter(force*stop_mult, 0) : body.applyForceToCenter(-force*stop_mult, 0);
-    }else if(!keys[key_r] && body.getLinearXVelocity() > 3) {
+    }else if(!(*keys)[key_r] && body.getLinearXVelocity() > 3) {
         body.applyForceToCenter(-force*stop_mult, 0);
 
     }                                                 //
         //!inv_control? body.applyForceToCenter(-force*stop_mult, 0) : body.applyForceToCenter(force*stop_mult, 0);
-                                                                                                            // 
-    if(!keys[key_l] && !keys[key_r] && body.getLinearXVelocity() >= -3 && body.getLinearXVelocity() <= 3){  //
+
+      debugPrintf("    if(!(*keys)[key_l] && !(*keys)[key_r] && body.getLinearXVelocity() >= -3 && body.getLinearXVelocity() <= 3){  // \n");
+                                                                                                          // 
+    if(!(*keys)[key_l] && !(*keys)[key_r] && body.getLinearXVelocity() >= -3 && body.getLinearXVelocity() <= 3){  //
         body.applyForceToCenter(0, 0);                                                                      //
         body.setLinealVelocicity(0, body.getLinearYVelocity());                                             //
     }                                                                                                       //
     //  ======================================================================================================
         
+
+        debugPrintf(" dead=true && deadClock \n");
     if(dead==true && deadClock.getElapsedTime().asSeconds()>1){
         sprite.setOrigin(48/2 ,40/2+4);
         animator.SwitchAnimation("a_base");
@@ -506,6 +523,8 @@ void Player::movement(){
         inv_control = false;
     }
     
+            debugPrintf("if inmortal && !inmortalRespawn  \n");
+
     if(inmortal && !inmortalRespawn){
         if(inmortalityClock.getElapsedTime().asSeconds() > inmortalityTime){
             //std::cout << "VUELVE A LA TIERRA CHATO" << std::endl;
@@ -518,6 +537,8 @@ void Player::movement(){
         }
     }
     
+    debugPrintf("  if speed  \n");
+
     if(speed){
         if(speedClock.getElapsedTime().asSeconds() > speedTime){
             //std::cout << "SE ACABÓ EL GAS WE" << std::endl;

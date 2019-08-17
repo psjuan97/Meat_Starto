@@ -14,17 +14,16 @@
 #ifndef RMUSIC_H
 #define RMUSIC_H
 
-#include <SFML/Audio/Music.hpp>
-
+#include <string>
 
 class rMusic {
 public:
     rMusic();
-    rMusic(std::string const& filename);
+    rMusic(const std::string& filename);
     rMusic(const rMusic& orig);
     virtual ~rMusic();
     
-    bool openFromFile(std::string const& filename);
+    bool openFromFile(const std::string& filename);
     void play();
     void stop();
     void pause();
@@ -37,9 +36,10 @@ public:
     
     
 private:
-    sf::Music music;
     
 };
+
+
 
 #endif /* RMUSIC_H */
 

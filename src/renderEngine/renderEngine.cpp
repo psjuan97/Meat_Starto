@@ -184,8 +184,8 @@ void renderEngine::rTexture::loadFromFile(std::string path)  {
 
     }
 
-void renderEngine::rTexture::loadFromImage(renderEngine::rImage im, renderEngine::rIntRect ir) {
-    printf("loadFromImage(renderEngine::rImage im, renderEngine::rIntRect ir)");
+void renderEngine::rTexture::loadFromImage(renderEngine::rImage im, rIntRect ir) {
+    printf("loadFromImage(renderEngine::rImage im, rIntRect ir)");
 }
 
 
@@ -228,50 +228,8 @@ unsigned int   renderEngine::rEvent::sfType    () {    return event.type;}
 
 
 
-//============================= INTRECT =============================//
-renderEngine::rIntRect::rIntRect() {
-    left = 0;
-    top = 0;
-    widht = 0;
-    height = 0;
-}
 
-renderEngine::rIntRect::rIntRect(int x, int y, int w, int h) :  ir{x,y,w,h} {
-    left = x;
-    top = y;
-    widht = w;
-    height = h;
-}
 
-void renderEngine::rIntRect::setTop(int t) {
-    top = t;
-    ir.y = t;
-}
-void renderEngine::rIntRect::setLeft(int l) {
-    left = l;
-    ir.x = l;
-}
-void renderEngine::rIntRect::setWidth(int w) {
-    widht = w;
-    ir.w = w;
-}
-void renderEngine::rIntRect::setHeight(int h) {
-    height = h;
-    ir.h = h;
-}
-
-bool renderEngine::rIntRect::contains(float x, float y) {
-
-    if(ir.x - x < ir.w && ir.y - y < ir.h){
-        return true;
-
-    }
-    return false;
-}
-
-SDL_Rect renderEngine::rIntRect::getIntRect() {
-    return ir;
-}
 
 
 //============================= IMAGE =============================//

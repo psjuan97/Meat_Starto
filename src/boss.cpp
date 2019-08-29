@@ -386,12 +386,12 @@ void boss::updateJavi() {
         javi.y_v = (float) (javi.y_f-javi.r.getPosition()[1])/factor;
         
         if(javi.ir == NULL){
-            javi.ir = new renderEngine::rIntRect(javi.r.getPosition()[0],javi.r.getPosition()[1],javi.x_v * factor,javi.y_v * factor);
+            javi.ir = new rIntRect(javi.r.getPosition()[0],javi.r.getPosition()[1],javi.x_v * factor,javi.y_v * factor);
         }
         else{
             delete javi.ir;
             javi.ir = NULL;
-            javi.ir = new renderEngine::rIntRect(javi.r.getPosition()[0],javi.r.getPosition()[1],javi.x_v * factor,javi.y_v * factor);
+            javi.ir = new rIntRect(javi.r.getPosition()[0],javi.r.getPosition()[1],javi.x_v * factor,javi.y_v * factor);
         }
             
         javi.llegada = false;
@@ -414,7 +414,7 @@ void boss::updateJavi() {
 
 }
 
-renderEngine::rIntRect boss::getIntRect() {
+rIntRect boss::getIntRect() {
     int f = SPRITE_FACTOR;
     
     //PARA LA COMIDA
@@ -422,7 +422,7 @@ renderEngine::rIntRect boss::getIntRect() {
     int x = physicsEngine::Instance().genIntRandom(1,7);
     int y = physicsEngine::Instance().genIntRandom(1,7);
     //std::cout << "X: " << x << " | Y: " << y << " | W: " << f << " | H: " << f << std::endl;
-    renderEngine::rIntRect ret(x*16,y*16,f,f);
+    rIntRect ret(x*16,y*16,f,f);
     return ret;
      */
 }
@@ -498,7 +498,7 @@ void boss::crearAbanicoProyectiles(){
             
             //ELIJO LA TEXTURA ALEATORIAMENTE
             /*
-            renderEngine::rIntRect ir = getIntRect();
+            rIntRect ir = getIntRect();
             p_aux->t.loadFromImage(proy_boss,ir);
             p_aux->r.setTexture(p_aux->t);
             */
@@ -510,7 +510,7 @@ void boss::crearAbanicoProyectiles(){
 
 void boss::crearProyectil(float x_, float y_) {
     //ELIJO LA TEXTURA ALEATORIAMENTE
-    //renderEngine::rIntRect ir = getIntRect();
+    //rIntRect ir = getIntRect();
     
     //CREO EL PROYECTIL
     //LO AÑADO AL VECTOR DEL JEFE

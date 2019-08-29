@@ -53,7 +53,7 @@ private:
     void updateJavi();
     void fasesBoss();
     void trembleView();
-    renderEngine::rIntRect getIntRect();
+    rIntRect getIntRect();
     
     //float getVX_BP(); //DEVUELVE LA COMPONENTE X DEL VECTOR VELOCIDAD DEL 
     
@@ -94,7 +94,7 @@ private:
         float x_f;              //X DE POSICION FINAL
         float y_f;              //Y DE POSICION FINAL
         bool llegada;           //TRUE: HA LLEGADO A LA POSICION FINAL Y BUSCA UNA NUEVA
-        renderEngine::rIntRect *ir;
+        rIntRect *ir;
     };
     
     rRectangleShape r_aux;    //DEBUG

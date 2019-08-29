@@ -32,7 +32,7 @@ float rSprite::getRotation()                  {
     return propiedades.rotation;        
 }
 
-void rSprite::setTextureRect(renderEngine::rIntRect rect){  
+void rSprite::setTextureRect(rIntRect rect){  
     this->rect.setHeight(rect.height);
     this->rect.setLeft(rect.left);
     this->rect.setTop(rect.top);

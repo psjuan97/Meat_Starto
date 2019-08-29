@@ -50,7 +50,7 @@ public:
     void checkColisionsPinchos(Player* ready);
 
     void setSpriteSheet(std::string path);
-    void setRectVector(std::vector<renderEngine::rIntRect> rect_);
+    void setRectVector(std::vector<rIntRect> rect_);
     void setPop(int i);
     int getPop();
     
@@ -58,14 +58,14 @@ public:
     void preState();
     void newState();
     
-    void draw(float tick_, renderEngine::rIntRect limit, int min, int max);
-    void drawSuperiorLayer(renderEngine::rIntRect limit);
+    void draw(float tick_, rIntRect limit, int min, int max);
+    void drawSuperiorLayer(rIntRect limit);
     void miniDraw(float tick_);
     
 private:
     physicsEngine::type* t;
     
-    std::vector<renderEngine::rIntRect> tileRect;
+    std::vector<rIntRect> tileRect;
     renderEngine::rTexture spritesheet;
     
     // Objetos que contiene el nodo

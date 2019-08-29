@@ -19,7 +19,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "../core/rView.h"
-
+#include "../core/rIntRect.h"
 
 
 #include <array>
@@ -55,27 +55,6 @@ public:
     };
 
 
-    class rIntRect {
-        friend class renderEngine;
-        public:
-            rIntRect();                             //CONSTRUCTOR 1 (NO UTILIZAR)
-            //X,Y,W,H
-            rIntRect(int x, int y, int w, int h);   //CONSTRUCTOR 2
-            
-            bool contains(float x, float y);        //TRUE: INTRECT CONTIENE AL PUNTO P(X,Y)
-            int left;
-            int top;
-            int widht;
-            int height;
-            
-            void setTop(int t);
-            void setLeft(int l);
-            void setWidth(int w);
-            void setHeight(int h);
-        private:
-            SDL_Rect getIntRect();
-            SDL_Rect ir;
-     };
     
     //surface
     class rImage {
@@ -98,7 +77,7 @@ public:
             rTexture(std::string path);             //CONSTRUCTOR CON ARGUMENTOS
             
             void loadFromFile(std::string path);                                        //APLICAR UNA RUTA A LA TEXTURA
-            void loadFromImage(renderEngine::rImage im, renderEngine::rIntRect ir);     //APLICAR UNA IMAGEN A UNA TEXTURA, CON SU CUADRADO DE RECORTE
+            void loadFromImage(renderEngine::rImage im, rIntRect ir);     //APLICAR UNA IMAGEN A UNA TEXTURA, CON SU CUADRADO DE RECORTE
             int getXSize();
             int getYSize();
             

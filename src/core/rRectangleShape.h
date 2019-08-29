@@ -26,7 +26,7 @@
             std::array<float,2> getSize();                  //DEVUELVE EL TAMANYO
             std::array<float,2> getPosition();              //CONSEGUIR POSICION
         private:
-            renderEngine::rIntRect rect;
+            rIntRect rect;
             renderEngine::rTexture* texture;
             renderEngine::texture_prop propiedades;
           };

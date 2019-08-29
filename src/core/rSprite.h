@@ -18,7 +18,7 @@ class rSprite {
             bool intersects(rSprite sprite_);
             void rotate(float r);
             float getRotation();
-            void setTextureRect(renderEngine::rIntRect rect);
+            void setTextureRect(rIntRect rect);
             std::array<float,2> getPosition();          //DEVUELVE LA POSICION
             bool intersects(rRectangleShape rs);  //COLISION DE SFML PARA LOS PINCHOS
             bool intersects(rCircleShape cs);  //COLISION DE SFML PARA LAS EXPLOSIONES
@@ -27,7 +27,7 @@ class rSprite {
             void setColor(int r, int g, int b, int alpha);
             
         private:
-            renderEngine::rIntRect rect;
+            rIntRect rect;
             renderEngine::rTexture* texture;
             renderEngine::texture_prop propiedades;
     };

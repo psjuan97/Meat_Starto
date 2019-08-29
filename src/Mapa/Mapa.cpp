@@ -66,7 +66,7 @@
         int h = atoi(map->Attribute("h"));
 
         // Este y+1 es igual de mierda a lo que Using namespace std; es al std::
-        renderEngine::rIntRect ir_aux(x,y,w,h);
+        rIntRect ir_aux(x,y,w,h);
 
         spriteSheetRects.push_back(ir_aux);
 
@@ -404,7 +404,7 @@ void Mapa::render(float tick_) {
 
     //w = 1366
     //h = 739
-    renderEngine::rIntRect ir(xa,ya,(w*2)+70,(h*2)+70);
+    rIntRect ir(xa,ya,(w*2)+70,(h*2)+70);
         //std::cout << "LEFT: " << ir.left << " | TOP: " << ir.top << " | WIDHT: " << ir.widht << " | HEIGHT: " << ir.height << std::endl;
 
     int i=0;

@@ -144,7 +144,7 @@ private:
     
     renderEngine::rImage indicadores_power;
     struct indicador{
-        renderEngine::rIntRect *ir;
+        rIntRect *ir;
         renderEngine::rTexture t;
         rSprite sprite;
     };

@@ -111,7 +111,7 @@ private:
     int y_max;
     
     std::list<Nodo> hex_list;
-    std::vector<renderEngine::rIntRect> spriteSheetRects;
+    std::vector<rIntRect> spriteSheetRects;
 
     std::list<checkPoint> active_points;
     std::list<checkPoint> every_points;

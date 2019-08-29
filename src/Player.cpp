@@ -80,8 +80,8 @@ Player::Player(int id_, std::string name_, float width_, float height_, float x_
     int height = AssetManager::GetTexture(texture).getYSize();
 
     mano.setTexture(AssetManager::GetTexture(texture));
-    renderEngine::rIntRect hit_s_(60,200,67,49);
-    renderEngine::rIntRect hit_double_(20,200,130,49);
+    rIntRect hit_s_(60,200,67,49);
+    rIntRect hit_double_(20,200,130,49);
     mano.setTextureRect(hit_s_);
     mano.setOrigin(-20,25);
     
@@ -262,10 +262,10 @@ void Player::double_hit(bool b){
     if(doublehit != b){
         doublehit=b;             
         if(doublehit==false){
-            renderEngine::rIntRect hit_s_(60,200,67,49);
+            rIntRect hit_s_(60,200,67,49);
             mano.setTextureRect(hit_s_);
         }else{
-            renderEngine::rIntRect hit_double_(20,200,130,49);
+            rIntRect hit_double_(20,200,130,49);
             mano.setTextureRect(hit_double_);
         }
     }        
@@ -631,7 +631,7 @@ void Player::setAir(int i){
 
 void Player::powerUpInmortalidad() {
     invincible = new indicador;
-    invincible->ir = new renderEngine::rIntRect(0,88,135,44);
+    invincible->ir = new rIntRect(0,88,135,44);
     invincible->t.loadFromImage(indicadores_power,*invincible->ir);
     invincible->sprite.setTexture(invincible->t);
     invincible->sprite.setScale(2,2);
@@ -642,7 +642,7 @@ void Player::powerUpInmortalidad() {
 
 void Player::powerUpSpeed() {
     speed = new indicador;
-    speed->ir = new renderEngine::rIntRect(0,0,135,44);
+    speed->ir = new rIntRect(0,0,135,44);
     speed->t.loadFromImage(indicadores_power,*speed->ir);
     speed->sprite.setTexture(speed->t);
     speed->sprite.setScale(2,2);
@@ -657,7 +657,7 @@ void Player::powerUpExperience() {
     }
     
     expup = new indicador;
-    expup->ir = new renderEngine::rIntRect(0,44,135,44);
+    expup->ir = new rIntRect(0,44,135,44);
     expup->t.loadFromImage(indicadores_power,*expup->ir);
     expup->sprite.setTexture(expup->t);
     expup->sprite.setScale(2,2);
@@ -676,7 +676,7 @@ void Player::powerDownFreeze() {
             Player* ready = (*v_players)[i];
             
             ready->freeze = new indicador;
-            ready->freeze->ir = new renderEngine::rIntRect(0,132,135,44);
+            ready->freeze->ir = new rIntRect(0,132,135,44);
             ready->freeze->t.loadFromImage(indicadores_power,*ready->freeze->ir);
             ready->freeze->sprite.setTexture(ready->freeze->t);
             ready->freeze->sprite.setScale(2,2);
@@ -706,7 +706,7 @@ void Player::powerDownJump() {
 void Player::powerDownLevelOne() {
     if(level!=1){
         lvl1 = new indicador;
-        lvl1->ir = new renderEngine::rIntRect(0,286,65,40);
+        lvl1->ir = new rIntRect(0,286,65,40);
         lvl1->t.loadFromImage(indicadores_power,*lvl1->ir);
         lvl1->sprite.setTexture(lvl1->t);
         lvl1->sprite.setScale(2,2);
@@ -725,7 +725,7 @@ void Player::powerDownFish() {
             Player* ready = (*v_players)[i];
             
             ready->controls = new indicador;
-            ready->controls->ir = new renderEngine::rIntRect(0,176,107,110);
+            ready->controls->ir = new rIntRect(0,176,107,110);
             ready->controls->t.loadFromImage(indicadores_power,*ready->controls->ir);
             ready->controls->sprite.setTexture(ready->controls->t);
             ready->controls->sprite.setScale(2,2);

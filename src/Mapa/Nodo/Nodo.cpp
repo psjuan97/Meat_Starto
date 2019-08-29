@@ -87,7 +87,7 @@ int Nodo::getPop(){
     return aux_pop;
 }
 
-void Nodo::setRectVector(std::vector<renderEngine::rIntRect> rect_){
+void Nodo::setRectVector(std::vector<rIntRect> rect_){
     tileRect = rect_;
 }
 
@@ -199,7 +199,7 @@ void Nodo::addPower(int id, int xMin, int xMax, int y_) {
 
 
 
-void Nodo::draw(float tick_, renderEngine::rIntRect limit, int min, int max){
+void Nodo::draw(float tick_, rIntRect limit, int min, int max){
 
     for(int i = 0; i < v_esprait.size(); i++){
         if(limit.contains(v_esprait[i].getPosition()[0],v_esprait[i].getPosition()[1])){
@@ -230,7 +230,7 @@ void Nodo::draw(float tick_, renderEngine::rIntRect limit, int min, int max){
     
 }
 
-void Nodo::drawSuperiorLayer(renderEngine::rIntRect limit) {
+void Nodo::drawSuperiorLayer(rIntRect limit) {
     for(int i = 0; i < superiorLayer.size(); ++i){
         for(int j = 0; j < superiorLayer[i].size(); ++j){
             superiorLayer[i][j].draw();

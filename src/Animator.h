@@ -31,7 +31,7 @@ public:
     {
         std::string m_Name;
         std::string m_TextureName;
-        std::vector<renderEngine::rIntRect> m_Frames;
+        std::vector<rIntRect> m_Frames;
         rTime m_Duration;
         bool m_Looping;
 
@@ -47,7 +47,7 @@ public:
             for (unsigned int i = 0; i < frames; i++)
             {
                 //Add current frame from position and frame size
-                m_Frames.push_back(renderEngine::rIntRect(current.x, current.y, frameSize.x, frameSize.y));
+                m_Frames.push_back(rIntRect(current.x, current.y, frameSize.x, frameSize.y));
                 //Advance current frame horizontally
                 current.x += frameSize.x;
             }

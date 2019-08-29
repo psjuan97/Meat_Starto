@@ -18,6 +18,7 @@
 #include "renderEngine/renderEngine.h"
 #include "Player.h"
 #include "AssetManager.h"
+#include "core/core.h"
 
 
 class Hud {
@@ -34,11 +35,11 @@ public:
 private:
     renderEngine::rFont font;
     renderEngine::rText menu[3];
-    renderEngine::rSprite hudsprite;
+    rSprite hudsprite;
     std::vector<Player*> players;
-    renderEngine::rSprite cuadrado;
+    rSprite cuadrado;
     
-    std::vector<renderEngine::rSprite> NEWHUD;
+    std::vector<rSprite> NEWHUD;
 
     
     float width;

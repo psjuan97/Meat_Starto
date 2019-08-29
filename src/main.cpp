@@ -63,14 +63,14 @@ int main(int argc, char** argv) {
     boss *javi;
     
     //VISTA
-    renderEngine::rView view(0,0,sfml->Instance().getSize()[0],sfml->Instance().getSize()[1]);
+    rView view(0,0,sfml->Instance().getSize()[0],sfml->Instance().getSize()[1]);
     //view.zoom(2.7);
     view.zoom(2);
     
     sfml->Instance().setView(view);
     
-    renderEngine::rClock masterClock;
-    renderEngine::rClock animationClock;
+    rClock masterClock;
+    rClock animationClock;
     
     double dt;
     
@@ -78,7 +78,7 @@ int main(int argc, char** argv) {
     masterClock.restart();
 
     //FPS
-    renderEngine::rClock cl_fps;
+    rClock cl_fps;
     float lastTime = 0;
     float currentTime;
     float fps;

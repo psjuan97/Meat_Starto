@@ -321,7 +321,7 @@ void Mapa::CargaNodo(std::list<Nodo> &lista, Factory::NodeStruct const& nodo, in
 
     // CARGO LAS LUCES
     for(int i = 0; i < nodo.Lights.size(); ++i){
-        renderEngine::rSprite lus;
+        rSprite lus;
         lus.setTexture(AssetManager::GetTexture("assets/LUS.png"));
         lus.setOrigin(AssetManager::GetTexture("assets/LUS.png").getXSize()/2, AssetManager::GetTexture("assets/LUS.png").getYSize()/2);
         lus.setPosition(x_ + nodo.Lights[i].x, y_ + nodo.Lights[i].y);
@@ -351,9 +351,9 @@ void Mapa::CargaNodo(std::list<Nodo> &lista, Factory::NodeStruct const& nodo, in
         y_ += 14*MININODOS[8].tile_height;
         x_ += MININODOS[8].map_width * MININODOS[8].tile_width - nodo.minijuego.width;
 
-        std::vector<renderEngine::rSprite> superiorLayer;
+        std::vector<rSprite> superiorLayer;
         for(int i = 0; i < SPECIAL.Tiles.size(); ++i){
-            renderEngine::rSprite sprite;
+            rSprite sprite;
             sprite.setTexture(AssetManager::GetTexture(ts1));
             int x_special = x_ + nodo.map_width * nodo.tile_width - SPECIAL.map_width * SPECIAL.tile_width;
             int y_special = y_;
@@ -366,7 +366,7 @@ void Mapa::CargaNodo(std::list<Nodo> &lista, Factory::NodeStruct const& nodo, in
         transportation.setSize(7*70, MININODOS[8].map_height*MININODOS[8].tile_height);
         lista.back().addSuperiorLayer(superiorLayer);
         superiorLayer.clear();
-        renderEngine::rSprite degradado;
+        rSprite degradado;
         degradado.setScale(2, 2);
         degradado.setTexture(AssetManager::GetTexture("assets/Degradado.png"));
         degradado.setPosition(x_ + nodo.map_width * nodo.tile_width - AssetManager::GetTexture("assets/Degradado.png").getXSize()*2, y_);
@@ -377,7 +377,7 @@ void Mapa::CargaNodo(std::list<Nodo> &lista, Factory::NodeStruct const& nodo, in
 
     if(direction == 0){
         x_ += nodo.map_width * nodo.tile_width;
-        renderEngine::rRectangleShape r;
+        rRectangleShape r;
         r.setFillColor('r');
         r.setSize(20, 20);
         r.setOrigin(10,10);

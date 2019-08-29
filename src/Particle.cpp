@@ -16,7 +16,7 @@
 
 #define tick 0.0666666666667f
 
-Particle::Particle(float x, float y, float vx, float vy, float rot, float vrot, renderEngine::rSprite s, float life) {
+Particle::Particle(float x, float y, float vx, float vy, float rot, float vrot, rSprite s, float life) {
     xPosition = x;
     yPosition = y;
     
@@ -75,7 +75,7 @@ float Particle::getLifeTime() {
     return lifeTime;
 }
 
-renderEngine::rTime Particle::getTimeAlive() {
+rTime Particle::getTimeAlive() {
     return lifeClock.getElapsedTime();
 }
 

@@ -32,6 +32,9 @@
 #include "renderEngine/rMusic.h"
 #include "particleSystem.h"
 
+#include "core/core.h"
+
+
 class Juego: public State{
 public:
     
@@ -50,7 +53,7 @@ public:
     void changeRain();
     void switchCameradirection();
     std::vector<Player*>* getPlayers();
-    renderEngine::rView* getPrincipalView();
+    rView* getPrincipalView();
 
     std::array<float,2> getPlayerPosition(); //DEBERIA DE DEVOLVER TODAS LAS POSICIONES DE TODOS LOS PERSONAJES
 private:
@@ -62,17 +65,17 @@ private:
     bool* keys;
     std::vector<Player*> readyPlayer;
     
-    renderEngine::rClock masterClock;
+    rClock masterClock;
     
     double dt;
     float accumulator;
     double tick; //PARA LA INTERPOLACION
     
-    renderEngine::rView *view;
-    renderEngine::rView *backgroundView;
+    rView *view;
+    rView *backgroundView;
     
     //FPS
-    renderEngine::rClock cl_fps;
+    rClock cl_fps;
     float lastTime;
     float currentTime;
     float fps;

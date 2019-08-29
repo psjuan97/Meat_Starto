@@ -260,7 +260,7 @@ void particleSystem::setRectangle(float sideX, float sideY) {
 void particleSystem::setSprite(const std::string& filename) {
     int sizeX = AssetManager::GetTexture(filename).getXSize();
     int sizeY = AssetManager::GetTexture(filename).getYSize();
-    renderEngine::rSprite newSprite;
+    rSprite newSprite;
     newSprite.setTexture(AssetManager::GetTexture(filename));
     newSprite.setOrigin(sizeX/2, sizeY/2);
     

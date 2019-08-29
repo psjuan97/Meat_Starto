@@ -20,6 +20,7 @@
 #include "Mapa/Mapa.h"
 #include "Juego.h"
 #include "renderEngine/rMusic.h"
+#include "core/core.h"
 
 class mj_t {
 public:
@@ -48,22 +49,22 @@ private:
     
     //ATRIBUTOS
     struct muro_{
-        renderEngine::rRectangleShape rect;     //FORMA
+        rRectangleShape rect;     //FORMA
         pBody pb;
     };
     muro_ m1;
     muro_ m2;
     
     struct pieza_{
-        renderEngine::rRectangleShape r[4];     //FORMA
+        rRectangleShape r[4];     //FORMA
         renderEngine::rTexture t[4];            //TEXTURA
         float vel;                              //VELOCIDAD DE BAJADA
     };
     //POSIBLE CAMBIO A pieza_ *v_piezas;
     std::vector<pieza_> v_piezas;               //VECTOR QUE ALMACENA TODAS LAS PIEZAS
     
-    renderEngine::rClock clock;     //TIEMPO MAXIMO DEL MINIJUEGO
-    renderEngine::rClock dt;        //DELTA TIME AL CREAR LAS PIEZAS
+    rClock clock;     //TIEMPO MAXIMO DEL MINIJUEGO
+    rClock dt;        //DELTA TIME AL CREAR LAS PIEZAS
     int x_min;                      //POSICION MINIMA DONDE SE EJECUTA EL MINIJUEGO
     int x_max;                      //POSICION MAXIMA DONDE SE EJECUTA EL MINIJUEGO
     int y_min;

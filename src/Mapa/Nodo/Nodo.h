@@ -25,12 +25,12 @@
 class Nodo {
 private:
     struct checkPoint{
-        renderEngine::rRectangleShape shape;
+        rRectangleShape shape;
         bool active;
     };
     struct power{
         int id = 0;
-        renderEngine::rSprite sprite;
+        rSprite sprite;
     };
 public:
 
@@ -43,7 +43,7 @@ public:
     void addxPlotato(int x_, int y_, int x_min, int x_max);
     void addSkull(int x_, int y_, int x_min, int x_max, int y_min, int y_max);
     void addPower(int id, int xMin, int xMax, int y_);
-    void addSuperiorLayer(std::vector<renderEngine::rSprite> layer);
+    void addSuperiorLayer(std::vector<rSprite> layer);
     Minijuego* addMinigame(int type, int x, int y, int width, int height, std::vector<int> IDs_mininodo);
     
     //Eventos
@@ -71,13 +71,13 @@ private:
     // Objetos que contiene el nodo
     std::vector<NPC*> npcs;
     std::vector<pBody> ground;
-    std::vector<renderEngine::rRectangleShape> pinchos;
-    std::vector<renderEngine::rSprite> v_esprait;
-    std::vector<renderEngine::rSprite> LIGHTS;
-    std::vector< std::vector<renderEngine::rSprite> > superiorLayer;
+    std::vector<rRectangleShape> pinchos;
+    std::vector<rSprite> v_esprait;
+    std::vector<rSprite> LIGHTS;
+    std::vector< std::vector<rSprite> > superiorLayer;
     Minijuego* minijuego;
     
-    std::vector<renderEngine::rRectangleShape> debug;
+    std::vector<rRectangleShape> debug;
 
     typedef void (Player::*pFunc)(void);
     pFunc array_funciones[7];

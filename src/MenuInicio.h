@@ -20,6 +20,7 @@
 #include "MenuPausa.h"
 #include "Juego.h"
 #include "renderEngine/renderEngine.h"
+#include "core/core.h"
 
 
 #define MAX_NUMBER_OF_ITEMS 4
@@ -56,7 +57,7 @@ private:
     renderEngine::rText menu[MAX_NUMBER_OF_ITEMS];
     renderEngine::rText menuop[MAX_NUMBER_OF_ITEMS2];
     renderEngine::rText menuplayer[MAX_NUMBER_OF_ITEMS3];
-    renderEngine::rSprite fondo;
+    rSprite fondo;
     int statemenu;
     renderEngine::rText  titulo;
     renderEngine::rText  titulo2;
@@ -75,19 +76,19 @@ private:
    
     renderEngine *sfml;
     renderEngine::rTexture text_fondo;
-    renderEngine::rRectangleShape f1;
+    rRectangleShape f1;
 
-    renderEngine::rSprite logo;
-    renderEngine::rSprite logo1;
-    renderEngine::rSprite personaje;
-    renderEngine::rSprite controles;
-    renderEngine::rSprite mancha[MAX_NUMBER_OF_ITEMS];
-    renderEngine::rSprite manchahtp;
+    rSprite logo;
+    rSprite logo1;
+    rSprite personaje;
+    rSprite controles;
+    rSprite mancha[MAX_NUMBER_OF_ITEMS];
+    rSprite manchahtp;
     
     float tam;
     
     void muevepersonaje(int selec);
-    renderEngine::rTime reloj;
+    rTime reloj;
 
     //PARA LOS MANDOS
     bool m_Up;

@@ -20,6 +20,8 @@
 #include <vector>
 #include <string>
 #include "renderEngine/renderEngine.h"
+#include "core/core.h"
+
 #include "Animator.h"
 #include "math/Vector2.hpp"
 
@@ -30,11 +32,11 @@ public:
         std::string m_Name;
         std::string m_TextureName;
         std::vector<renderEngine::rIntRect> m_Frames;
-        renderEngine::rTime m_Duration;
+        rTime m_Duration;
         bool m_Looping;
 
         Animation(std::string const& name, std::string const& textureName,
-            renderEngine::rTime const& duration, bool looping)
+            rTime const& duration, bool looping)
             : m_Name(name), m_TextureName(textureName), m_Duration(duration), m_Looping (looping)
         {}
         //Adds frames horizontaly
@@ -54,14 +56,14 @@ public:
 
     };
     
-    Animator(renderEngine::rSprite& sprite);
-    Animator::Animation& CreateAnimation(std::string const& name, std::string const& textureName, renderEngine::rTime const& duration, bool loop = false);
+    Animator(rSprite& sprite);
+    Animator::Animation& CreateAnimation(std::string const& name, std::string const& textureName, rTime const& duration, bool loop = false);
 
-    void Update(renderEngine::rTime const& dt);
+    void Update(rTime const& dt);
     //Devuelve si el switch fue bien
     bool SwitchAnimation(std::string const& name);
     std::string GetCurrentAnimationName() const;
-    renderEngine::rSprite& GetSprite();
+    rSprite& GetSprite();
 
 private:
         //Returns the animation with the passed name
@@ -71,8 +73,8 @@ private:
         void SwitchAnimation(Animator::Animation* animation);
         
         //Reference to the sprite que se ha de crear fuera de la clase 
-        renderEngine::rSprite& m_Sprite;
-        renderEngine::rTime m_CurrentTime;
+        rSprite& m_Sprite;
+        rTime m_CurrentTime;
         std::list <Animator::Animation> m_Animations;
         Animator::Animation* m_CurrentAnimation;
         

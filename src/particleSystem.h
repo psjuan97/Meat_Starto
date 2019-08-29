@@ -16,6 +16,8 @@
 
 #include <list>
 #include "Particle.h"
+#include "core/core.h"
+
 
 class particleSystem {
 public:
@@ -72,8 +74,8 @@ public:
     
 private:
     
-    renderEngine::rClock lifeTimeClock;
-    renderEngine::rClock timerClock;
+    rClock lifeTimeClock;
+    rClock timerClock;
     
     //Variables del sistema en sí
     bool active;
@@ -101,8 +103,8 @@ private:
     
     int type;
     
-    renderEngine::rRectangleShape box;
-    renderEngine::rSprite sprite;
+    rRectangleShape box;
+    rSprite sprite;
     
     std::list<Particle> lista_particular;
     

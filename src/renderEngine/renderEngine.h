@@ -18,8 +18,15 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include "../core/rView.h"
+
+
 
 #include <array>
+
+
+
+
 class renderEngine {
 public:
     //<SINGLETON>
@@ -28,6 +35,7 @@ public:
         return instance;
     }
     //</SINGLETON>
+
     enum Keys{
         Up = SDLK_UP ,
         Down = SDLK_DOWN,
@@ -36,6 +44,14 @@ public:
         Left = SDLK_LEFT,
         Right = SDLK_RIGHT,
         ESC = SDLK_ESCAPE
+    };
+
+    struct texture_prop {
+        int originX,originY;
+        float scaleX, scaleY;
+        int rotation;
+        
+        int posX, posY;
     };
 
 
@@ -92,133 +108,9 @@ public:
 
     };
     
-    class rRectangleShape {
-        friend class renderEngine;
-        public:
-            rRectangleShape();
-            rRectangleShape(float x, float y);
-            
-            void draw();                                    //DIBUJAR
-            void move(float x, float y);                    //MOVER
-            void rotate(float a);                           //ROTAR
-            
-            void setOrigin(float x, float y);               //ESTABLECER EL PUNTO CENTRAL
-            void setTexture(rTexture &t);                   //ESTABLECER TEXTURA
-            void setPosition(float x, float y);             //ESTABLECER POSICION
-            void setFillColor(char c);                          //ESTABLECER UN COLOR
-            void setFillRGBAColor(int r,int g, int b, int a=255);   //ESTABLECE UN COLOR PASANDO LOS PARAMETROS RGBA
-            void setSize(float x, float y);                 //ESTABLECER UN TAMANYO
-            void setRotation(float a);                      //ESTABLECER UNA ROTACION
-            
-            void setOutlineColor(char c);
-            void setOutlineThickness(float f);
-            
-            std::array<float,2> getSize();                  //DEVUELVE EL TAMANYO
-            std::array<float,2> getPosition();              //CONSEGUIR POSICION
-        private:
-            renderEngine::rIntRect rect;
-            renderEngine::rTexture* texture;
-            int originX,originY;
-            int sizeX, sizeY;
-            int posX, posY;
-            int rotation;
-            
-          };
+
     
-    class rCircleShape {
-        friend class renderEngine;
-        public:
-            rCircleShape(float r, int pc);
-            
-            void draw();
-            void setFillColor(char c);
-            void setPosition(float x, float y);
-            void setRadius(float r);
-            void setOrigin(float x, float y);
-            
-            std::array<float,2> getPosition();
-            
-        private:
-            //sf::CircleShape getCircleShape();   //NO VA BIEN
-            //sf::CircleShape cs;
-    };
-    
-    class rSprite {
-        public:
-            rSprite();                                  //CONSTRUCTOR
-            
-            void draw();
-            
-            void setTexture(renderEngine::rTexture &t);               //APLICAR UNA TEXTURA
-            void setOrigin(float x, float y);           //ESTABLECER EL PUNTO ORIGEN
-            void setScale(float x, float y);            //ESTABLECER LA ESCALA
-            void setPosition(float x, float y);         //ESTABLECER LA POSICION
-            void setRotation(float a);                  //ESTABLECER UNA ROTACION
-            bool intersects(renderEngine::rSprite sprite_);
-            void rotate(float r);
-            float getRotation();
-            void setTextureRect(renderEngine::rIntRect rect);
-            std::array<float,2> getPosition();          //DEVUELVE LA POSICION
-            bool intersects(renderEngine::rRectangleShape rs);  //COLISION DE SFML PARA LOS PINCHOS
-            bool intersects(renderEngine::rCircleShape cs);  //COLISION DE SFML PARA LAS EXPLOSIONES
-            //sf::Sprite getSprite();
-            void setColor(int r, int g, int b);
-            void setColor(int r, int g, int b, int alpha);
-            
-        private:
-            renderEngine::rIntRect rect;
-            renderEngine::rTexture* texture;
-            int originX,originY;
-            float scaleX, scaleY;
-            int posX, posY;
-            int rotation;
-    };
-    
-    
-    class rView {
-        friend class renderEngine;
-        public:
-            rView(float pos_x, float pos_y, float size_x, float size_y);        //CONSTRUCTOR
-            
-            void zoom(float z);                         //ZOOM A LA VISTA
-            void setCenter(float x, float y);           //CENTRO DE LA VISTA
-            std::array<float,2> getCenter();            //CENTRO DE LA VISTA
-            void move(float x, float y);                //MOVER LA VISTA  
-            void setSize(float x, float y);
-            float getZoom();
-        private:
-            bool hasTarget_;
-            float targetX;
-            float targetY;
-            float _zoom;
-            int center_pos_x, center_pos_y, size_x, size_y;
-    };
-    
-    class rTime {
-        public:
-            rTime();
-            rTime(float sec);
-            void setMilisec(int milisec);
-            float asSeconds();                      //TIEMPO EN SEGUNDOS
-            float asMilliseconds();                 //TIEMPO EN MILISEGUNDOS
-            float asMicroseconds();                 //TIEMPO EN MICROSEGUNDOS
-            void incrementTime(renderEngine::rTime t);
-            void Zero();                            //TENER A 0 EL TIEMPO
-        private:
-            float _milisecond; 
-    };
-    
-    class rClock {
-        public:
-            rClock();
-            
-            renderEngine::rTime restart();          //REINICIAR EL RELOJ
-            renderEngine::rTime getElapsedTime();   //TIEMPO SIN REINICIAR EL RELOJ
-        private:
-            //sf::Clock clock;
-            rTime start;
-    };
-    
+
     class rEvent {
         friend class renderEngine;
         public:
@@ -245,24 +137,7 @@ public:
             SDL_Event event;            
     };
     
-    class rConvexShape {
-        public:
-            rConvexShape();
-            
-            void draw();
-            void setPointCount(int s);                      //NUMERO DE PUNTOS
-            void setPoint(int p, float x, float y);         //ESTABLECER UN PUNTO
-            void setFillColor(char c);                      //ESTABLECER UN COLOR DE FONDO
-            void setOutlineColor(char c);                   //ESTABLECER UN COLOR PARA EL BORDE
-            void setOutlineThickness(float f);              //ESTABLECER UN ANCHO PARA EL BORDE
-            std::array<float,2> getPosition();              //CONSEGUIR POSICION
-            void setPosition(float x, float y);             //ESTABLECER LA POSICION
-            void move(float x, float y);                    //MOVER
-            void setTexture(renderEngine::rTexture &t);                   //ESTABLECER TEXTURAS
-            
-        private:
-            //sf::ConvexShape cs;
-    };
+    
     
     class rFont {
         friend class renderEngine;
@@ -311,7 +186,10 @@ public:
     bool pollEvent(rEvent &e);                      //PARA CONTROLAR LOS EVENTOS
     void ChangeState(State* pState);                //CAMBIO DE ESTADO
     
+    int getTicks();
     void delay(Uint32 ms);
+    void drawTexture(rTexture* texture, texture_prop propiedades, rIntRect rectOrigin);
+    void setDrawColor(int r, int g, int b, int a);
 
 private:
     

@@ -20,6 +20,8 @@
 #include "Juego.h"
 #include "Player.h"
 #include "renderEngine/renderEngine.h"
+#include "core/core.h"
+
 
 class MPuntuaciones: public State {
 public:
@@ -39,7 +41,7 @@ private:
     int selectedItemIndex;
     renderEngine::rFont font;
     renderEngine::rText ** menu;
-    renderEngine::rSprite* sprite;
+    rSprite* sprite;
     renderEngine::rText tsalir;
     renderEngine::rText titulo;
    
@@ -53,9 +55,9 @@ private:
     
     renderEngine *sfml;
     renderEngine::rTexture text_fondo;
-    renderEngine::rRectangleShape f1;
-    renderEngine::rSprite mancha;
-    renderEngine::rSprite personaje;
+    rRectangleShape f1;
+    rSprite mancha;
+    rSprite personaje;
 
     std::vector<Player*>* jugadores;
 

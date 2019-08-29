@@ -19,6 +19,7 @@
 #include "MenuInicio.h"
 #include "Juego.h"
 #include "Player.h"
+#include "core/core.h"
 
 #define NUMBER_OF_ITEMS 4
 #define NUMBER_OF_ITEMS2 2
@@ -62,11 +63,11 @@ private:
     
     renderEngine *sfml;
     renderEngine::rTexture text_fondo;
-    renderEngine::rRectangleShape f1;
-    renderEngine::rSprite personaje;
-    renderEngine::rSprite mancha[NUMBER_OF_ITEMS];
-    renderEngine::rSprite manchahtp;
-    renderEngine::rSprite controles;
+    rRectangleShape f1;
+    rSprite personaje;
+    rSprite mancha[NUMBER_OF_ITEMS];
+    rSprite manchahtp;
+    rSprite controles;
     
     void muevepersonaje(int selec);
     

@@ -12,14 +12,14 @@ set(CMAKE_BUILD_TYPE RelWithDebInfo)
 ## Set our project name
 project(${PROJECT_NAME})
 
-include_directories("src" "src/Mapa" "src/physicsEngine", "src/renderEngine" )
+include_directories("src" "src/Mapa" "src/physicsEngine", "src/renderEngine", "src/core" )
 
 #include_directories("lib/")
 #include_directories("lib/tinyxml2")
 
 
 ## Use all the *.cpp files we found under this folder for the project
-FILE(GLOB_RECURSE SRCS "src/*.cpp" "src/Mapa/*.cpp"  "src/physicsEngine/*.cpp" "src/renderEngine/*.cpp")
+FILE(GLOB_RECURSE SRCS "src/*.cpp" "src/Mapa/*.cpp"  "src/physicsEngine/*.cpp" "src/renderEngine/*.cpp" "src/core/*.cpp")
 
 ## Define the executable
 add_executable(${PROJECT_NAME} ${SRCS})

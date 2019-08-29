@@ -54,7 +54,7 @@ Hud::Hud(std::vector<Player*> jugadores) {//cambiar y pasar array de jugadores
     cuadrado.setOrigin(widthp / 4, heightp / 2.4);
     cuadrado.setScale(0.7, 0.5);
 
-    renderEngine::rSprite aux;
+    rSprite aux;
     float scale = 1.7f;
     
     aux.setTexture(AssetManager::GetTexture("assets/RED_HUD.png"));

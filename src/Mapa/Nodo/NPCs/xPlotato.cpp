@@ -24,12 +24,12 @@ xPlotato::xPlotato(int x_, int y_, int x_b, int x_e) : animator(sprite) {
 
     std::string sprite_name = "assets/potatoboy1.png";
     /*ANIMACIONES*/
-    Animator::Animation*  base = &animator.CreateAnimation("base","assets/potatoboy1.png", renderEngine::rTime(1), false);
+    Animator::Animation*  base = &animator.CreateAnimation("base","assets/potatoboy1.png", rTime(1), false);
     base->AddFrames(math::Vector2i(0,420), math::Vector2i(65,65) ,1);
     animator.SwitchAnimation("base");
     
     
-    Animator::Animation*  xplota = &animator.CreateAnimation("xplota","assets/potatoboy1.png", renderEngine::rTime(0.5), false);
+    Animator::Animation*  xplota = &animator.CreateAnimation("xplota","assets/potatoboy1.png", rTime(0.5), false);
     xplota->AddFrames(math::Vector2i(0,0), math::Vector2i(225,140) ,4);
     xplota->AddFrames(math::Vector2i(0,140), math::Vector2i(225,140) ,5);    
     

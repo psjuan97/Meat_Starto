@@ -41,12 +41,12 @@ Juego::Juego() {
     Mapa::Instance().CreaMapa();
 
     //VISTA
-    view = new renderEngine::rView(0, 0, renderEngine::Instance().getSize()[0], renderEngine::Instance().getSize()[1]);
+    view = new rView(0, 0, renderEngine::Instance().getSize()[0], renderEngine::Instance().getSize()[1]);
     //ZUMO
     view->zoom(target_zoom);
     renderEngine::Instance().setView(*view);
 
-    backgroundView = new renderEngine::rView(0, 0, renderEngine::Instance().getSize()[0], renderEngine::Instance().getSize()[1]);
+    backgroundView = new rView(0, 0, renderEngine::Instance().getSize()[0], renderEngine::Instance().getSize()[1]);
     backgroundView->zoom(2);
 
 
@@ -648,7 +648,7 @@ std::vector<Player*>* Juego::getPlayers() {
     return &readyPlayer;
 }
 
-renderEngine::rView* Juego::getPrincipalView() {
+rView* Juego::getPrincipalView() {
     return view;
 }
 

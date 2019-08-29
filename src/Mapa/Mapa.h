@@ -70,14 +70,14 @@ private:
     void operator=(Mapa const& orig);
     
     struct checkPoint{
-        renderEngine::rRectangleShape shape;
+        rRectangleShape shape;
         bool active;
     };
     
     std::vector<Player*>* players;
     
     bool secondPhase;                               // Determina si ha empezado la segunda etapa
-    renderEngine::rRectangleShape transportation;   // Teletransporta al jugador a la segunda etapa
+    rRectangleShape transportation;   // Teletransporta al jugador a la segunda etapa
     std::vector<Factory::NodeStruct> NODOS;         // Nodos principales
     std::vector<Factory::NodeStruct> MININODOS;     // Nodos de la transición
     Factory::NodeStruct BOSS;                       // Nodo del boss
@@ -103,8 +103,8 @@ private:
 
     
     //OBJETOS (colisiones del mapa)
-    std::vector<renderEngine::rConvexShape> objetos;
-    std::vector<renderEngine::rRectangleShape> power;   //POWER UPS/DOWNS
+    //std::vector<rConvexShape> objetos;
+    std::vector<rRectangleShape> power;   //POWER UPS/DOWNS
     
     //PARA CONSTRUIR EL MAPA
     int x_max;
@@ -115,7 +115,7 @@ private:
 
     std::list<checkPoint> active_points;
     std::list<checkPoint> every_points;
-    std::vector<renderEngine::rSprite> LIGHTS;
+    std::vector<rSprite> LIGHTS;
     float finisher;
     int direction;
     int cameraDir;
@@ -139,20 +139,20 @@ private:
     float x_view;
     float y_view;
     renderEngine::rTexture text_fondo;
-    renderEngine::rSprite background1;
-    renderEngine::rSprite background2;
+    rSprite background1;
+    rSprite background2;
 
     bool stopBackgroundMovement;
-    std::vector<renderEngine::rRectangleShape> debug;
+    std::vector<rRectangleShape> debug;
     
     //INICIO DEL JUEGO
     bool bInit;
-    renderEngine::rClock initClock;
+    rClock initClock;
     renderEngine::rFont initFont;
     renderEngine::rText *initText;
     struct bloque{
         pBody body;
-        renderEngine::rRectangleShape rs;
+        rRectangleShape rs;
     };
     bloque *initBloques;
     physicsEngine::type* t;

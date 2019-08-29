@@ -18,6 +18,7 @@
 #include <array>
 #include <vector>
 #include <map>
+#include "core/core.h"
 
 class Factory {
 private:

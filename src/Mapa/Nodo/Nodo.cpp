@@ -94,7 +94,7 @@ void Nodo::setRectVector(std::vector<renderEngine::rIntRect> rect_){
 
 void Nodo::addTile(int id, int x, int y){
 
-    renderEngine::rSprite sprite;
+    rSprite sprite;
     sprite.setTexture(spritesheet);
     sprite.setTextureRect(tileRect[id]);
     sprite.setPosition(x,y);
@@ -141,7 +141,7 @@ void Nodo::addGround(std::vector<std::array<int,2> > coords){
 }
 
 void Nodo::addxPlotato(int x_, int y_, int x_min, int x_max) {
-    renderEngine::rRectangleShape d;
+    rRectangleShape d;
     
     d.setSize(x_max - x_min, 70);
     d.setPosition(x_, y_ );
@@ -164,7 +164,7 @@ Minijuego* Nodo::addMinigame(int type, int x, int y, int width, int height, std:
     return minijuego;
 }
 
-void Nodo::addSuperiorLayer(std::vector<renderEngine::rSprite> layer) {
+void Nodo::addSuperiorLayer(std::vector<rSprite> layer) {
     superiorLayer.push_back(layer);
 }
 

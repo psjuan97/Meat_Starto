@@ -21,12 +21,12 @@
 
 
 
-Animator::Animator(renderEngine::rSprite& sprite) 
+Animator::Animator(rSprite& sprite) 
     :m_Sprite(sprite), m_CurrentTime(), m_CurrentAnimation(nullptr){
 
 }
 
-Animator::Animation& Animator::CreateAnimation(std::string const& name, std::string const& textureName, renderEngine::rTime const& duration, bool loop)
+Animator::Animation& Animator::CreateAnimation(std::string const& name, std::string const& textureName, rTime const& duration, bool loop)
 {
    //Nombre para referenciarlo fuera de la clase
    //loop--> si se repite o reproducirse solo una vez
@@ -89,7 +89,7 @@ std::string Animator::GetCurrentAnimationName() const
     return "";
 }
 
-void Animator::Update(renderEngine::rTime const& dt)
+void Animator::Update(rTime const& dt)
 {
     //Si no hay animaciones devuelve un return
     if(m_CurrentAnimation == nullptr)
@@ -111,7 +111,7 @@ void Animator::Update(renderEngine::rTime const& dt)
     m_Sprite.setTextureRect(m_CurrentAnimation->m_Frames[currentFrame]);
 }
 
-renderEngine::rSprite& Animator::GetSprite(){
+rSprite& Animator::GetSprite(){
     
     m_Sprite.rotate(m_Sprite.getRotation()+30);
     

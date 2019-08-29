@@ -15,6 +15,7 @@
 #define PARTICLE_H
 
 #include "renderEngine/renderEngine.h"
+#include "core/core.h"
 
 #ifndef M_PI
     #define M_PI 3.14159265358979323846
@@ -22,11 +23,11 @@
 
 class Particle {
 public:
-    Particle(float x, float y, float vx, float vy, float rot, float vrot, renderEngine::rSprite s, float life);
+    Particle(float x, float y, float vx, float vy, float rot, float vrot, rSprite s, float life);
     Particle(const Particle& orig);
     virtual ~Particle();
     
-    renderEngine::rTime getTimeAlive();
+    rTime getTimeAlive();
     float getLifeTime();
     
     void interpola(float tick_);
@@ -38,7 +39,7 @@ public:
     void update();
     
 private:
-    renderEngine::rClock lifeClock;
+    rClock lifeClock;
     float lifeTime;
     
     float xPosition;
@@ -59,7 +60,7 @@ private:
     state actual;
 
     //float opacity_time;
-    renderEngine::rSprite pSprite;
+    rSprite pSprite;
 };
 
 #endif /* PARTICLE_H */

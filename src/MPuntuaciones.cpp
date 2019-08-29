@@ -83,7 +83,7 @@ MPuntuaciones::MPuntuaciones() {
     for(int i=0; i<MenuInicio::Instance()->numplayers; i++){
         menu[i]= new renderEngine::rText[5];
     }
-    sprite=new renderEngine::rSprite[MenuInicio::Instance()->numplayers];
+    sprite=new rSprite[MenuInicio::Instance()->numplayers];
     
     recuento();
     

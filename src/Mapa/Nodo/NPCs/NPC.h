@@ -18,6 +18,7 @@
 #include "math.h"
 #include "../../../renderEngine/renderEngine.h"
 #include "../../../physicsEngine/physicsEngine.h"
+#include "../../../core/core.h"
 
 class NPC {
 public:
@@ -38,7 +39,7 @@ public:
     
 protected:
     int hp;
-    renderEngine::rSprite sprite;
+    rSprite sprite;
     pBody body;
     
     struct state{

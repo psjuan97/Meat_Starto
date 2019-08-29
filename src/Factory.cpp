@@ -117,7 +117,7 @@ void Factory::leeColisiones(tinyxml2::XMLElement* obj, NodeStruct& node) {
     int y, y2;
     std::string vertex, v_aux, v_aux2;
     std::vector<std::array<int, 2>> vec;
-    //renderEngine::rConvexShape *cs;
+    //rConvexShape *cs;
 
     obj = obj->FirstChildElement("object");
 
@@ -127,7 +127,7 @@ void Factory::leeColisiones(tinyxml2::XMLElement* obj, NodeStruct& node) {
         /*
         //============================================//
         //PARA CREAR LOS VERTICES DEL ConvexShape
-        cs = new renderEngine::rConvexShape;
+        //cs = new rConvexShape;
         //============================================//
         */
 

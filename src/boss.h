@@ -22,6 +22,7 @@
 #include "physicsEngine/pBody.h"
 #include "physicsEngine/physicsEngine.h"
 #include "renderEngine/rMusic.h"
+#include "core/core.h"
 
 
 class boss {
@@ -58,11 +59,11 @@ private:
     
     //ATRIBUTOS
     struct t_muro{ //TILES MURO
-        renderEngine::rRectangleShape r;    //FORMA
+        rRectangleShape r;    //FORMA
         pBody b;                            //COLISION
     };
     struct proyectil{
-        renderEngine::rRectangleShape r;
+        rRectangleShape r;
         float v_x;  //COMPONENTE X DEL VECTOR DE MOVIMIENTO
         float v_y;  //COMPONENTE Y DEL VECTOR DE MOVIMIENTO
     };
@@ -83,7 +84,7 @@ private:
     
     std::string projectilPath;
     struct jefe{
-        renderEngine::rRectangleShape r;            //EL BOSS FINAL
+        rRectangleShape r;            //EL BOSS FINAL
         std::list<proyectil> proy;               //VECTOR DE PROYECTILES
         std::list<proyectilT> proyT;             //VECTOR DE PROYECTILES T
         
@@ -96,14 +97,14 @@ private:
         renderEngine::rIntRect *ir;
     };
     
-    renderEngine::rRectangleShape r_aux;    //DEBUG
-    renderEngine::rRectangleShape ir_aux;   //DEBUG
+    rRectangleShape r_aux;    //DEBUG
+    rRectangleShape ir_aux;   //DEBUG
     t_muro puerta[12];
     jefe javi;
     
-    renderEngine::rClock clock_boss;        //DETERMINA LAS ACCIONES DEL BOSS Y SU DURACION
-    renderEngine::rClock dt_fan;            //ABANICO
-    renderEngine::rClock dt_boss;           //DELTA TIME 1
+    rClock clock_boss;        //DETERMINA LAS ACCIONES DEL BOSS Y SU DURACION
+    rClock dt_fan;            //ABANICO
+    rClock dt_boss;           //DELTA TIME 1
     int x_max;                              //X MAXIMA DONDE ACABA EL BOSS
     int x_min;                              //X MINIMA DONDE EMPIEZA EL BOSS
     int y_min;
@@ -124,17 +125,17 @@ private:
     bool view_mv;
     bool quoteFin;
     
-    renderEngine::rRectangleShape sansJavi;
+    rRectangleShape sansJavi;
     renderEngine::rText dialogo[6];
     std::string str_dialogo[6];
     int s_count;
     int c_count;
-    renderEngine::rRectangleShape caja_dialogo;
+    rRectangleShape caja_dialogo;
     
-    renderEngine::rClock dialogueClock;
-    renderEngine::rClock dtDialogue;
-    renderEngine::rClock initClock;
-    renderEngine::rClock trembleClock;
+    rClock dialogueClock;
+    rClock dtDialogue;
+    rClock initClock;
+    rClock trembleClock;
     rMusic SANS_TALK_SOUND;
     rMusic MEGALOVANIA;
 };

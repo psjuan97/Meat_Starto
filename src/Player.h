@@ -20,6 +20,8 @@
 #include "physicsEngine/pBody.h"
 #include "physicsEngine/physicsEngine.h"
 #include "particleSystem.h"
+#include "core/core.h"
+
 
 class Player {
 public:
@@ -31,8 +33,8 @@ public:
     float getYPosition();
     int getLevel();
     std::string getName();
-    renderEngine::rSprite getSprite();
-    renderEngine::rSprite getMano();
+    rSprite getSprite();
+    rSprite getMano();
     bool enemigosMasMas();
     
     int getExp();
@@ -103,8 +105,8 @@ private:
     int id;
     int level;
     std::string name;
-    renderEngine::rSprite sprite;
-    renderEngine::rSprite mano;    
+    rSprite sprite;
+    rSprite mano;    
     bool hit;
     bool dead;
     int hand_length;
@@ -112,7 +114,7 @@ private:
     int key_r,key_l,key_up,key_hit,key_suicide;
     
     bool* keys;
-    renderEngine::rClock animationClock;
+    rClock animationClock;
     float MAXSPEED;
     int exp_for_next_level;
     int exp;
@@ -120,14 +122,14 @@ private:
     bool stopJump;
     bool inmortal;
     bool doublehit;
-    renderEngine::rClock inmortalityClock;
-    renderEngine::rClock speedClock;
-    renderEngine::rClock deadClock;
+    rClock inmortalityClock;
+    rClock speedClock;
+    rClock deadClock;
     
-    renderEngine::rClock inmortalRespawnClock;
+    rClock inmortalRespawnClock;
     bool inmortalRespawn;
     
-    renderEngine::rClock respawnTimeClock;
+    rClock respawnTimeClock;
     bool spawned;
     
     pBody body;
@@ -144,24 +146,24 @@ private:
     struct indicador{
         renderEngine::rIntRect *ir;
         renderEngine::rTexture t;
-        renderEngine::rSprite sprite;
+        rSprite sprite;
     };
     indicador *invincible;
     indicador *speed;
     indicador *expup;
-    renderEngine::rClock exp_clock;
+    rClock exp_clock;
     
     indicador *freeze;
     bool freezed;
-    renderEngine::rClock frigoclock;
+    rClock frigoclock;
     
     indicador *controls;
-    renderEngine::rClock controls_clock;
+    rClock controls_clock;
     bool inv_control;
     
     indicador *lvl1;
-    renderEngine::rClock baby_clock;
-        renderEngine::rSprite spescudo;
+    rClock baby_clock;
+        rSprite spescudo;
     bool escudo;
 
     bool god;

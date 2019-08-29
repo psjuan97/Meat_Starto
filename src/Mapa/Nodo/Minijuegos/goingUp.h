@@ -15,6 +15,8 @@
 #define GOINGUP_H
 
 #include "../../../renderEngine/renderEngine.h"
+#include "../../../core/core.h"
+
 #include "Minijuego.h"
 #include <list>
 #include <vector>
@@ -39,8 +41,8 @@ private:
     bool BEGIN;
     bool END;
     float minX, maxX;
-    renderEngine::rRectangleShape initArea;
-    renderEngine::rRectangleShape endArea;
+    rRectangleShape initArea;
+    rRectangleShape endArea;
     
     std::vector<int> IDs;
     std::list<Nodo> ascension;

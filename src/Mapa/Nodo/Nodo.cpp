@@ -39,7 +39,7 @@ Nodo::Nodo() {
     
     spritesheet = AssetManager::GetTexture("tiles_definitivo/tilesheet.png");
     minijuego = nullptr;
-    img_powers.loadFromFIle("assets/powers/power.png");
+    img_powers =  renderEngine::Instance().createImageFromFile("assets/powers/power.png");
 }
 
 Nodo::Nodo(const Nodo& orig) {
@@ -186,8 +186,8 @@ void Nodo::addPower(int id, int xMin, int xMax, int y_) {
     std::cout << "TARGET " << id << std::endl;
     std::string target = sprite[id];
     
-    int sizeY = AssetManager::GetTexture(target).getYSize();
-    int sizeX = AssetManager::GetTexture(target).getXSize();
+    int sizeY = AssetManager::GetTexture(target)->getYSize();
+    int sizeX = AssetManager::GetTexture(target)->getXSize();
     int newX = physicsEngine::Instance().genIntRandom(xMin+sizeX+10, xMax-sizeX-10);
     
     p.sprite.setTexture(AssetManager::GetTexture(target));

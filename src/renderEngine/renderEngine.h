@@ -75,8 +75,8 @@ public:
     class ITexture {
         friend class renderEngine;
         public:
-            virtual int getXSize();
-            virtual int getYSize();
+            virtual int getXSize(){return 100;};
+            virtual int getYSize(){return 100;};
             
 
 
@@ -154,14 +154,15 @@ public:
     void drawTexture(ITexture* texture, texture_prop propiedades, rIntRect rectOrigin);
     void setDrawColor(int r, int g, int b, int a);
 
-    ITexture createTextureFromFile(std::string path);                                        //APLICAR UNA RUTA A LA TEXTURA
-    ITexture createTextureFromImage(renderEngine::rImage im, rIntRect ir);     //APLICAR UNA IMAGEN A UNA TEXTURA, CON SU CUADRADO DE RECORTE
+    rImage createImageFromFile(std::string path);                                        //APLICAR UNA RUTA A LA TEXTURA
+    ITexture* createTextureFromFile(std::string path);                                        //APLICAR UNA RUTA A LA TEXTURA
+    ITexture* createTextureFromImage(renderEngine::rImage im, rIntRect ir);     //APLICAR UNA IMAGEN A UNA TEXTURA, CON SU CUADRADO DE RECORTE
 
 
 private:
     
         //texure
-    class rTexture {
+    class rTexture : public renderEngine::ITexture {
         friend class renderEngine;
         public:
             rTexture();                             //CONSTRUCTOR SIN ARGUMENTOS

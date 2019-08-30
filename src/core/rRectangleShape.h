@@ -13,7 +13,7 @@
             void rotate(float a);                           //ROTAR
             
             void setOrigin(float x, float y);               //ESTABLECER EL PUNTO CENTRAL
-            void setTexture(renderEngine::rTexture &t);                   //ESTABLECER TEXTURA
+            void setTexture(renderEngine::ITexture *t);                   //ESTABLECER TEXTURA
             void setPosition(float x, float y);             //ESTABLECER POSICION
             void setFillColor(char c);                          //ESTABLECER UN COLOR
             void setFillRGBAColor(int r,int g, int b, int a=255);   //ESTABLECE UN COLOR PASANDO LOS PARAMETROS RGBA
@@ -27,6 +27,6 @@
             std::array<float,2> getPosition();              //CONSEGUIR POSICION
         private:
             rIntRect rect;
-            renderEngine::rTexture* texture;
+            renderEngine::ITexture* texture;
             renderEngine::texture_prop propiedades;
           };

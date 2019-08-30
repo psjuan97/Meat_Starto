@@ -10,7 +10,7 @@ class rSprite {
             
             void draw();
             
-            void setTexture(renderEngine::rTexture &t);               //APLICAR UNA TEXTURA
+            void setTexture(renderEngine::ITexture* t);               //APLICAR UNA TEXTURA
             void setOrigin(float x, float y);           //ESTABLECER EL PUNTO ORIGEN
             void setScale(float x, float y);            //ESTABLECER LA ESCALA
             void setPosition(float x, float y);         //ESTABLECER LA POSICION
@@ -28,6 +28,6 @@ class rSprite {
             
         private:
             rIntRect rect;
-            renderEngine::rTexture* texture;
+            renderEngine::ITexture*  texture;
             renderEngine::texture_prop propiedades;
     };

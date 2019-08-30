@@ -30,7 +30,7 @@ MPuntuaciones::MPuntuaciones() {
     posx = sfml->Instance().getViewCenter()[0];
     posy = sfml->Instance().getViewCenter()[1];
     
-    text_fondo.loadFromFile("assets/fondo.PNG");
+    text_fondo =  renderEngine::Instance().createTextureFromFile("assets/fondo.PNG");
     
     f1.setTexture(text_fondo);
     f1.setSize(sfml->Instance().getViewSize()[0], sfml->Instance().getViewSize()[1]);
@@ -38,8 +38,8 @@ MPuntuaciones::MPuntuaciones() {
     /*MANCHA*/
      std::string sprite_name = "assets/mancha1.png";
     
-    int widths = AssetManager::GetTexture(sprite_name).getXSize();
-    int heights = AssetManager::GetTexture(sprite_name).getYSize();
+    int widths = AssetManager::GetTexture(sprite_name)->getXSize();
+    int heights = AssetManager::GetTexture(sprite_name)->getYSize();
     
     mancha.setTexture(AssetManager::GetTexture(sprite_name));
     mancha.setOrigin(widths / 2, heights / 2.1);
@@ -50,8 +50,8 @@ MPuntuaciones::MPuntuaciones() {
      /*PERSONAJE*/
     std::string sprite_name1 = "assets/personaje.png";
     
-    int widthp = AssetManager::GetTexture(sprite_name1).getXSize();
-    int heightp = AssetManager::GetTexture(sprite_name1).getYSize();
+    int widthp = AssetManager::GetTexture(sprite_name1)->getXSize();
+    int heightp = AssetManager::GetTexture(sprite_name1)->getYSize();
     
     personaje.setTexture(AssetManager::GetTexture(sprite_name1));
     personaje.setOrigin(widthp / 2, heightp / 2.1);

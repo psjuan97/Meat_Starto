@@ -59,7 +59,7 @@ int  renderEngine::getTicks(){
 return (int)SDL_GetTicks();
 }
 
-void renderEngine::drawTexture(rTexture *texture, texture_prop propiedades, rIntRect rect){
+void renderEngine::drawTexture(ITexture *texture, texture_prop propiedades, rIntRect rect){
 
 
     SDL_Rect dstrect;
@@ -79,7 +79,7 @@ void renderEngine::drawTexture(rTexture *texture, texture_prop propiedades, rInt
 
 
     if((rTexture*)texture != nullptr){
-        SDL_RenderCopy( renderEngine::Instance().renderer, (rTexture*) texture->getTexture(), &srcrect, &dstrect );
+        SDL_RenderCopy( renderEngine::Instance().renderer, ((rTexture*)texture)->getTexture(), &srcrect, &dstrect );
     }else{
         SDL_RenderFillRect(renderEngine::Instance().renderer,&dstrect )   ;
     }
@@ -169,6 +169,33 @@ void renderEngine::setView(rView v){
     camera = v;
 }                        //ESTABLECER UNA VISTA
 
+
+
+renderEngine::rImage renderEngine::createImageFromFile(std::string path){
+    rImage img;
+    img.loadFromFIle(path);
+    return img;
+}          
+
+
+renderEngine::ITexture* renderEngine::createTextureFromFile(std::string path){
+    rTexture* tex = new rTexture();;
+    tex->loadFromFile(path);
+    return tex;
+}                    
+
+
+renderEngine::ITexture* renderEngine::createTextureFromImage(renderEngine::rImage im, rIntRect ir){
+    rTexture* tex = new rTexture();;
+    tex->loadFromImage(im,ir);
+    return tex;
+}     
+
+
+
+
+
+
 //============================= TEXTURA =============================//
 renderEngine::rTexture::rTexture() {
         texture = NULL;
@@ -181,6 +208,7 @@ renderEngine::rTexture::rTexture(std::string path) {
 
 void renderEngine::rTexture::loadFromFile(std::string path)  {   
 
+   
     texture = NULL;
     //The final texture
    
@@ -203,6 +231,8 @@ void renderEngine::rTexture::loadFromFile(std::string path)  {
         //Get rid of old loaded surface
         SDL_FreeSurface( loadedSurface );
     }
+
+
 
 
 

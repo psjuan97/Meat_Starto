@@ -19,8 +19,8 @@
 
 particleSystem::particleSystem() {
     
-    int sizeX = AssetManager::GetTexture("assets/triangle.png").getXSize();
-    int sizeY = AssetManager::GetTexture("assets/triangle.png").getYSize();
+    int sizeX = AssetManager::GetTexture("assets/triangle.png")->getXSize();
+    int sizeY = AssetManager::GetTexture("assets/triangle.png")->getYSize();
     sprite.setTexture(AssetManager::GetTexture("assets/triangle.png"));
     sprite.setOrigin(sizeX/2, sizeY/2);
     sprite.setPosition(0, 0);
@@ -258,8 +258,8 @@ void particleSystem::setRectangle(float sideX, float sideY) {
 }
 
 void particleSystem::setSprite(const std::string& filename) {
-    int sizeX = AssetManager::GetTexture(filename).getXSize();
-    int sizeY = AssetManager::GetTexture(filename).getYSize();
+    int sizeX = AssetManager::GetTexture(filename)->getXSize();
+    int sizeY = AssetManager::GetTexture(filename)->getYSize();
     rSprite newSprite;
     newSprite.setTexture(AssetManager::GetTexture(filename));
     newSprite.setOrigin(sizeX/2, sizeY/2);

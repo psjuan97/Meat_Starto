@@ -15,7 +15,7 @@ class rConvexShape {
             std::array<float,2> getPosition();              //CONSEGUIR POSICION
             void setPosition(float x, float y);             //ESTABLECER LA POSICION
             void move(float x, float y);                    //MOVER
-            void setTexture(renderEngine::rTexture &t);                   //ESTABLECER TEXTURAS
+            void setTexture(renderEngine::ITexture &t);                   //ESTABLECER TEXTURAS
             
         private:
             //sf::ConvexShape cs;

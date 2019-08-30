@@ -13,12 +13,12 @@ propiedades.posX = 20; propiedades.posY = 20;
 
 }
 
-void rSprite::setTexture  (renderEngine::rTexture &t)       {   
-    texture = &t; 
-    this->rect.setHeight(t.getYSize());
+void rSprite::setTexture  (renderEngine::ITexture* t)       {   
+    texture = t; 
+    this->rect.setHeight(t->getYSize());
     this->rect.setLeft(0);
     this->rect.setTop(0);
-    this->rect.setWidth(t.getXSize());
+    this->rect.setWidth(t->getXSize());
 }
 
 

@@ -47,8 +47,8 @@ Hud::Hud(std::vector<Player*> jugadores) {//cambiar y pasar array de jugadores
            /*PERSONAJE*/
     std::string sprite_name1 = "assets/cuadrado2.png";
     
-    int widthp = AssetManager::GetTexture(sprite_name1).getXSize();
-    int heightp = AssetManager::GetTexture(sprite_name1).getYSize();
+    int widthp = AssetManager::GetTexture(sprite_name1)->getXSize();
+    int heightp = AssetManager::GetTexture(sprite_name1)->getYSize();
     
     cuadrado.setTexture(AssetManager::GetTexture(sprite_name1));
     cuadrado.setOrigin(widthp / 4, heightp / 2.4);

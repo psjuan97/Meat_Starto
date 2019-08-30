@@ -138,7 +138,7 @@ private:
     //FONDOS
     float x_view;
     float y_view;
-    renderEngine::rTexture text_fondo;
+    renderEngine::ITexture*  text_fondo;
     rSprite background1;
     rSprite background2;
 

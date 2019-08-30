@@ -57,7 +57,7 @@ private:
     
     struct pieza_{
         rRectangleShape r[4];     //FORMA
-        renderEngine::rTexture t[4];            //TEXTURA
+        renderEngine::ITexture*  t[4];            //TEXTURA
         float vel;                              //VELOCIDAD DE BAJADA
     };
     //POSIBLE CAMBIO A pieza_ *v_piezas;

@@ -28,8 +28,8 @@ void rRectangleShape::draw() {
     
 }
 
-void rRectangleShape::setTexture  (renderEngine::rTexture &t)       {   
-    texture = &t;
+void rRectangleShape::setTexture  (renderEngine::ITexture* t)       {   
+    texture = t;
 }
 
 void rRectangleShape::setPosition (float x, float y)  {   

@@ -54,7 +54,7 @@
     //LEO EL TILESHEET Y ALMACENO LOS CUADRADOS DE RECORTE
     ts1 = "tiles_definitivo/tilesheet.png";
     ts2 = "tiles_definitivo/tilesheet2.png";
-    ts.loadFromFIle(ts1);
+    ts =  renderEngine::Instance().createImageFromFile(ts1);
     ts_doc.LoadFile("tiles_definitivo/xml_spritesheet.xml");
     map = ts_doc.FirstChildElement("TextureAtlas")->FirstChildElement("sprite");
 
@@ -97,7 +97,7 @@
     longitud = 0;
     end = false;
 
-    //img_fondo.loadFromFIle("assets/fondo.PNG");
+    //img_fondo =  renderEngine::Instance().createTextureFromFile("assets/fondo.PNG");
     //f1.t.loadFromImage(f1.img,*f1.ir);
     x_view = renderEngine::Instance().getViewCenter()[0];
     y_view = renderEngine::Instance().getViewCenter()[1];
@@ -323,7 +323,7 @@ void Mapa::CargaNodo(std::list<Nodo> &lista, Factory::NodeStruct const& nodo, in
     for(int i = 0; i < nodo.Lights.size(); ++i){
         rSprite lus;
         lus.setTexture(AssetManager::GetTexture("assets/LUS.png"));
-        lus.setOrigin(AssetManager::GetTexture("assets/LUS.png").getXSize()/2, AssetManager::GetTexture("assets/LUS.png").getYSize()/2);
+        lus.setOrigin(AssetManager::GetTexture("assets/LUS.png")->getXSize()/2, AssetManager::GetTexture("assets/LUS.png")->getYSize()/2);
         lus.setPosition(x_ + nodo.Lights[i].x, y_ + nodo.Lights[i].y);
         LIGHTS.push_back(lus);
         //lista.back().addLight(x_ + nodo.Lights[i].x, y_ + nodo.Lights[i].y);
@@ -369,7 +369,7 @@ void Mapa::CargaNodo(std::list<Nodo> &lista, Factory::NodeStruct const& nodo, in
         rSprite degradado;
         degradado.setScale(2, 2);
         degradado.setTexture(AssetManager::GetTexture("assets/Degradado.png"));
-        degradado.setPosition(x_ + nodo.map_width * nodo.tile_width - AssetManager::GetTexture("assets/Degradado.png").getXSize()*2, y_);
+        degradado.setPosition(x_ + nodo.map_width * nodo.tile_width - AssetManager::GetTexture("assets/Degradado.png")->getXSize()*2, y_);
         superiorLayer.push_back(degradado);
         lista.back().addSuperiorLayer(superiorLayer);
         finisher = x_ + nodo.map_width * nodo.tile_width;
@@ -687,7 +687,7 @@ void Mapa::renderBackground() {
 
     float viewCenterX = renderEngine::Instance().getViewCenter()[0];
     float viewWidth = renderEngine::Instance().getViewSize()[0]/2;
-    float textureXSize = AssetManager::GetTexture("assets/LUS.png").getXSize();
+    float textureXSize = AssetManager::GetTexture("assets/LUS.png")->getXSize();
 
     for(int i= 0; i < LIGHTS.size(); ++i){
 
@@ -739,9 +739,9 @@ void Mapa::updateFondo() {
         background1.setPosition(background1.getPosition()[0],y);
     }
 
-    background2.setPosition(background1.getPosition()[0]+text_fondo.getXSize()*2, background1.getPosition()[1]);
+    background2.setPosition(background1.getPosition()[0]+text_fondo->getXSize()*2, background1.getPosition()[1]);
 
-    if(background1.getPosition()[0] <= (sfml->Instance().getViewCenter()[0]-70*26)-text_fondo.getXSize()*2){
+    if(background1.getPosition()[0] <= (sfml->Instance().getViewCenter()[0]-70*26)-text_fondo->getXSize()*2){
         background1.setPosition(background2.getPosition()[0],background2.getPosition()[1]);
     }
 

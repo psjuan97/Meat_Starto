@@ -32,7 +32,7 @@ MenuPausa::MenuPausa() {
     posx = sfml->Instance().getViewCenter()[0];
     posy = sfml->Instance().getViewCenter()[1];
 
-    text_fondo.loadFromFile("assets/fondo.PNG");
+    text_fondo =  renderEngine::Instance().createTextureFromFile("assets/fondo.PNG");
     
     f1.setTexture(text_fondo);
     f1.setSize(sfml->Instance().getViewSize()[0], sfml->Instance().getViewSize()[1]);
@@ -40,8 +40,8 @@ MenuPausa::MenuPausa() {
     /*PERSONAJE*/
     std::string sprite_name1 = "assets/personaje.png";
     
-    int widthp = AssetManager::GetTexture(sprite_name1).getXSize();
-    int heightp = AssetManager::GetTexture(sprite_name1).getYSize();
+    int widthp = AssetManager::GetTexture(sprite_name1)->getXSize();
+    int heightp = AssetManager::GetTexture(sprite_name1)->getYSize();
     
     personaje.setTexture(AssetManager::GetTexture(sprite_name1));
     personaje.setOrigin(widthp / 2, heightp / 2.1);
@@ -53,8 +53,8 @@ MenuPausa::MenuPausa() {
     /*MANCHAS DEL MENU*/
     std::string sprite_name = "assets/mancha1.png";
     
-    int widths = AssetManager::GetTexture(sprite_name).getXSize();
-    int heights = AssetManager::GetTexture(sprite_name).getYSize();
+    int widths = AssetManager::GetTexture(sprite_name)->getXSize();
+    int heights = AssetManager::GetTexture(sprite_name)->getYSize();
     
     for(int i=0; i<NUMBER_OF_ITEMS; i++){
         mancha[i].setTexture(AssetManager::GetTexture(sprite_name));
@@ -108,8 +108,8 @@ MenuPausa::MenuPausa() {
     /*Imagen Controles*/
     std::string sprite_namec = "assets/controles.png";
     
-    int widthc = AssetManager::GetTexture(sprite_namec).getXSize();
-    int heightc = AssetManager::GetTexture(sprite_namec).getYSize();
+    int widthc = AssetManager::GetTexture(sprite_namec)->getXSize();
+    int heightc = AssetManager::GetTexture(sprite_namec)->getYSize();
     
     controles.setTexture(AssetManager::GetTexture(sprite_namec));
     controles.setOrigin(widthc / 2, heightc / 2);

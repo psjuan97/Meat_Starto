@@ -24,7 +24,7 @@ void rConvexShape::setPosition        (float x, float y)          {
       //cs.setPosition(x,y);
       
       }
-void rConvexShape::setTexture         (renderEngine::rTexture &t)               { 
+void rConvexShape::setTexture         (renderEngine::ITexture &t)               { 
     //  cs.setTexture(t.getTexture());
     return;
       }

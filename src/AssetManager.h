@@ -29,7 +29,7 @@ class AssetManager{
         }
         //============================
         
-        static renderEngine::rTexture& GetTexture(std::string const& filename);
+        static renderEngine::ITexture* GetTexture(std::string const& filename);
         static rSoundBuffer& GetSoundBuffer(std::string const& filename);
         //static sf::Font& GetFont(std::string const& filename);
         
@@ -40,7 +40,7 @@ class AssetManager{
         void operator=(AssetManager const& orig);    // <----------------'
         //===================================
         
-        std::map<std::string, renderEngine::rTexture> m_Textures;
+        std::map<std::string, renderEngine::ITexture*> m_Textures;
         std::map<std::string, rSoundBuffer> m_SoundBuffers;
         //std::map<std::string, sf::Font> m_Fonts;
 };

@@ -75,7 +75,7 @@ private:
     bool primero;
    
     renderEngine *sfml;
-    renderEngine::rTexture text_fondo;
+    renderEngine::ITexture*  text_fondo;
     rRectangleShape f1;
 
     rSprite logo;

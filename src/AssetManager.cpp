@@ -13,7 +13,7 @@
 
 AssetManager::AssetManager(){}
 
-renderEngine::rTexture& AssetManager::GetTexture(const std::string& filename){
+renderEngine::ITexture* AssetManager::GetTexture(const std::string& filename){
     
     auto& texMap = Instance().m_Textures;
     auto pairFound = texMap.find(filename);
@@ -22,7 +22,8 @@ renderEngine::rTexture& AssetManager::GetTexture(const std::string& filename){
     }
     else{
         auto& texture = texMap[filename];
-        texture.loadFromFile(filename);
+        //texture.loadFromFile(filename);
+        texture = renderEngine::Instance().createTextureFromFile(filename);
         return texture;
     }
 }

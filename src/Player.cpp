@@ -76,8 +76,8 @@ Player::Player(int id_, std::string name_, float width_, float height_, float x_
 
    /*MANO*/
     
-    int width = AssetManager::GetTexture(texture).getXSize();
-    int height = AssetManager::GetTexture(texture).getYSize();
+    int width = AssetManager::GetTexture(texture)->getXSize();
+    int height = AssetManager::GetTexture(texture)->getYSize();
 
     mano.setTexture(AssetManager::GetTexture(texture));
     rIntRect hit_s_(60,200,67,49);
@@ -186,7 +186,7 @@ Player::Player(int id_, std::string name_, float width_, float height_, float x_
     muertes=0;
     enemigos=0;
     
-    indicadores_power.loadFromFIle("assets/powers/indicadores_power.png");
+    indicadores_power =  renderEngine::Instance().createImageFromFile("assets/powers/indicadores_power.png");
     invincible = NULL;
     speed = NULL;
     expup = NULL;
@@ -198,8 +198,8 @@ Player::Player(int id_, std::string name_, float width_, float height_, float x_
     escudo = true;
     lvlUp();
     
-    int widthp = AssetManager::GetTexture("assets/powers/indicador_escudo.png").getXSize();
-    int heightp = AssetManager::GetTexture("assets/powers/indicador_escudo.png").getYSize();
+    int widthp = AssetManager::GetTexture("assets/powers/indicador_escudo.png")->getXSize();
+    int heightp = AssetManager::GetTexture("assets/powers/indicador_escudo.png")->getYSize();
     
     spescudo.setTexture(AssetManager::GetTexture("assets/powers/indicador_escudo.png"));
     spescudo.setOrigin(widthp / 2, heightp / 2);
@@ -632,7 +632,7 @@ void Player::setAir(int i){
 void Player::powerUpInmortalidad() {
     invincible = new indicador;
     invincible->ir = new rIntRect(0,88,135,44);
-    invincible->t.loadFromImage(indicadores_power,*invincible->ir);
+    invincible->t = renderEngine::Instance().createTextureFromImage(indicadores_power,*invincible->ir);
     invincible->sprite.setTexture(invincible->t);
     invincible->sprite.setScale(2,2);
     
@@ -643,7 +643,7 @@ void Player::powerUpInmortalidad() {
 void Player::powerUpSpeed() {
     speed = new indicador;
     speed->ir = new rIntRect(0,0,135,44);
-    speed->t.loadFromImage(indicadores_power,*speed->ir);
+    speed->t = renderEngine::Instance().createTextureFromImage(indicadores_power,*speed->ir);
     speed->sprite.setTexture(speed->t);
     speed->sprite.setScale(2,2);
     
@@ -658,7 +658,7 @@ void Player::powerUpExperience() {
     
     expup = new indicador;
     expup->ir = new rIntRect(0,44,135,44);
-    expup->t.loadFromImage(indicadores_power,*expup->ir);
+    expup->t = renderEngine::Instance().createTextureFromImage(indicadores_power,*expup->ir);
     expup->sprite.setTexture(expup->t);
     expup->sprite.setScale(2,2);
     
@@ -677,7 +677,7 @@ void Player::powerDownFreeze() {
             
             ready->freeze = new indicador;
             ready->freeze->ir = new rIntRect(0,132,135,44);
-            ready->freeze->t.loadFromImage(indicadores_power,*ready->freeze->ir);
+            ready->freeze->t= renderEngine::Instance().createTextureFromImage(indicadores_power,*ready->freeze->ir);
             ready->freeze->sprite.setTexture(ready->freeze->t);
             ready->freeze->sprite.setScale(2,2);
             
@@ -707,7 +707,7 @@ void Player::powerDownLevelOne() {
     if(level!=1){
         lvl1 = new indicador;
         lvl1->ir = new rIntRect(0,286,65,40);
-        lvl1->t.loadFromImage(indicadores_power,*lvl1->ir);
+        lvl1->t = renderEngine::Instance().createTextureFromImage(indicadores_power,*lvl1->ir);
         lvl1->sprite.setTexture(lvl1->t);
         lvl1->sprite.setScale(2,2);
 
@@ -726,7 +726,7 @@ void Player::powerDownFish() {
             
             ready->controls = new indicador;
             ready->controls->ir = new rIntRect(0,176,107,110);
-            ready->controls->t.loadFromImage(indicadores_power,*ready->controls->ir);
+            ready->controls->t = renderEngine::Instance().createTextureFromImage(indicadores_power,*ready->controls->ir);
             ready->controls->sprite.setTexture(ready->controls->t);
             ready->controls->sprite.setScale(2,2);
             

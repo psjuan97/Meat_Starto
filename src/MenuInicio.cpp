@@ -34,7 +34,7 @@ MenuInicio::MenuInicio() {
     numplayers=1;
     
     /*fondo*/
-    text_fondo.loadFromFile("assets/fondo.PNG");
+    text_fondo =  renderEngine::Instance().createTextureFromFile("assets/fondo.PNG");
     
     f1.setTexture(text_fondo);
     f1.setSize(100, 100);
@@ -42,8 +42,8 @@ MenuInicio::MenuInicio() {
         /*LOGO*/
     std::string logo_name = "assets/Logo.png";
     
-    int widthl = AssetManager::GetTexture(logo_name).getXSize();
-    int heightl = AssetManager::GetTexture(logo_name).getYSize();
+    int widthl = AssetManager::GetTexture(logo_name)->getXSize();
+    int heightl = AssetManager::GetTexture(logo_name)->getYSize();
     
     logo.setTexture(AssetManager::GetTexture(logo_name));
     logo.setOrigin(widthl / 2, heightl / 2);
@@ -59,8 +59,8 @@ MenuInicio::MenuInicio() {
     /*PERSONAJE*/
     std::string sprite_name1 = "assets/personaje.png";
     
-    int widthp = AssetManager::GetTexture(sprite_name1).getXSize();
-    int heightp = AssetManager::GetTexture(sprite_name1).getYSize();
+    int widthp = AssetManager::GetTexture(sprite_name1)->getXSize();
+    int heightp = AssetManager::GetTexture(sprite_name1)->getYSize();
     
     personaje.setTexture(AssetManager::GetTexture(sprite_name1));
     personaje.setOrigin(widthp / 2, heightp / 2.1);
@@ -72,8 +72,8 @@ MenuInicio::MenuInicio() {
     /*MANCHAS DEL MENU*/
     std::string sprite_name = "assets/mancha1.png";
     
-    int widths = AssetManager::GetTexture(sprite_name).getXSize();
-    int heights = AssetManager::GetTexture(sprite_name).getYSize();
+    int widths = AssetManager::GetTexture(sprite_name)->getXSize();
+    int heights = AssetManager::GetTexture(sprite_name)->getYSize();
     
     for(int i=0; i<MAX_NUMBER_OF_ITEMS; i++){
         mancha[i].setTexture(AssetManager::GetTexture(sprite_name));
@@ -184,8 +184,8 @@ MenuInicio::MenuInicio() {
     /*Imagen Controles*/
     std::string sprite_namec = "assets/controles.png";
     
-    int widthc = AssetManager::GetTexture(sprite_namec).getXSize();
-    int heightc = AssetManager::GetTexture(sprite_namec).getYSize();
+    int widthc = AssetManager::GetTexture(sprite_namec)->getXSize();
+    int heightc = AssetManager::GetTexture(sprite_namec)->getYSize();
     
     controles.setTexture(AssetManager::GetTexture(sprite_namec));
     controles.setOrigin(widthc / 2, heightc / 2);

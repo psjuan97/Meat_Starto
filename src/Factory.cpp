@@ -212,7 +212,7 @@ void Factory::leexPlotatos(tinyxml2::XMLElement* obj, NodeStruct& node) {
         obj->QueryIntAttribute("y", &yCoord);
         obj->QueryAttribute("height", &height);
         
-        int y_spawn = yCoord + height - AssetManager::GetTexture("assets/kawaii_potato.png").getYSize() / 2;
+        int y_spawn = yCoord + height - AssetManager::GetTexture("assets/kawaii_potato.png")->getYSize() / 2;
         
         xPlot.xMin = xCoord;
         xPlot.xMax = xCoord + width;

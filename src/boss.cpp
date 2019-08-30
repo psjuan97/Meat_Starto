@@ -83,7 +83,7 @@ void boss::init(int x_,int y_) {
     
     //std::string path = "assets/boss/fire_boss_ad.png";        //COMIDA    128x128
     projectilPath = "assets/boss/fire1.png";                 //FUEGO     72x48
-    proy_boss.loadFromFIle(projectilPath);
+    proy_boss =  renderEngine::Instance().createImageFromFile(projectilPath);
 
     //TEXTOS
     time_font.loadFromFile("assets/fonts/ninjagarden.ttf");

@@ -66,7 +66,7 @@ private:
     physicsEngine::type* t;
     
     std::vector<rIntRect> tileRect;
-    renderEngine::rTexture spritesheet;
+    renderEngine::ITexture*  spritesheet;
     
     // Objetos que contiene el nodo
     std::vector<NPC*> npcs;

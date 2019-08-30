@@ -72,8 +72,8 @@ void mj_t::init(int x_,int y_) {
     py = m2.pb.getYPosition();
     //m2.rect.setPosition(x,py);
     
-    //m1.text.loadFromFile("assets/tetris/t_tetris.png");
-    //m2.text.loadFromFile("assets/tetris/t_tetris.png");
+    //m1.text =  renderEngine::Instance().createTextureFromFile("assets/tetris/t_tetris.png");
+    //m2.text =  renderEngine::Instance().createTextureFromFile("assets/tetris/t_tetris.png");
     TETRIS.openFromFile("assets/Sounds/TETRIS.ogg");
     std::cout << "TETRIS - " << &TETRIS << std::endl;
 
@@ -124,25 +124,25 @@ void mj_t::crearPieza() {
         p->r[i].setSize(a,a);
         switch(nt){
             case 1:
-                p->t[i].loadFromFile("tiles_definitivo/tiles/slice03_03_1.png");
+                p->t[i] =  renderEngine::Instance().createTextureFromFile("tiles_definitivo/tiles/slice03_03_1.png");
                 break;
             case 2:
-                p->t[i].loadFromFile("tiles_definitivo/tiles/slice03_03_2.png");
+                p->t[i] =  renderEngine::Instance().createTextureFromFile("tiles_definitivo/tiles/slice03_03_2.png");
                 break;
             case 3:
-                p->t[i].loadFromFile("tiles_definitivo/tiles/slice03_03_3.png");
+                p->t[i] =  renderEngine::Instance().createTextureFromFile("tiles_definitivo/tiles/slice03_03_3.png");
                 break;
             case 4:
-                p->t[i].loadFromFile("tiles_definitivo/tiles/slice03_03_4.png");
+                p->t[i] =  renderEngine::Instance().createTextureFromFile("tiles_definitivo/tiles/slice03_03_4.png");
                 break;
             case 5:
-                p->t[i].loadFromFile("tiles_definitivo/tiles/slice03_03_5.png");
+                p->t[i] =  renderEngine::Instance().createTextureFromFile("tiles_definitivo/tiles/slice03_03_5.png");
                 break;
             case 6:
-                p->t[i].loadFromFile("tiles_definitivo/tiles/slice03_03.png");
+                p->t[i] =  renderEngine::Instance().createTextureFromFile("tiles_definitivo/tiles/slice03_03.png");
                 break;
             default:
-                p->t[i].loadFromFile("tiles_definitivo/tiles/slice03_03_1.png");
+                p->t[i] =  renderEngine::Instance().createTextureFromFile("tiles_definitivo/tiles/slice03_03_1.png");
                 break;
         }
     }

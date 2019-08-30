@@ -62,7 +62,7 @@ private:
     float posy;
     
     renderEngine *sfml;
-    renderEngine::rTexture text_fondo;
+    renderEngine::ITexture*  text_fondo;
     rRectangleShape f1;
     rSprite personaje;
     rSprite mancha[NUMBER_OF_ITEMS];

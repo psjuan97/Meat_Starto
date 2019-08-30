@@ -145,7 +145,7 @@ private:
     renderEngine::rImage indicadores_power;
     struct indicador{
         rIntRect *ir;
-        renderEngine::rTexture t;
+        renderEngine::ITexture*  t;
         rSprite sprite;
     };
     indicador *invincible;

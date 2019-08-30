@@ -23,8 +23,8 @@ Skull::Skull(int x_, int y_, int x_b, int x_e, int y_b, int y_e) {
 
     std::string sprite_name = "assets/skull.png";
     
-    int width = AssetManager::GetTexture(sprite_name).getXSize();
-    int height = AssetManager::GetTexture(sprite_name).getYSize();
+    int width = AssetManager::GetTexture(sprite_name)->getXSize();
+    int height = AssetManager::GetTexture(sprite_name)->getYSize();
 
     sprite.setTexture(AssetManager::GetTexture(sprite_name));
     sprite.setOrigin(width / 2, height / 2);

@@ -257,24 +257,6 @@ SDL_Texture*    renderEngine::rTexture::getTexture()                    {   retu
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //============================= IMAGE =============================//
 renderEngine::rImage::rImage() {}
 
@@ -318,8 +300,15 @@ void renderEngine::rText::draw() {
     SDL_Rect Message_rect; //create a rect
     Message_rect.x = posX;  //controls the rect's x coordinate 
     Message_rect.y = posY; // controls the rect's y coordinte
-    Message_rect.w = 100; // controls the width of the rect
-    Message_rect.h = 100; // controls the height of the rect
+
+     Message_rect.x =  ((float) ((posX - ( renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x/2) )  )  / renderEngine::Instance().camera.getZoom());
+    Message_rect.y =  ((float) ((posY - ( renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y/2) ) )  / renderEngine::Instance().camera.getZoom());
+
+    Message_rect.h = 0; // controls the rect's y coordinte
+    Message_rect.w = 0; // controls the rect's y coordinte
+
+    SDL_QueryTexture(Message,  NULL,   NULL,      &Message_rect.w, &Message_rect.h);
+
 
     //Mind you that (0,0) is on the top left of the window/screen, think a rect as the text's box, that way it would be very simple to understance
 
@@ -340,10 +329,10 @@ void renderEngine::rText::setScale          (float fx, float fy)    {
 
  }
 void renderEngine::rText::setString         (std::string str)       { 
-        SDL_Color White = {255, 255, 255};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
+        SDL_Color black = {0, 0, 0};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
     this->text = str;
 
-        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(this->font.font, text.c_str() , White); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(this->font.font, text.c_str() , black); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
 
      Message = SDL_CreateTextureFromSurface(renderEngine::Instance().renderer, surfaceMessage); //now you can convert it into a texture
 SDL_FreeSurface(surfaceMessage);
@@ -389,7 +378,7 @@ renderEngine::rFont::rFont() {
     font = nullptr;
 }
 void renderEngine::rFont::loadFromFile  (std::string str)   { 
-    font = TTF_OpenFont(str.c_str(), 80); //this opens a font style and sets a size
+    font = TTF_OpenFont(str.c_str(), 35); //this opens a font style and sets a size
  }
 
 

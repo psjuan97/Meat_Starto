@@ -98,9 +98,6 @@ public:
     };
 
 
-
-    
-    
     
     class rFont {
         friend class renderEngine;

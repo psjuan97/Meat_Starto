@@ -180,8 +180,8 @@
 
     initBloques->body = physicsEngine::Instance().createBody(w_b,h_b,x_b+(w_b/2),y_b+(h_b/2),'k',t);
 
-    initFont.loadFromFile("assets/fonts/ninjagarden.ttf");
-    initText = new renderEngine::rText;
+    initFont = renderEngine::Instance().createFontFromFile("assets/fonts/ninjagarden.ttf");
+    initText = new renderEngine::IText;
     initText->setFont(initFont);
     initText->setCharacterSize(250);
     initText->setFillColor('k');

@@ -39,11 +39,11 @@ public:
     
 private:
     int selectedItemIndex;
-    renderEngine::rFont font;
-    renderEngine::rText ** menu;
+    renderEngine::IFont* font;
+    renderEngine::IText ** menu;
     rSprite* sprite;
-    renderEngine::rText tsalir;
-    renderEngine::rText titulo;
+    renderEngine::IText* tsalir;
+    renderEngine::IText* titulo;
    
     static MPuntuaciones* instance;
     

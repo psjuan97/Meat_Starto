@@ -54,7 +54,7 @@ sf::Font& AssetManager::GetFont(const std::string& filename){
     }
     else{
         auto& font = fontMap[filename];
-        font.loadFromFile(filename);
+        font = renderEngine::Instance().createFontFromFile(filename);
         return font;
     }
 }

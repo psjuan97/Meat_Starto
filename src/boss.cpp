@@ -21,6 +21,11 @@
 #define SPRITE_FACTOR 16
 
 boss::boss() {
+    time_text = renderEngine::Instance().createText();
+  
+    for(int i=0 ; i<6 ; i++){
+        dialogo[i] = renderEngine::Instance().createText();
+    }
 }
 
 void boss::init(int x_,int y_) {
@@ -86,22 +91,22 @@ void boss::init(int x_,int y_) {
     proy_boss =  renderEngine::Instance().createImageFromFile(projectilPath);
 
     //TEXTOS
-    time_font.loadFromFile("assets/fonts/ninjagarden.ttf");
-    time_text.setFont(time_font);
-    time_text.setCharacterSize(90);
-    time_text.setFillColor('w');
+    time_font = renderEngine::Instance().createFontFromFile("assets/fonts/ninjagarden.ttf");
+    time_text->setFont(time_font);
+    time_text->setCharacterSize(90);
+    time_text->setFillColor('w');
     
     //ANIMACION BOSS
     initBoss = false;
     restartInitClock = false;
     view_mv = false;
     
-    sans_font.loadFromFile("resources/fuente.ttf");
+    sans_font = renderEngine::Instance().createFontFromFile("resources/fuente.ttf");
 
     for(int i=0 ; i<6 ; i++){
-        dialogo[i].setFont(sans_font);
-        dialogo[i].setCharacterSize(50);
-        dialogo[i].setFillColor('w');
+        dialogo[i]->setFont(sans_font);
+        dialogo[i]->setCharacterSize(50);
+        dialogo[i]->setFillColor('w');
     }
     
     str_dialogo[0] = "* I see you have come here";
@@ -192,7 +197,7 @@ void boss::update() {
             if(time>6 && time<=35){
                 float x = renderEngine::Instance().getViewCenter()[0]-500;
                 float y = renderEngine::Instance().getViewCenter()[1]-500+(s_count*100);
-                dialogo[s_count].setPosition(x,y);
+                dialogo[s_count]->setPosition(x,y);
             
                 //ACTUALIZO EL STRING
                 if(dtDialogue.getElapsedTime().asSeconds()>0.1){
@@ -211,7 +216,7 @@ void boss::update() {
                         else{
                             std::string str_aux = "";
                             str_aux += str_dialogo[s_count].substr(0,c_count+1);
-                            dialogo[s_count].setString(str_aux);
+                            dialogo[s_count]->setString(str_aux);
 
                             c_count++;
                             quoteFin = false;
@@ -224,7 +229,7 @@ void boss::update() {
             if(time>35.5 && time<=41){
                 caja_dialogo.setPosition(renderEngine::Instance().getViewCenter()[0]-500,renderEngine::Instance().getViewCenter()[1]-8000);
                 for(int i=0 ; i<6 ; i++){
-                    dialogo[i].setPosition(renderEngine::Instance().getViewCenter()[0]-500,renderEngine::Instance().getViewCenter()[1]-8000);
+                    dialogo[i]->setPosition(renderEngine::Instance().getViewCenter()[0]-500,renderEngine::Instance().getViewCenter()[1]-8000);
                 }
                 sansJavi.setPosition(renderEngine::Instance().getViewCenter()[0]-500,renderEngine::Instance().getViewCenter()[1]-8000);
 
@@ -245,7 +250,7 @@ void boss::update() {
                 dt_fan.restart();       //ABANICO PROYECTILES
                 restart = true;
 
-                time_text.setPosition(renderEngine::Instance().getViewCenter()[0]-70*22,renderEngine::Instance().getViewCenter()[1]-70*5);
+                time_text->setPosition(renderEngine::Instance().getViewCenter()[0]-70*22,renderEngine::Instance().getViewCenter()[1]-70*5);
 
             }
 
@@ -308,7 +313,7 @@ void boss::update() {
                 sfml->Instance().ChangeState(MPuntuaciones::Instance());
             }
 
-            time_text.setString(std::to_string(40-static_cast<int>(clock_boss.getElapsedTime().asSeconds())));
+            time_text->setString(std::to_string(40-static_cast<int>(clock_boss.getElapsedTime().asSeconds())));
         }
     }
     else{
@@ -559,7 +564,7 @@ void boss::render() {
             caja_dialogo.draw();
             if(dialogo){
                 for(int i=0 ; i<6 ; i++){
-                    dialogo[i].draw();
+                    dialogo[i]->draw();
                 }
             }
             sansJavi.draw();
@@ -576,7 +581,7 @@ void boss::render() {
             for(std::list<proyectil>::iterator it = javi.proy.begin() ; it != javi.proy.end() ; ++it){
                 (*it).r.draw();
             }
-            time_text.draw();
+            time_text->draw();
         }
         for(int i=0 ; i<12 ; i++){
             puerta[i].r.draw();

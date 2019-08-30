@@ -25,7 +25,22 @@ MenuPausa* MenuPausa::Instance(){
 
 
 MenuPausa::MenuPausa() {
-        
+    
+
+        for(int i=0; i < NUMBER_OF_ITEMS; i++){
+        menu[i] = renderEngine::Instance().createText();
+    }
+
+
+
+
+
+     titulo = renderEngine::Instance().createText();
+    
+      titulo2 = renderEngine::Instance().createText();
+     menuhow =renderEngine::Instance().createText();
+
+
     width =  sfml->Instance().getViewSize()[0];
     height = sfml->Instance().getViewSize()[1];
     
@@ -65,45 +80,45 @@ MenuPausa::MenuPausa() {
     InmortalOn=false;
   
   
-    font.loadFromFile("resources/fuente.ttf");
+    font = renderEngine::Instance().createFontFromFile("resources/fuente.ttf");
 
-    titulo.setFont(font);
-    titulo.setCharacterSize(56);
-    titulo.setFillColor('k');
-    titulo.setString("Pause");  
+    titulo->setFont(font);
+    titulo->setCharacterSize(56);
+    titulo->setFillColor('k');
+    titulo->setString("Pause");  
 
 
-    menu[0].setFont(font);
-    menu[0].setCharacterSize(40);
-    menu[0].setFillColor('w');
-    menu[0].setString("Continue");
+    menu[0]->setFont(font);
+    menu[0]->setCharacterSize(40);
+    menu[0]->setFillColor('w');
+    menu[0]->setString("Continue");
 
-    menu[1].setFont(font);
-    menu[1].setCharacterSize(40);
-    menu[1].setFillColor('k');
-    menu[1].setString("Controls");
+    menu[1]->setFont(font);
+    menu[1]->setCharacterSize(40);
+    menu[1]->setFillColor('k');
+    menu[1]->setString("Controls");
 
-    menu[2].setFont(font);
-    menu[2].setCharacterSize(40);
-    menu[2].setFillColor('k');
-    menu[2].setString("God Mode OFF");
+    menu[2]->setFont(font);
+    menu[2]->setCharacterSize(40);
+    menu[2]->setFillColor('k');
+    menu[2]->setString("God Mode OFF");
 
-    menu[3].setFont(font);
-    menu[3].setCharacterSize(40);
-    menu[3].setFillColor('k');
-    menu[3].setString("Exit");
+    menu[3]->setFont(font);
+    menu[3]->setCharacterSize(40);
+    menu[3]->setFillColor('k');
+    menu[3]->setString("Exit");
 
     /*MENU DE OPCIONES*/
-    titulo2.setFont(font);
-    titulo2.setCharacterSize(56);
-    titulo2.setFillColor('k');
-    titulo2.setString("Controls");
+    titulo2->setFont(font);
+    titulo2->setCharacterSize(56);
+    titulo2->setFillColor('k');
+    titulo2->setString("Controls");
 
-    menuhow.setFont(font);
-    menuhow.setCharacterSize(40);
-    menuhow.setFillColor('w');
-    menuhow.setString("Exit");
-    menuhow.setPosition(posx-width/3, posy-height/6);
+    menuhow->setFont(font);
+    menuhow->setCharacterSize(40);
+    menuhow->setFillColor('w');
+    menuhow->setString("Exit");
+    menuhow->setPosition(posx-width/3, posy-height/6);
    
     /*Imagen Controles*/
     std::string sprite_namec = "assets/controles.png";
@@ -146,17 +161,17 @@ void MenuPausa::Render(){
     
     switch(statemenu){
         case 0:   
-            titulo.draw();
+            titulo->draw();
            for(int i=NUMBER_OF_ITEMS-1; i>=0 ;i--){
                 mancha[i].draw();
-                menu[i].draw();
+                menu[i]->draw();
                 personaje.draw();
             }
             break;
         case 1:
-            titulo2.draw();
+            titulo2->draw();
             manchahtp.draw();
-            menuhow.draw();
+            menuhow->draw();
             controles.draw();
             break;
     }
@@ -192,9 +207,9 @@ void MenuPausa::muevepersonaje(int selec){
 void MenuPausa::MoveUp(){
     if(statemenu==0){
             if(selectedItemIndex-1>=0){
-                menu[selectedItemIndex].setFillColor('k');
+                menu[selectedItemIndex]->setFillColor('k');
                 selectedItemIndex--;
-                menu[selectedItemIndex].setFillColor('w');
+                menu[selectedItemIndex]->setFillColor('w');
                 muevepersonaje(selectedItemIndex);
 
             }          
@@ -204,9 +219,9 @@ void MenuPausa::MoveUp(){
 void MenuPausa::MoveDown(){
     if(statemenu==0){
         if(selectedItemIndex+1<NUMBER_OF_ITEMS){
-            menu[selectedItemIndex].setFillColor('k');
+            menu[selectedItemIndex]->setFillColor('k');
             selectedItemIndex++;
-            menu[selectedItemIndex].setFillColor('w');
+            menu[selectedItemIndex]->setFillColor('w');
             muevepersonaje(selectedItemIndex);
 
         }
@@ -323,12 +338,12 @@ void MenuPausa::stateMenu() {
                     
                     //GOD MODE
                     if(god_mode==false){
-                        menu[2].setString("God Mode ON");
+                        menu[2]->setString("God Mode ON");
                         god_mode=true;
                         PonInmortal();
                     }
                     else{
-                        menu[2].setString("God Mode OFF");     
+                        menu[2]->setString("God Mode OFF");     
                         god_mode=false; 
                         PonInmortal();
                     }
@@ -365,14 +380,14 @@ void MenuPausa::Handle(){
 
     
     
-   titulo.setPosition(posx-width/20, posy-height/3);    
-   menu[0].setPosition(posx-width/18, posy-height/15);
-   menu[1].setPosition(posx, posy+height/15);
-   menu[2].setPosition(posx-width/15, posy+height/5);
-   menu[3].setPosition(posx+width/30, posy+height/3);
+   titulo->setPosition(posx-width/20, posy-height/3);    
+   menu[0]->setPosition(posx-width/18, posy-height/15);
+   menu[1]->setPosition(posx, posy+height/15);
+   menu[2]->setPosition(posx-width/15, posy+height/5);
+   menu[3]->setPosition(posx+width/30, posy+height/3);
    
-   titulo2.setPosition(posx-width/15, posy-height/2.5);
-   menuhow.setPosition(posx+width/40, posy+height/2.5);
+   titulo2->setPosition(posx-width/15, posy-height/2.5);
+   menuhow->setPosition(posx+width/40, posy+height/2.5);
    manchahtp.setPosition(posx+width/40, posy+height/2.5);
    controles.setPosition(posx, posy+height/3.9);
 

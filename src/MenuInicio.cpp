@@ -24,6 +24,27 @@ MenuInicio* MenuInicio::Instance(){
 
 MenuInicio::MenuInicio() {
     
+
+    for(int i=0; i < MAX_NUMBER_OF_ITEMS; i++){
+        menu[i] = renderEngine::Instance().createText();
+    }
+
+    for(int i=0; i < MAX_NUMBER_OF_ITEMS2; i++){
+        menuop[i] = renderEngine::Instance().createText();
+    }
+
+        for(int i=0; i < MAX_NUMBER_OF_ITEMS3; i++){
+        menuplayer[i] = renderEngine::Instance().createText();
+    }
+
+
+    titulo = renderEngine::Instance().createText();
+    titulo2 = renderEngine::Instance().createText();
+    titulo3 = renderEngine::Instance().createText();
+    titulo4 = renderEngine::Instance().createText();
+    menuhow = renderEngine::Instance().createText();
+
+
     width =  sfml->Instance().getViewSize()[0];
     height = sfml->Instance().getViewSize()[1];
 
@@ -87,99 +108,99 @@ MenuInicio::MenuInicio() {
     
     /*letras del menu*/
   
-    font.loadFromFile("resources/fuente.ttf");
+    font = renderEngine::Instance().createFontFromFile("resources/fuente.ttf");
 
     
-   titulo.setFont(font);
-   titulo.setCharacterSize(20);
-   titulo.setFillColor('r');
-   titulo.setString("PRESS START!!");
-   titulo.setPosition(posx-width/40, posy+height/3);
+   titulo->setFont(font);
+   titulo->setCharacterSize(20);
+   titulo->setFillColor('r');
+   titulo->setString("PRESS START!!");
+   titulo->setPosition(posx-width/40, posy+height/3);
   
    
-   menu[0].setFont(font);
-   menu[0].setCharacterSize(18);
-   menu[0].setFillColor('w');
-   menu[0].setString("Play");
-   menu[0].setPosition(posx-width/2, posy-height/5);
+   menu[0]->setFont(font);
+   menu[0]->setCharacterSize(18);
+   menu[0]->setFillColor('w');
+   menu[0]->setString("Play");
+   menu[0]->setPosition(posx-width/2, posy-height/5);
    
-   menu[1].setFont(font);
-   menu[1].setCharacterSize(18);
-   menu[1].setFillColor('k');
-   menu[1].setString("Options");
-   menu[1].setPosition(posx-width/2, posy-height/10);
+   menu[1]->setFont(font);
+   menu[1]->setCharacterSize(18);
+   menu[1]->setFillColor('k');
+   menu[1]->setString("Options");
+   menu[1]->setPosition(posx-width/2, posy-height/10);
    
-   menu[2].setFont(font);
-   menu[2].setCharacterSize(16);
-   menu[2].setFillColor('k');
-   menu[2].setString("How to play");
-   menu[2].setPosition(posx-width/2, posy+height/10);
+   menu[2]->setFont(font);
+   menu[2]->setCharacterSize(16);
+   menu[2]->setFillColor('k');
+   menu[2]->setString("How to play");
+   menu[2]->setPosition(posx-width/2, posy+height/10);
    
-   menu[3].setFont(font);
-   menu[3].setCharacterSize(18);
-   menu[3].setFillColor('k');
-   menu[3].setString("Exit");
-   menu[3].setPosition(posx-width/2, posy+height/5);
+   menu[3]->setFont(font);
+   menu[3]->setCharacterSize(18);
+   menu[3]->setFillColor('k');
+   menu[3]->setString("Exit");
+   menu[3]->setPosition(posx-width/2, posy+height/5);
    
    
    /*MENU DE OPCIONES*/
-   titulo2.setFont(font);
-   titulo2.setCharacterSize(22);
-   titulo2.setFillColor('k');
-   titulo2.setString("Options");
-   titulo2.setPosition(posx-width/25, posy-height/3);
+   titulo2->setFont(font);
+   titulo2->setCharacterSize(22);
+   titulo2->setFillColor('k');
+   titulo2->setString("Options");
+   titulo2->setPosition(posx-width/25, posy-height/3);
    
-   menuop[0].setFont(font);
-   menuop[0].setCharacterSize(18);
-   menuop[0].setFillColor('w');
-   menuop[0].setString("Sound ON");
-   menuop[0].setPosition(posx-width/2, posy-height/6);
+   menuop[0]->setFont(font);
+   menuop[0]->setCharacterSize(18);
+   menuop[0]->setFillColor('w');
+   menuop[0]->setString("Sound ON");
+   menuop[0]->setPosition(posx-width/2, posy-height/6);
    
-   menuop[1].setFont(font);
-   menuop[1].setCharacterSize(18);
-   menuop[1].setFillColor('k');
-   menuop[1].setString("Exit");
-   menuop[1].setPosition(posx-width/2, posy+height/10);
+   menuop[1]->setFont(font);
+   menuop[1]->setCharacterSize(18);
+   menuop[1]->setFillColor('k');
+   menuop[1]->setString("Exit");
+   menuop[1]->setPosition(posx-width/2, posy+height/10);
    
    
    /*Menu players*/
-   titulo3.setFont(font);
-   titulo3.setCharacterSize(22);
-   titulo3.setFillColor('k');
-   titulo3.setString("Players");
-   titulo3.setPosition(posx-width/25, posy-height/3);
+   titulo3->setFont(font);
+   titulo3->setCharacterSize(22);
+   titulo3->setFillColor('k');
+   titulo3->setString("Players");
+   titulo3->setPosition(posx-width/25, posy-height/3);
    
-   menuplayer[0].setFont(font);
-   menuplayer[0].setCharacterSize(18);
-   menuplayer[0].setFillColor('w');
-   menuplayer[0].setString("Play" );
-   menuplayer[0].setPosition(posx-width/2, posy-height/6);
+   menuplayer[0]->setFont(font);
+   menuplayer[0]->setCharacterSize(18);
+   menuplayer[0]->setFillColor('w');
+   menuplayer[0]->setString("Play" );
+   menuplayer[0]->setPosition(posx-width/2, posy-height/6);
    
-   menuplayer[1].setFont(font);
-   menuplayer[1].setCharacterSize(18);
-   menuplayer[1].setFillColor('k');
-   menuplayer[1].setString("Players "  + std::to_string(numplayers));
-   menuplayer[1].setPosition(posx-width/2, posy+height/10);
+   menuplayer[1]->setFont(font);
+   menuplayer[1]->setCharacterSize(18);
+   menuplayer[1]->setFillColor('k');
+   menuplayer[1]->setString("Players "  + std::to_string(numplayers));
+   menuplayer[1]->setPosition(posx-width/2, posy+height/10);
    
-   menuplayer[2].setFont(font);
-   menuplayer[2].setCharacterSize(18);
-   menuplayer[2].setFillColor('k');
-   menuplayer[2].setString("Exit");
-   menuplayer[2].setPosition(posx-width/2, posy+height/8);
+   menuplayer[2]->setFont(font);
+   menuplayer[2]->setCharacterSize(18);
+   menuplayer[2]->setFillColor('k');
+   menuplayer[2]->setString("Exit");
+   menuplayer[2]->setPosition(posx-width/2, posy+height/8);
    
    
    /*How to play*/
-   titulo4.setFont(font);
-   titulo4.setCharacterSize(22);
-   titulo4.setFillColor('k');
-   titulo4.setString("How to play");
-   titulo4.setPosition(posx-width/25, posy-height/2.5);
+   titulo4->setFont(font);
+   titulo4->setCharacterSize(22);
+   titulo4->setFillColor('k');
+   titulo4->setString("How to play");
+   titulo4->setPosition(posx-width/25, posy-height/2.5);
    
-   menuhow.setFont(font);
-   menuhow.setCharacterSize(18);
-   menuhow.setFillColor('w');
-   menuhow.setString("Exit");
-   menuhow.setPosition(posx-width/3, posy-height/6);
+   menuhow->setFont(font);
+   menuhow->setCharacterSize(18);
+   menuhow->setFillColor('w');
+   menuhow->setString("Exit");
+   menuhow->setPosition(posx-width/3, posy-height/6);
    
     /*Imagen Controles*/
     std::string sprite_namec = "assets/controles.png";
@@ -229,39 +250,39 @@ void MenuInicio::Render(){
             
             for(int i=MAX_NUMBER_OF_ITEMS-1; i>=0;i--){
                 mancha[i].draw();
-                menu[i].draw();
+                menu[i]->draw();
                 personaje.draw();
                 logo.draw();
             }
             break;
         case 1:   
-            titulo2.draw();
+            titulo2->draw();
             mancha[0].draw();
             mancha[2].draw();
             
             for(int i=MAX_NUMBER_OF_ITEMS2-1; i>=0;i--){
-                menuop[i].draw();
+                menuop[i]->draw();
                 personaje.draw();
 
             }
             break;  
         case 2:
-            titulo3.draw();
+            titulo3->draw();
 
             for(int i=MAX_NUMBER_OF_ITEMS3-1; i>=0;i--){
                 mancha[i].draw();
-                menuplayer[i].draw();
+                menuplayer[i]->draw();
                 personaje.draw();
             }
             break;
         case 3:
-            titulo4.draw();
+            titulo4->draw();
             manchahtp.draw();
-            menuhow.draw();
+            menuhow->draw();
             controles.draw();
             break;
         case 4:
-           titulo.draw();
+           titulo->draw();
            logo1.setScale(tam, tam);
            if(tam<1){
                  tam+=0.05;
@@ -279,25 +300,25 @@ void MenuInicio::MoveUp(){
     switch(statemenu){
         case 0:
             if(selectedItemIndex-1>=0){
-                menu[selectedItemIndex].setFillColor('k');
+                menu[selectedItemIndex]->setFillColor('k');
                 selectedItemIndex--;
-                menu[selectedItemIndex].setFillColor('w');
+                menu[selectedItemIndex]->setFillColor('w');
                 muevepersonaje(selectedItemIndex);
             }
             break;
         case 1:
             if(selectedItemIndex2-1>=0){
-                menuop[selectedItemIndex2].setFillColor('k');
+                menuop[selectedItemIndex2]->setFillColor('k');
                 selectedItemIndex2--;
-                menuop[selectedItemIndex2].setFillColor('w');
+                menuop[selectedItemIndex2]->setFillColor('w');
                 muevepersonaje(selectedItemIndex2);
             }
             break;
         case 2:
             if(selectedItemIndex3-1>=0){
-                menuplayer[selectedItemIndex3].setFillColor('k');
+                menuplayer[selectedItemIndex3]->setFillColor('k');
                 selectedItemIndex3--;
-                menuplayer[selectedItemIndex3].setFillColor('w');
+                menuplayer[selectedItemIndex3]->setFillColor('w');
                 muevepersonaje(selectedItemIndex3);
             }
             break;
@@ -310,17 +331,17 @@ void MenuInicio::MoveDown(){
     switch(statemenu){
         case 0:
             if(selectedItemIndex+1<MAX_NUMBER_OF_ITEMS){
-                menu[selectedItemIndex].setFillColor('k');
+                menu[selectedItemIndex]->setFillColor('k');
                 selectedItemIndex++;
-                menu[selectedItemIndex].setFillColor('w');
+                menu[selectedItemIndex]->setFillColor('w');
                 muevepersonaje(selectedItemIndex);
             }
             break;
         case 1:
             if(selectedItemIndex2+1<MAX_NUMBER_OF_ITEMS2){
-                menuop[selectedItemIndex2].setFillColor('k');
+                menuop[selectedItemIndex2]->setFillColor('k');
                 selectedItemIndex2++;
-                menuop[selectedItemIndex2].setFillColor('w');
+                menuop[selectedItemIndex2]->setFillColor('w');
                 if(selectedItemIndex2==1){
                     muevepersonaje(selectedItemIndex2+1);
                 }else{
@@ -330,9 +351,9 @@ void MenuInicio::MoveDown(){
             break;
         case 2:
             if(selectedItemIndex3+1<MAX_NUMBER_OF_ITEMS3){
-                menuplayer[selectedItemIndex3].setFillColor('k');
+                menuplayer[selectedItemIndex3]->setFillColor('k');
                 selectedItemIndex3++;
-                menuplayer[selectedItemIndex3].setFillColor('w');
+                menuplayer[selectedItemIndex3]->setFillColor('w');
                 muevepersonaje(selectedItemIndex3);
             }
             break;
@@ -406,9 +427,9 @@ void MenuInicio::Update(){
 
                                 if(controller_move_l) controller_move_l = false;
 
-                                if(statemenu==2 && numplayers<4 && menuplayer[1].getFillColor()==-99999){
+                                if(statemenu==2 && numplayers<4 && menuplayer[1]->getFillColor()==-99999){
                                     numplayers++;
-                                    menuplayer[1].setString("Players "  + std::to_string(numplayers));
+                                    menuplayer[1]->setString("Players "  + std::to_string(numplayers));
                                 }
                             }
                         }
@@ -418,9 +439,9 @@ void MenuInicio::Update(){
 
                                 if(controller_move_d) controller_move_d = false;
 
-                                if(statemenu==2 && numplayers>1 && menuplayer[1].getFillColor()==-99999){
+                                if(statemenu==2 && numplayers>1 && menuplayer[1]->getFillColor()==-99999){
                                     numplayers--;
-                                    menuplayer[1].setString("Players "  + std::to_string(numplayers));
+                                    menuplayer[1]->setString("Players "  + std::to_string(numplayers));
                                 }
                             }
                         }
@@ -463,16 +484,16 @@ void MenuInicio::Update(){
                             stateMenu();
                             break;
                          case renderEngine::Keys::Right:
-                            if(statemenu==2 && numplayers<4 && menuplayer[1].getFillColor()==-99999){
+                            if(statemenu==2 && numplayers<4 && menuplayer[1]->getFillColor()==-99999){
                                 numplayers++;
-                                menuplayer[1].setString("Players "  + std::to_string(numplayers));
+                                menuplayer[1]->setString("Players "  + std::to_string(numplayers));
                             }
                             break;
                             
                         case renderEngine::Keys::Left:
-                            if(statemenu==2 && numplayers>1 && menuplayer[1].getFillColor()==-99999){
+                            if(statemenu==2 && numplayers>1 && menuplayer[1]->getFillColor()==-99999){
                                 numplayers--;
-                                menuplayer[1].setString("Players "  + std::to_string(numplayers));
+                                menuplayer[1]->setString("Players "  + std::to_string(numplayers));
                             }
                             
                         //Cualquier tecla desconocida se imprime por pantalla su código
@@ -527,12 +548,12 @@ void MenuInicio::stateMenu() {
                 case 0:
                      //sonido
                     if(sonido==false){
-                        menuop[0].setString("Sound ON");
+                        menuop[0]->setString("Sound ON");
                         sonido=true;
                         Mapa::Instance().setVolumeZero();
                     }
                     else{
-                        menuop[0].setString("Sound OFF");     
+                        menuop[0]->setString("Sound OFF");     
                         sonido=false; 
                         Mapa::Instance().setVolumeZero();
                     }
@@ -590,11 +611,11 @@ void MenuInicio::stateMenu() {
 void MenuInicio::Handle(){    
     if(primero==false){
         statemenu=0;
-           titulo.setCharacterSize(60);
-            menu[0].setCharacterSize(40);
-            menu[1].setCharacterSize(40);
-            menu[2].setCharacterSize(40);
-            menu[3].setCharacterSize(40);
+           titulo->setCharacterSize(60);
+            menu[0]->setCharacterSize(40);
+            menu[1]->setCharacterSize(40);
+            menu[2]->setCharacterSize(40);
+            menu[3]->setCharacterSize(40);
             
             for(int i=0; i<MAX_NUMBER_OF_ITEMS; i++){
                 mancha[i].setScale(1.45, 1.45);
@@ -607,21 +628,21 @@ void MenuInicio::Handle(){
 
 
             /*MENU DE OPCIONES*/
-            titulo2.setCharacterSize(60);
-            menuop[0].setCharacterSize(40);
-            menuop[1].setCharacterSize(40);
+            titulo2->setCharacterSize(60);
+            menuop[0]->setCharacterSize(40);
+            menuop[1]->setCharacterSize(40);
           
 
             /*Menu players*/
-            titulo3.setCharacterSize(60);
-            menuplayer[0].setCharacterSize(40);
-            menuplayer[1].setCharacterSize(40);
-            menuplayer[2].setCharacterSize(40);
+            titulo3->setCharacterSize(60);
+            menuplayer[0]->setCharacterSize(40);
+            menuplayer[1]->setCharacterSize(40);
+            menuplayer[2]->setCharacterSize(40);
 
 
             /*How to play*/
-            titulo4.setCharacterSize(60);
-            menuhow.setCharacterSize(40);
+            titulo4->setCharacterSize(60);
+            menuhow->setCharacterSize(40);
             
             
     }
@@ -639,11 +660,11 @@ void MenuInicio::Handle(){
 
 
                 
-   titulo.setPosition(posx-width/10, posy+height/2.8);    
-   menu[0].setPosition(posx-width/30, posy-height/15);
-   menu[1].setPosition(posx+width/60, posy+height/15);
-   menu[2].setPosition(posx-width/15, posy+height/5);
-   menu[3].setPosition(posx+width/30, posy+height/3);
+   titulo->setPosition(posx-width/10, posy+height/2.8);    
+   menu[0]->setPosition(posx-width/30, posy-height/15);
+   menu[1]->setPosition(posx+width/60, posy+height/15);
+   menu[2]->setPosition(posx-width/15, posy+height/5);
+   menu[3]->setPosition(posx+width/30, posy+height/3);
 
     /*manchas del menu*/   
     mancha[0].setPosition(posx-width/30, posy-height/15);
@@ -654,21 +675,21 @@ void MenuInicio::Handle(){
 
     
    /*MENU DE OPCIONES*/
-   titulo2.setPosition(posx-width/15, posy-height/3);
-   menuop[0].setPosition(posx-width/25, posy-height/15);
-   menuop[1].setPosition(posx-width/30, posy+height/5);
+   titulo2->setPosition(posx-width/15, posy-height/3);
+   menuop[0]->setPosition(posx-width/25, posy-height/15);
+   menuop[1]->setPosition(posx-width/30, posy+height/5);
    
    
    /*Menu players*/
-   titulo3.setPosition(posx-width/15, posy-height/3);
-   menuplayer[0].setPosition(posx-width/30, posy-height/15);
-   menuplayer[1].setPosition(posx, posy+height/15);
-   menuplayer[2].setPosition(posx-width/20, posy+height/5);
+   titulo3->setPosition(posx-width/15, posy-height/3);
+   menuplayer[0]->setPosition(posx-width/30, posy-height/15);
+   menuplayer[1]->setPosition(posx, posy+height/15);
+   menuplayer[2]->setPosition(posx-width/20, posy+height/5);
    
 
    /*How to play*/
-   titulo4.setPosition(posx-width/15, posy-height/2.5);
-   menuhow.setPosition(posx, posy+height/2.5);
+   titulo4->setPosition(posx-width/15, posy-height/2.5);
+   menuhow->setPosition(posx, posy+height/2.5);
    manchahtp.setPosition(posx+width/40, posy+height/2.5);
    controles.setPosition(posx, posy+height/5);
    

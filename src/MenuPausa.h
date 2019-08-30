@@ -47,13 +47,13 @@ private:
     int selectedItemIndex2;
 
     int statemenu;
-    renderEngine::rFont font;
-    renderEngine::rText menu[NUMBER_OF_ITEMS];
-    renderEngine::rText  titulo;
+    renderEngine::IFont* font;
+    renderEngine::IText* menu[NUMBER_OF_ITEMS];
+    renderEngine::IText*  titulo;
     static MenuPausa* instance;
     
-    renderEngine::rText  titulo2;
-    renderEngine::rText menuhow;;
+    renderEngine::IText*  titulo2;
+    renderEngine::IText* menuhow;;
 
     float width;
     float height;

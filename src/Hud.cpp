@@ -17,6 +17,9 @@
 
 Hud::Hud(std::vector<Player*> jugadores) {//cambiar y pasar array de jugadores
 
+    for(int i=0 ; i<3 ; i++){
+        menu[i] = renderEngine::Instance().createText();
+    }
     players=jugadores;//cambiar a array de jugadores
 
     width =  sfml->Instance().getViewSize()[0];
@@ -25,23 +28,23 @@ Hud::Hud(std::vector<Player*> jugadores) {//cambiar y pasar array de jugadores
     posx = sfml->Instance().getViewCenter()[0];
     posy = sfml->Instance().getViewCenter()[1];
     
-    //font.loadFromFile("resources/fuente.ttf");
-    font.loadFromFile("assets/fonts/ninjagarden.ttf");
+    //font = renderEngine::Instance().createFontFromFile("resources/fuente.ttf");
+    font = renderEngine::Instance().createFontFromFile("assets/fonts/ninjagarden.ttf");
     
         //imprime el nombre del personaje
-       menu[0].setFont(font);
-       menu[0].setCharacterSize(50);
-       menu[0].setFillColor('w');
+       menu[0]->setFont(font);
+       menu[0]->setCharacterSize(50);
+       menu[0]->setFillColor('w');
 
       //imprime el numero de player
-       menu[1].setFont(font);
-       menu[1].setCharacterSize(70);
-       menu[1].setFillColor('w');
+       menu[1]->setFont(font);
+       menu[1]->setCharacterSize(70);
+       menu[1]->setFillColor('w');
 
         //imprime el nivel del personaje
-       menu[2].setFont(font);
-       menu[2].setCharacterSize(40);
-       menu[2].setFillColor('k');
+       menu[2]->setFont(font);
+       menu[2]->setCharacterSize(40);
+       menu[2]->setFillColor('k');
        
        
            /*PERSONAJE*/
@@ -91,9 +94,9 @@ void Hud::cambiarHud(Player* player){
     posx = sfml->Instance().getViewCenter()[0];
     posy = sfml->Instance().getViewCenter()[1];
     
-    menu[0].setString(player->getName());
-    menu[1].setString(std::to_string(player->getLevel()));
-    menu[2].setString("Exp: " + std::to_string(player->getExp()) +"/"+ std::to_string(player->getExp_levelup()));
+    menu[0]->setString(player->getName());
+    menu[1]->setString(std::to_string(player->getLevel()));
+    menu[2]->setString("Exp: " + std::to_string(player->getExp()) +"/"+ std::to_string(player->getExp_levelup()));
     hudsprite=player->getSprite();
 
 
@@ -103,35 +106,35 @@ void Hud::cambiarHud(Player* player){
         case 0:       
             NEWHUD[0].setPosition(posx-5.5*(width/12) -20, posy-height/2.2);
             hudsprite.setPosition(posx-5*(width/12) + 230 , posy-height/2.2 + 75);
-            menu[0].setPosition(posx-5.5*(width/12) + 130 ,posy-height/2.4 -30 );
-            menu[1].setPosition(posx-5.5*(width/12) + 40 ,posy-height/2.6 -65);
-            menu[2].setPosition(posx-5.5*(width/12) + 180 ,posy-height/2.8 -85);
+            menu[0]->setPosition(posx-5.5*(width/12) + 130 ,posy-height/2.4 -30 );
+            menu[1]->setPosition(posx-5.5*(width/12) + 40 ,posy-height/2.6 -65);
+            menu[2]->setPosition(posx-5.5*(width/12) + 180 ,posy-height/2.8 -85);
             //cuadrado.setPosition(posx-5.5*(width/12),posy-height/2.4);
 
             break;
          case 1:
             NEWHUD[1].setPosition(posx-2.5*width/12 -20,posy-height/2.2);
             hudsprite.setPosition(posx-2*width/12 + 230, posy-height/2.2 +75);
-            menu[0].setPosition(posx-2.5*width/12 + 130, posy-height/2.4 -30);
-            menu[1].setPosition(posx-2.5*width/12 + 40, posy-height/2.6 -65);
-            menu[2].setPosition(posx-2.5*width/12 + 180, posy-height/2.8 -85);
+            menu[0]->setPosition(posx-2.5*width/12 + 130, posy-height/2.4 -30);
+            menu[1]->setPosition(posx-2.5*width/12 + 40, posy-height/2.6 -65);
+            menu[2]->setPosition(posx-2.5*width/12 + 180, posy-height/2.8 -85);
             //cuadrado.setPosition(posx-2.5*(width/12),posy-height/2.4);
 
             break;
         case 2:
             NEWHUD[2].setPosition(posx+1*width/12 -20,posy-height/2.2);
             hudsprite.setPosition(posx+1.5*width/12 + 230 , posy-height/2.2 +75);
-            menu[0].setPosition(posx+width/12 + 130 , posy-height/2.4 -30);
-            menu[1].setPosition(posx+width/12 + 40 , posy-height/2.6 -65);
-            menu[2].setPosition(posx+width/12 + 180 , posy-height/2.8 -85);
+            menu[0]->setPosition(posx+width/12 + 130 , posy-height/2.4 -30);
+            menu[1]->setPosition(posx+width/12 + 40 , posy-height/2.6 -65);
+            menu[2]->setPosition(posx+width/12 + 180 , posy-height/2.8 -85);
             //cuadrado.setPosition(posx+(width/12),posy-height/2.4);
             break;
         case 3:
             NEWHUD[3].setPosition(posx+4*(width/12) -20 ,posy-height/2.2);
             hudsprite.setPosition(posx+4.5*(width/12) + 230 , posy-height/2.2 +75);
-            menu[0].setPosition(posx+4*(width/12) + 130 , posy-height/2.4 -30);
-            menu[1].setPosition(posx+4*(width/12) + 40 , posy-height/2.6 -65);
-            menu[2].setPosition(posx+4*(width/12) +180 , posy-height/2.8 -85);
+            menu[0]->setPosition(posx+4*(width/12) + 130 , posy-height/2.4 -30);
+            menu[1]->setPosition(posx+4*(width/12) + 40 , posy-height/2.6 -65);
+            menu[2]->setPosition(posx+4*(width/12) +180 , posy-height/2.8 -85);
             //cuadrado.setPosition(posx+4*(width/12),posy-height/2.4);
 
             break;
@@ -147,7 +150,7 @@ void Hud::render(){
         //cuadrado.draw();
         hudsprite.draw();
         for(int i=0; i<3; i++){
-            menu[i].draw();
+            menu[i]->draw();
         }
     }
 

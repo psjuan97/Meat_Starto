@@ -115,9 +115,9 @@ private:
     physicsEngine::type* t;
     
     renderEngine::rImage proy_boss;
-    renderEngine::rText time_text;
-    renderEngine::rFont time_font;
-    renderEngine::rFont sans_font;
+    renderEngine::IText* time_text;
+    renderEngine::IFont* time_font;
+    renderEngine::IFont* sans_font;
     
     //--------- ANIMACION BOSS ---------//
     bool initBoss;
@@ -126,7 +126,7 @@ private:
     bool quoteFin;
     
     rRectangleShape sansJavi;
-    renderEngine::rText dialogo[6];
+    renderEngine::IText* dialogo[6];
     std::string str_dialogo[6];
     int s_count;
     int c_count;

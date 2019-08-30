@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /* 
- * File:   renderEngine.h
- * Author: pablomanez
+ * 
+ * Author: pablomanez && PsJuan
  *
- * Created on 21 de marzo de 2018, 15:30
+ *
  */
 
 #ifndef RENDERENGINE_H
@@ -22,10 +17,7 @@
 #include "../core/rIntRect.h"
 #include "../core/rEvent.h"
 
-
 #include <array>
-
-
 
 
 class renderEngine {
@@ -57,6 +49,18 @@ public:
 
 
     
+    class EventType{                //ENUMERACION CON LOS DISTINTOS EVENTOS (FALTA PONER LOS QUE SE VAYAN A UTILIZAR)
+        public:
+        static int KeyPressed; 
+        static int KeyReleased; 
+        static int Quit;    
+        static int JoystickConnected;           
+        static int JoystickDisconnected;    
+        static int JoystickButtonPressed;     
+        static int JoystickButtonReleased;      
+        static int JoystickMoved;             
+    };
+
     //surface
     class rImage {
         friend class renderEngine;
@@ -71,45 +75,41 @@ public:
     };
     
 
-        //texure
+    //texure
     class ITexture {
         friend class renderEngine;
         public:
             virtual int getXSize(){return 100;};
             virtual int getYSize(){return 100;};
-            
-
-
     };
 
 
 
-
-    class EventType{                //ENUMERACION CON LOS DISTINTOS EVENTOS (FALTA PONER LOS QUE SE VAYAN A UTILIZAR)
-        public:
-        static int KeyPressed; 
-        static int KeyReleased; 
-        static int Quit;    
-        static int JoystickConnected;           
-        static int JoystickDisconnected;    
-        static int JoystickButtonPressed;     
-        static int JoystickButtonReleased;      
-        static int JoystickMoved;             
-    };
-
-
-    
-    class rFont {
+    //font
+    class IFont {
         friend class renderEngine;
         public:
-            rFont();
-            void loadFromFile(std::string str);
-        private:
-            TTF_Font* font;
+            virtual void loadFromFile(std::string str) {};
+
 
     };
 
-    class rText {
+    class IText{
+        public:
+            virtual void draw(){};
+            virtual void setPosition(float x,float y){};
+            virtual void setFillColor(char c){};
+            virtual void setScale(float fx, float fy){};
+            virtual void setString(std::string str){};
+            virtual void setCharacterSize(int s){};
+            virtual void setFont(renderEngine::IFont* font){};
+            virtual void setOrigin(float x, float y){};
+            virtual std::array<float,2> getSize(){ return std::array<float,2>();};
+            virtual int getFillColor(){return -1;}; //sf::Color
+    };
+
+
+    class rText : public IText {
         public:
             rText();
             
@@ -119,18 +119,20 @@ public:
             void setScale(float fx, float fy);
             void setString(std::string str);
             void setCharacterSize(int s);
-            void setFont(rFont &font);
+            void setFont(renderEngine::IFont* font);
             void setOrigin(float x, float y);
             std::array<float,2> getSize();
             int getFillColor(); //sf::Color
             
         private:
             std::string text;
-            SDL_Texture* Message;
-            renderEngine::rFont font;
+            renderEngine::ITexture* Message; 
+            renderEngine::IFont* font;
             int posX, posY;
     };
-    
+
+
+
     //METODOS PUBLICOS
     bool isOpen();                                  //TRUE SI LA VENTANA ESTA ABIERTA
     void close();                                   //CIERRA LA VENTANA
@@ -154,7 +156,8 @@ public:
     rImage createImageFromFile(std::string path);                                        //APLICAR UNA RUTA A LA TEXTURA
     ITexture* createTextureFromFile(std::string path);                                        //APLICAR UNA RUTA A LA TEXTURA
     ITexture* createTextureFromImage(renderEngine::rImage im, rIntRect ir);     //APLICAR UNA IMAGEN A UNA TEXTURA, CON SU CUADRADO DE RECORTE
-
+    IFont* createFontFromFile(std::string path);     
+    IText* createText();     
 
 private:
     
@@ -173,6 +176,16 @@ private:
         private:
             SDL_Texture* getTexture();              //DEVUELVE LA TEXTURA (USAR SOLO INTERNAMENTE)
             SDL_Texture* texture ;
+
+    };
+
+    class rFont : public renderEngine::IFont {
+        friend class renderEngine;
+        public:
+            rFont();
+            void loadFromFile(std::string str);
+        private:
+            TTF_Font* font;
 
     };
     

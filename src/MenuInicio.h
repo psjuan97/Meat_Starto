@@ -53,17 +53,17 @@ private:
     int selectedItemIndex2;
     int selectedItemIndex3;
    // int selectedItemIndex4;
-    renderEngine::rFont font;
-    renderEngine::rText menu[MAX_NUMBER_OF_ITEMS];
-    renderEngine::rText menuop[MAX_NUMBER_OF_ITEMS2];
-    renderEngine::rText menuplayer[MAX_NUMBER_OF_ITEMS3];
+    renderEngine::IFont* font;
+    renderEngine::IText* menu[MAX_NUMBER_OF_ITEMS];
+    renderEngine::IText* menuop[MAX_NUMBER_OF_ITEMS2];
+    renderEngine::IText* menuplayer[MAX_NUMBER_OF_ITEMS3];
     rSprite fondo;
     int statemenu;
-    renderEngine::rText  titulo;
-    renderEngine::rText  titulo2;
-    renderEngine::rText titulo3;
-    renderEngine::rText titulo4;
-    renderEngine::rText menuhow;
+    renderEngine::IText*  titulo;
+    renderEngine::IText*  titulo2;
+    renderEngine::IText* titulo3;
+    renderEngine::IText* titulo4;
+    renderEngine::IText* menuhow;
     static MenuInicio* instance;
     
     float width;

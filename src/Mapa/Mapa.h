@@ -148,8 +148,8 @@ private:
     //INICIO DEL JUEGO
     bool bInit;
     rClock initClock;
-    renderEngine::rFont initFont;
-    renderEngine::rText *initText;
+    renderEngine::IFont* initFont;
+    renderEngine::IText *initText;
     struct bloque{
         pBody body;
         rRectangleShape rs;

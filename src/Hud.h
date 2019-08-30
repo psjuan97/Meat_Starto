@@ -33,8 +33,8 @@ public:
     
     
 private:
-    renderEngine::rFont font;
-    renderEngine::rText menu[3];
+    renderEngine::IFont* font;
+    renderEngine::IText* menu[3];
     rSprite hudsprite;
     std::vector<Player*> players;
     rSprite cuadrado;

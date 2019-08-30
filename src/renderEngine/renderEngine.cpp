@@ -78,8 +78,8 @@ void renderEngine::drawTexture(ITexture *texture, texture_prop propiedades, rInt
     srcrect.h = (float) rect.height;
 
 
-    if((rTexture*)texture != nullptr){
-        SDL_RenderCopy( renderEngine::Instance().renderer, ((rTexture*)texture)->getTexture(), &srcrect, &dstrect );
+    if((renderEngine::rTexture*)texture != nullptr){
+        SDL_RenderCopy( renderEngine::Instance().renderer, ((renderEngine::rTexture*)texture)->getTexture(), &srcrect, &dstrect );
     }else{
         SDL_RenderFillRect(renderEngine::Instance().renderer,&dstrect )   ;
     }
@@ -179,17 +179,28 @@ renderEngine::rImage renderEngine::createImageFromFile(std::string path){
 
 
 renderEngine::ITexture* renderEngine::createTextureFromFile(std::string path){
-    rTexture* tex = new rTexture();;
+    renderEngine::rTexture* tex = new renderEngine::rTexture();;
     tex->loadFromFile(path);
     return tex;
 }                    
 
 
 renderEngine::ITexture* renderEngine::createTextureFromImage(renderEngine::rImage im, rIntRect ir){
-    rTexture* tex = new rTexture();;
+    renderEngine::rTexture* tex = new renderEngine::rTexture();;
     tex->loadFromImage(im,ir);
     return tex;
 }     
+
+renderEngine::IFont* renderEngine::createFontFromFile(std::string path){
+    rFont* font = new rFont();
+    font->loadFromFile(path);
+    return font;
+}     
+
+renderEngine::IText* renderEngine::createText(){
+
+    return new rText();
+}
 
 
 
@@ -288,10 +299,11 @@ void renderEngine::rImage::loadFromFIle(std::string path) {
 }
 
 
-
 //============================= TEXT =============================//
-renderEngine::rText::rText(){    
-    font.loadFromFile("assets/fonts/8-bit_pusab.ttf");
+renderEngine::rText::rText(){   
+    Message = new renderEngine::rTexture(); 
+    font = new rFont();
+    font->loadFromFile("assets/fonts/8-bit_pusab.ttf");
 }
 
 //TODO no crear todo el rato la txtura
@@ -301,20 +313,20 @@ void renderEngine::rText::draw() {
     Message_rect.x = posX;  //controls the rect's x coordinate 
     Message_rect.y = posY; // controls the rect's y coordinte
 
-     Message_rect.x =  ((float) ((posX - ( renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x/2) )  )  / renderEngine::Instance().camera.getZoom());
+    Message_rect.x =  ((float) ((posX - ( renderEngine::Instance().camera.getCenter()[0] - renderEngine::Instance().camera.size_x/2) )  )  / renderEngine::Instance().camera.getZoom());
     Message_rect.y =  ((float) ((posY - ( renderEngine::Instance().camera.getCenter()[1] - renderEngine::Instance().camera.size_y/2) ) )  / renderEngine::Instance().camera.getZoom());
 
     Message_rect.h = 0; // controls the rect's y coordinte
     Message_rect.w = 0; // controls the rect's y coordinte
 
-    SDL_QueryTexture(Message,  NULL,   NULL,      &Message_rect.w, &Message_rect.h);
+    SDL_QueryTexture(((renderEngine::rTexture*)Message)->getTexture(),  NULL,   NULL,      &Message_rect.w, &Message_rect.h);
 
 
     //Mind you that (0,0) is on the top left of the window/screen, think a rect as the text's box, that way it would be very simple to understance
 
     //Now since it's a texture, you have to put RenderCopy in your game loop area, the area where the whole code executes
 
-    SDL_RenderCopy(renderEngine::Instance().renderer, Message, NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
+    SDL_RenderCopy(renderEngine::Instance().renderer,((renderEngine::rTexture*)Message)->getTexture(), NULL, &Message_rect); //you put the renderer's name first, the Message, the crop size(you can ignore this if you don't want to dabble with cropping), and the rect which is the size and coordinate of your texture
 
     //Don't forget too free your surface and texture
 
@@ -332,16 +344,20 @@ void renderEngine::rText::setString         (std::string str)       {
         SDL_Color black = {0, 0, 0};  // this is the color in rgb format, maxing out all would give you the color white, and it will be your text's color
     this->text = str;
 
-        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(this->font.font, text.c_str() , black); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
+        SDL_Surface* surfaceMessage = TTF_RenderText_Solid( ((rFont*)this->font)->font, text.c_str() , black); // as TTF_RenderenderEngine::rText_Solid could only be used on SDL_Surface then you have to create the surface first
 
-     Message = SDL_CreateTextureFromSurface(renderEngine::Instance().renderer, surfaceMessage); //now you can convert it into a texture
-SDL_FreeSurface(surfaceMessage);
+     ((renderEngine::rTexture*)Message)->texture = SDL_CreateTextureFromSurface(renderEngine::Instance().renderer, surfaceMessage); //now you can convert it into a texture
+    SDL_FreeSurface(surfaceMessage);
  }
+
+
+
 void renderEngine::rText::setCharacterSize  (int s)                 { 
 
-
  }
-void renderEngine::rText::setFont           (renderEngine::rFont &font)           {
+
+
+void renderEngine::rText::setFont           (renderEngine::IFont *font)           {
     this->font = font;
 
   }
@@ -349,9 +365,11 @@ void renderEngine::rText::setOrigin         (float x, float y)      {  }
 
 std::array<float, 2> renderEngine::rText::getSize() {
     std::array<float,2> ret;
-    
-    ret[0] = -1;
-    ret[1] = -1;
+    int w,h;
+    SDL_QueryTexture(((renderEngine::rTexture*)Message)->getTexture(),  NULL,   NULL,      &w, &h);
+
+    ret[0] = w;
+    ret[1] = h;
     
     return ret;
 }
@@ -372,6 +390,7 @@ void renderEngine::rText::setFillColor(char c) {
 int renderEngine::rText::getFillColor() { 
     return 0;
 };
+
 
 //============================= FONT =============================//
 renderEngine::rFont::rFont() {

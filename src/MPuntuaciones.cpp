@@ -60,28 +60,28 @@ MPuntuaciones::MPuntuaciones() {
 
     
   
-    font.loadFromFile("resources/fuente.ttf");
+    font = renderEngine::Instance().createFontFromFile("resources/fuente.ttf");
 
-    titulo.setFont(font);
-    titulo.setCharacterSize(56);
-    titulo.setFillColor('k');
-    titulo.setString("Score");
+    titulo->setFont(font);
+    titulo->setCharacterSize(56);
+    titulo->setFillColor('k');
+    titulo->setString("Score");
 
-    tsalir.setFont(font);
-    tsalir.setCharacterSize(50);
-    tsalir.setFillColor('w');
-    tsalir.setString("Exit");
+    tsalir->setFont(font);
+    tsalir->setCharacterSize(50);
+    tsalir->setFillColor('w');
+    tsalir->setString("Exit");
 
-    titulo.setPosition(posx-width/15, posy-height/2.75);   
-    tsalir.setPosition(posx-width/30, posy+height/2.9);
+    titulo->setPosition(posx-width/15, posy-height/2.75);   
+    tsalir->setPosition(posx-width/30, posy+height/2.9);
     
    //jugadores
     jugadores= Juego::Instance().getPlayers();
     
 
-    menu= new renderEngine::rText*[MenuInicio::Instance()->numplayers];
+    menu= new renderEngine::IText*[MenuInicio::Instance()->numplayers];
     for(int i=0; i<MenuInicio::Instance()->numplayers; i++){
-        menu[i]= new renderEngine::rText[5];
+        menu[i]= new renderEngine::IText[5];
     }
     sprite=new rSprite[MenuInicio::Instance()->numplayers];
     
@@ -219,8 +219,8 @@ void MPuntuaciones::Render(){
             menu[i][j].draw();
         }
     }
-    titulo.draw();
-    tsalir.draw();
+    titulo->draw();
+    tsalir->draw();
     renderEngine::Instance().display();
     
 }

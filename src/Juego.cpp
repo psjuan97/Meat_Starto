@@ -170,7 +170,7 @@ void Juego::Handle(){
 void Juego::HandleEvents(){
     renderEngine    *sfml;
 
-    renderEngine::rEvent event;
+    rEvent event;
         //0x7fff11e212f0
 
     int jAxis;
@@ -191,8 +191,9 @@ void Juego::HandleEvents(){
          *  RB: 5
          */
 
-        switch(event.sfType()){
-            case renderEngine::rEvent::EventType::JoystickButtonPressed :
+      
+            if(event.sfType() == renderEngine::EventType::JoystickButtonPressed ){
+
                 if(event.getJoystickButton()==6) renderEngine::Instance().close();
                 if(event.getJoystickButton()==7) renderEngine::Instance().ChangeState(MenuPausa::Instance());
                 for(int i=0 ; i<getPlayers()->size() ; i++){
@@ -226,9 +227,7 @@ void Juego::HandleEvents(){
                         }
                     }
                 }
-                break;
-            case renderEngine::rEvent::EventType::JoystickButtonReleased :
-                //std::cout << "BUTTON: " << event.getJoystickButton() << std::endl;
+            }else if(event.sfType() == renderEngine::EventType::JoystickButtonReleased){
                 for(int i=0 ; i<getPlayers()->size() ; i++){
                     if(renderEngine::Instance().isJoystickConnected(i)){
                         //std::cout << "BUTTON: " << event.getJoystickButton() << std::endl;
@@ -260,9 +259,8 @@ void Juego::HandleEvents(){
                         }
                     }
                 }
-                break;
-            case renderEngine::rEvent::EventType::JoystickMoved :
-                    jAxis = event.getJoystickMoveAxis();
+            }else if(event.sfType() == renderEngine::EventType::JoystickMoved){
+jAxis = event.getJoystickMoveAxis();
                     jPosition = event.getJoystickMovePosition();
 
                     for(int i=0 ; i<getPlayers()->size(); i++){
@@ -364,9 +362,9 @@ void Juego::HandleEvents(){
 
                         }
                     }
-                break;
 
-            case renderEngine::rEvent::EventType::KeyPressed :
+            }else if(event.sfType() == renderEngine::EventType::KeyPressed){
+
                 keys[event.getKeyCode()] = true;
                 std::cout << "Tecla " << event.getKeyCode() << std::endl;
                 if(event.getKeyCode() == renderEngine::Keys::Q  )    sfml->Instance().close();                                   //Q
@@ -381,11 +379,9 @@ void Juego::HandleEvents(){
                 //}
 
 
-                break;
+            }else if(event.sfType() == renderEngine::EventType::KeyReleased ){
 
-            case renderEngine::rEvent::EventType::KeyReleased :
-
-            std::cout << "KEY RELEASED" << std::endl;
+             std::cout << "KEY RELEASED" << std::endl;
                 keys[event.getKeyCode()] = false;
 
                 switch(event.getKeyCode()) {
@@ -450,11 +446,11 @@ void Juego::HandleEvents(){
 
                     break;
                 }
-                break;
 
 
-            default:
-                break;
+            
+           
+            
         }
 
     }

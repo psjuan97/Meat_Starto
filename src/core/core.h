@@ -6,3 +6,4 @@
 #include "core/rTime.h"
 #include "core/rClock.h"
 #include "core/rIntRect.h"
+#include "core/rEvent.h"

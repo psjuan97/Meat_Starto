@@ -239,7 +239,7 @@ void MPuntuaciones::recuento(){
 }
 
 void MPuntuaciones::Update(){
-    renderEngine::rEvent event;
+    rEvent event;
     
     f1.setSize(sfml->Instance().getViewSize()[0], sfml->Instance().getViewSize()[1]);
     f1.setPosition(((sfml->Instance().getViewCenter()[0])-(sfml->Instance().getViewSize()[0])/2), (sfml->Instance().getViewCenter()[1])-(sfml->Instance().getViewSize()[1])/2);
@@ -248,20 +248,15 @@ void MPuntuaciones::Update(){
        while (sfml->Instance().pollEvent(event))
         {
             
-            switch(event.sfType()){
-                
-                //Si se recibe el evento de cerrar la ventana la cierro
-                case renderEngine::rEvent::EventType::Quit :
+   
+            int type = event.sfType();    
+            if(type == renderEngine::EventType::Quit){
                     sfml->Instance().close();
-                    break;
-                    
-                case renderEngine::rEvent::EventType::JoystickButtonPressed:
+
+            }else if(type == renderEngine::EventType::JoystickButtonPressed ){
                     if(event.getJoystickButton()==6) sfml->Instance().close();
                     if(event.getJoystickButton()==0) sfml->Instance().ChangeState(MenuInicio::Instance());
-                    break;
-                //Se pulsó una tecla, imprimo su codigo
-                case renderEngine::rEvent::EventType::KeyPressed :
-                    
+            }else if(type == renderEngine::EventType::KeyPressed){
                     //Verifico si se pulsa alguna tecla de movimiento
                     switch(event.getKeyCode()) {
                                                    
@@ -285,8 +280,12 @@ void MPuntuaciones::Update(){
                         break;
                               
                     }
+            } 
+
+                    
+
                      
-            }
+            
          
         }  
 }

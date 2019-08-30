@@ -20,6 +20,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "../core/rView.h"
 #include "../core/rIntRect.h"
+#include "../core/rEvent.h"
 
 
 #include <array>
@@ -88,33 +89,21 @@ public:
     };
     
 
-    
 
-    class rEvent {
-        friend class renderEngine;
+    class EventType{                //ENUMERACION CON LOS DISTINTOS EVENTOS (FALTA PONER LOS QUE SE VAYAN A UTILIZAR)
         public:
-            rEvent();
-            enum EventType{                //ENUMERACION CON LOS DISTINTOS EVENTOS (FALTA PONER LOS QUE SE VAYAN A UTILIZAR)
-                KeyPressed                  = SDL_KEYDOWN,
-                KeyReleased                 = SDL_KEYUP,
-                Quit                    =  SDL_QUIT,
-                JoystickConnected           = 99,
-                JoystickDisconnected        = 100,
-                JoystickButtonPressed       = 101,
-                JoystickButtonReleased      = 102,
-                JoystickMoved               = 103
-            };
-            unsigned int sfType();
-            
-            int getKeyCode();                                                   //DEVUELVE EL CODIGO DEL EVENTO DE TECLADO
-            int getJoystickButton();                                            //DEVUELVE EL CODIGO DE EVENTO DE BOTON DEL MANDO
-            float getJoystickMoveAxis();                                          //EJE DE MOVIMIENTO DEL JOYSTICK/CRUCETA
-            float getJoystickMovePosition();                                      //POSICION DE MOVIMIENTO DEL JOYSTICK/CRUCETA
-            int getJoystickId();                                                //ID DEL MANDO: 0,1,2,3
-            
-        private:
-            SDL_Event event;            
+        static int KeyPressed; 
+        static int KeyReleased; 
+        static int Quit;    
+        static int JoystickConnected;           
+        static int JoystickDisconnected;    
+        static int JoystickButtonPressed;     
+        static int JoystickButtonReleased;      
+        static int JoystickMoved;             
     };
+
+
+
     
     
     

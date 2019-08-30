@@ -223,17 +223,16 @@ void MenuPausa::PonInmortal(){
 
 void MenuPausa::Update(){
     int c_sens = 90;
-    renderEngine::rEvent event;
+    rEvent event;
   
     f1.setSize(sfml->Instance().getViewSize()[0], sfml->Instance().getViewSize()[1]);
     f1.setPosition(((sfml->Instance().getViewCenter()[0])-(sfml->Instance().getViewSize()[0])/2), (sfml->Instance().getViewCenter()[1])-(sfml->Instance().getViewSize()[1])/2);
 
     
-       while (sfml->Instance().pollEvent(event))
+       while (renderEngine::Instance().pollEvent(event))
         {
             
-            switch(event.sfType()){
-                case renderEngine::rEvent::EventType::JoystickMoved:
+                if( event.sfType() == renderEngine::EventType::JoystickMoved){
                     /*
                     if(event.getJoystickMovePosition()>c_sens){
                         std::cout << "AXIS:" << event.getJoystickMoveAxis() << std::endl;
@@ -265,23 +264,15 @@ void MenuPausa::Update(){
                             controller_move_d = false;
                         }
                     }
-                    break;
-                    
-                case renderEngine::rEvent::EventType::JoystickButtonPressed:
+                }else if( event.sfType() == renderEngine::EventType::JoystickButtonPressed ){
                     //std::cout << event.getJoystickButton() << std::endl;
                     if(event.getJoystickButton()==6) sfml->Instance().close();
                     if(event.getJoystickButton()==0 || event.getJoystickButton()==7) stateMenu();
-                    break;
-                    
-                //Si se recibe el evento de cerrar la ventana la cierro
-                case renderEngine::rEvent::EventType::Quit :
+                }else if( event.sfType() == renderEngine::EventType::Quit ){
                     sfml->Instance().close();
-                    break;
-                    
-                //Se pulsó una tecla, imprimo su codigo
-                case renderEngine::rEvent::EventType::KeyPressed :
-                    
-                    //Verifico si se pulsa alguna tecla de movimiento
+
+                }else if( event.sfType() == renderEngine::EventType::KeyPressed){
+                         //Verifico si se pulsa alguna tecla de movimiento
                     switch(event.getKeyCode()) {
                                                    
                         case renderEngine::Keys::Up :
@@ -306,9 +297,10 @@ void MenuPausa::Update(){
                         break;
                               
                     }
+                }
                      
-            }
-         
+                 
+        
         }  
 }
 

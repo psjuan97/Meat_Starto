@@ -8,6 +8,18 @@
 #define H 1080.0f 
 #define ROUND_2_INT(f) ((int)(f >= 0.0 ? (f + 0.5) : (f - 0.5)))
 
+
+
+int renderEngine::EventType::KeyPressed                  = SDL_KEYDOWN;
+int renderEngine::EventType::KeyReleased                 = SDL_KEYUP;
+int renderEngine::EventType::Quit                        = SDL_QUIT;
+int renderEngine::EventType::JoystickConnected           = 99;
+int renderEngine::EventType::JoystickDisconnected        = 100;
+int renderEngine::EventType::JoystickButtonPressed       = 101;
+int renderEngine::EventType::JoystickButtonReleased      = 102;
+int renderEngine::EventType::JoystickMoved               = 10;
+
+
 renderEngine::renderEngine() :  camera(W/2.0f,H/2.0f,W,H)
 {
     this->h = H;
@@ -79,11 +91,23 @@ void renderEngine::setDrawColor(int r, int g, int b, int a){
 }
 
 
-bool                renderEngine::isOpen    ()          {   return sdl_window != nullptr;}   //TRUE SI LA VENTANA ESTA ABIERTA
+bool renderEngine::isOpen(){   
+    return sdl_window != nullptr;
+}  
 
-bool                renderEngine::pollEvent (renderEngine::rEvent &e) {   
-    return SDL_PollEvent(&e.event);
+bool renderEngine::pollEvent (rEvent &e) {  
+    SDL_Event event;   
+    if(SDL_PollEvent(&event)){
+        e.eventType =  event.type;
+        e.keyCode =  event.key.keysym.sym;
+        return true;
+    }
+    return false;
 }
+
+
+
+
 bool renderEngine::isJoystickConnected      (int j)     {   return false;}
 void renderEngine::moveView(float x, float y) {
     //FALTA IMPLEMENTACION
@@ -208,17 +232,6 @@ SDL_Texture*    renderEngine::rTexture::getTexture()                    {   retu
 
 
 
-//============================= EVENTOS =============================//
-renderEngine::rEvent::rEvent() {}
-
-int renderEngine::rEvent::getKeyCode()              {return event.key.keysym.sym;}
-int renderEngine::rEvent::getJoystickButton()       {return 0;}
-float renderEngine::rEvent::getJoystickMoveAxis()     {return 0;}
-float renderEngine::rEvent::getJoystickMovePosition() {return 0;}
-int renderEngine::rEvent::getJoystickId()           {return 0;}
-
-
-unsigned int   renderEngine::rEvent::sfType    () {    return event.type;}
 
 
 

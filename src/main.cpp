@@ -91,15 +91,15 @@ int main(int argc, char** argv) {
             //cout << "FPS: " << fps*60.f << endl;
         //</FPS>
         
-        renderEngine::rEvent event;
+        rEvent event;
         //0x7fff11e212f0
         while(sfml->Instance().pollEvent(event)){
             switch(event.sfType()){
-                case renderEngine::rEvent::EventType::KeyPressed :
+                case  renderEngine::EventType::KeyPressed :
                     keys[event.getKeyCode()] = true;
                     break;
                 
-                case renderEngine::rEvent::EventType::KeyReleased :
+                case  renderEngine::EventType::KeyReleased :
                     keys[event.getKeyCode()] = false;     
                     break;
                 

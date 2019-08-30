@@ -78,8 +78,8 @@ void renderEngine::drawTexture(rTexture *texture, texture_prop propiedades, rInt
     srcrect.h = (float) rect.height;
 
 
-    if(texture != nullptr){
-        SDL_RenderCopy( renderEngine::Instance().renderer, texture->getTexture(), &srcrect, &dstrect );
+    if((rTexture*)texture != nullptr){
+        SDL_RenderCopy( renderEngine::Instance().renderer, (rTexture*) texture->getTexture(), &srcrect, &dstrect );
     }else{
         SDL_RenderFillRect(renderEngine::Instance().renderer,&dstrect )   ;
     }

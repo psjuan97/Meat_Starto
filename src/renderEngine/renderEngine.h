@@ -70,24 +70,19 @@ public:
 
     };
     
-    //texure
-    class rTexture {
+
+        //texure
+    class ITexture {
         friend class renderEngine;
         public:
-            rTexture();                             //CONSTRUCTOR SIN ARGUMENTOS
-            rTexture(std::string path);             //CONSTRUCTOR CON ARGUMENTOS
+            virtual int getXSize();
+            virtual int getYSize();
             
-            void loadFromFile(std::string path);                                        //APLICAR UNA RUTA A LA TEXTURA
-            void loadFromImage(renderEngine::rImage im, rIntRect ir);     //APLICAR UNA IMAGEN A UNA TEXTURA, CON SU CUADRADO DE RECORTE
-            int getXSize();
-            int getYSize();
-            
-        private:
-            SDL_Texture* getTexture();              //DEVUELVE LA TEXTURA (USAR SOLO INTERNAMENTE)
-            SDL_Texture* texture ;
+
 
     };
-    
+
+
 
 
     class EventType{                //ENUMERACION CON LOS DISTINTOS EVENTOS (FALTA PONER LOS QUE SE VAYAN A UTILIZAR)
@@ -156,12 +151,34 @@ public:
     
     int getTicks();
     void delay(Uint32 ms);
-    void drawTexture(rTexture* texture, texture_prop propiedades, rIntRect rectOrigin);
+    void drawTexture(ITexture* texture, texture_prop propiedades, rIntRect rectOrigin);
     void setDrawColor(int r, int g, int b, int a);
+
+    ITexture createTextureFromFile(std::string path);                                        //APLICAR UNA RUTA A LA TEXTURA
+    ITexture createTextureFromImage(renderEngine::rImage im, rIntRect ir);     //APLICAR UNA IMAGEN A UNA TEXTURA, CON SU CUADRADO DE RECORTE
+
 
 private:
     
+        //texure
+    class rTexture {
+        friend class renderEngine;
+        public:
+            rTexture();                             //CONSTRUCTOR SIN ARGUMENTOS
+            rTexture(std::string path);             //CONSTRUCTOR CON ARGUMENTOS
+            
+            void loadFromFile(std::string path);                                        //APLICAR UNA RUTA A LA TEXTURA
+            void loadFromImage(renderEngine::rImage im, rIntRect ir);     //APLICAR UNA IMAGEN A UNA TEXTURA, CON SU CUADRADO DE RECORTE
+            int getXSize();
+            int getYSize();
+            
+        private:
+            SDL_Texture* getTexture();              //DEVUELVE LA TEXTURA (USAR SOLO INTERNAMENTE)
+            SDL_Texture* texture ;
+
+    };
     
+
 
 
     //<SINGLETON>

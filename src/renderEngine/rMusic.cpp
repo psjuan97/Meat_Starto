@@ -17,7 +17,7 @@ rMusic::rMusic() {
 }
 
 rMusic::rMusic(const std::string& filename) {
-    music.openFromFile(filename);
+    //music.openFromFile(filename);
 }
 
 
@@ -29,35 +29,35 @@ rMusic::~rMusic() {
 }
 
 bool rMusic::openFromFile(const std::string& filename) {
-    return music.openFromFile(filename);
+  //  return music.openFromFile(filename);
 }
 
 bool rMusic::getLoop() {
-    return music.getLoop();
+   // return music.getLoop();
 }
 
 float rMusic::getVolume() {
-    return music.getVolume();
+   // return music.getVolume();
 }
 
 void rMusic::play() {
-    music.play();
+   // music.play();
 }
 
 void rMusic::pause() {
-    music.pause();
+ //   music.pause();
 }
 
 void rMusic::stop() {
-    music.stop();
+ //   music.stop();
 }
 
 void rMusic::setLoop(bool loop) {
-    music.setLoop(loop);
+   // music.setLoop(loop);
 }
 
 void rMusic::setVolume(float volume) {
-    music.setVolume(volume);
+ //   music.setVolume(volume);
 }
 
 

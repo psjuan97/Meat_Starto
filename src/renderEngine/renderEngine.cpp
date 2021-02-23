@@ -3,8 +3,8 @@
 #include <iostream>
 
 #define FRAMERATE 60
-#define W 1920.0f
-#define H 1080.0f 
+#define W 960.0f
+#define H 544.0f 
 #define ROUND_2_INT(f) ((int)(f >= 0.0 ? (f + 0.5) : (f - 0.5)))
 
 renderEngine::renderEngine() :  camera(W/2.0f,H/2.0f,W,H)
@@ -22,7 +22,7 @@ renderEngine::renderEngine() :  camera(W/2.0f,H/2.0f,W,H)
         if( sdl_window == NULL ){
             printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
         }else{
-            renderer = SDL_CreateRenderer(sdl_window, -1, SDL_RENDERER_ACCELERATED);
+            renderer = SDL_CreateRenderer(sdl_window, -1, 0);
                                                     //SDL_RENDERER_ACCELERATED = HARDWARE           
         }
     }

@@ -14,7 +14,8 @@
 #ifndef RSOUNDBUFFER_H
 #define RSOUNDBUFFER_H
 
-#include <SFML/Audio.hpp>
+//#include <SFML/Audio.hpp>
+#include <string>
 
 class rSoundBuffer {
 public:
@@ -24,11 +25,11 @@ public:
     virtual ~rSoundBuffer();
     
     bool loadFromFile(std::string const& filename);
-    sf::SoundBuffer* getBuffer();
+    //sf::SoundBuffer* getBuffer();
     
 private:
     
-    sf::SoundBuffer soundBuffer;
+   // sf::SoundBuffer soundBuffer;
 };
 
 #endif /* RSOUNDBUFFER_H */

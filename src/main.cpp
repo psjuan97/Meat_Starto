@@ -19,6 +19,7 @@
 
 #include "MenuPausa.h"
 
+#include <psp2/kernel/processmgr.h>
 
 using namespace std;
 
@@ -34,6 +35,9 @@ int main(int argc, char** argv) {
     State* pState =  MenuInicio::Instance();
     //State* pState =  &Juego::Instance();
     sfml->Instance().ChangeState(pState);
+
+    	sceKernelExitProcess(0);
+return 0;
 }
 
 /*

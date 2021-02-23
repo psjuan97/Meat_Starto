@@ -14,8 +14,8 @@
 #ifndef RMUSIC_H
 #define RMUSIC_H
 
-#include <SFML/Audio/Music.hpp>
-
+//#include <SFML/Audio/Music.hpp>
+#include <string>
 
 class rMusic {
 public:
@@ -37,7 +37,7 @@ public:
     
     
 private:
-    sf::Music music;
+  //  sf::Music music;
     
 };
 

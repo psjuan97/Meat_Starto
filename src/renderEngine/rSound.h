@@ -14,7 +14,7 @@
 #ifndef RSOUND_H
 #define RSOUND_H
 
-#include <SFML/Audio/Sound.hpp>
+//#include <SFML/Audio/Sound.hpp>
 
 #include "rSoundBuffer.h"
 
@@ -30,7 +30,7 @@ public:
     void stop();
     
 private:
-    sf::Sound sound;
+  //  sf::Sound sound;
     
 };
 

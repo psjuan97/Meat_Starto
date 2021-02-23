@@ -23,14 +23,14 @@ rSound::~rSound() {
 }
 
 void rSound::setBuffer(rSoundBuffer &buffer) {
-    sound.setBuffer(*buffer.getBuffer());
+   // sound.setBuffer(*buffer.getBuffer());
 }
 
 void rSound::play() {
-    sound.play();
+   // sound.play();
 }
 
 void rSound::stop() {
-    sound.stop();
+    //sound.stop();
 }
 

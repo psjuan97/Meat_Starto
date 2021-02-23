@@ -1,0 +1,5 @@
+/build/git/cmake/CMakeFiles/rebuild_cache.dir
+/build/git/cmake/CMakeFiles/edit_cache.dir
+/build/git/cmake/CMakeFiles/Meat_Starto_Mod.vpk.dir
+/build/git/cmake/CMakeFiles/Meat_Starto_Mod.dir
+/build/git/cmake/CMakeFiles/Meat_Starto_Mod.self.dir

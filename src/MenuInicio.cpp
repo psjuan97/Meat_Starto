@@ -210,7 +210,8 @@ MenuInicio::MenuInicio() {
     controller_move_r = false;
     controller_move_l = false;
     sonido=true;
-
+    
+    printf("%s\n", "Finalizado de cargar assets!!!!");
 }
 
 MenuInicio::MenuInicio(const MenuInicio& orig) {
@@ -220,7 +221,8 @@ MenuInicio::~MenuInicio() {
 }
 
 void MenuInicio::Render(){
-    
+    printf("%s\n", "RENDER!!!!!");
+
     sfml->Instance().clear('w'); 
     f1.draw();
         
@@ -363,6 +365,10 @@ void MenuInicio::muevepersonaje(int selec){
 }
 
 void MenuInicio::Update(){
+
+    printf("%s\n", "UPDATE!!!!!");
+
+
     int c_sens = 90;
     renderEngine::rEvent event;
     
